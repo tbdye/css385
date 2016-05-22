@@ -11,8 +11,8 @@ public class SwarmMovement : MonoBehaviour
 
 	[Range(0, 1)]
 	public float lerpStrength;
-
-	public List<UnitListing> listings;
+	
+	public SafeList<UnitListing> listings;
 
 	#endregion
 
@@ -93,8 +93,13 @@ public class SwarmMovement : MonoBehaviour
 
 	void Awake()
 	{
+		listings = new SafeList<UnitListing>();
 		area = GetComponent<CircularArea>();
 		Instance = this;
+
+		listings.Add(new UnitListing {
+			unit = FindObjectOfType<Player>().gameObject,
+			weight = 1 });
 	}
 
 	void Update()

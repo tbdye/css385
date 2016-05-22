@@ -95,7 +95,8 @@ public class SequenceManager : MonoBehaviour
 		Action onGoodInput = null,
 		Action onBadInput = null,
 		float timeLimit = 0,
-		float timeBoost = 0.0f)
+		float timeBoost = 0.0f,
+		float resetDelay = 0.25f)
 	{
 		var result = new SequenceClass(
 			length, 
@@ -105,7 +106,8 @@ public class SequenceManager : MonoBehaviour
 			onGoodInput,
 			onBadInput,
 			timeLimit,
-			timeBoost);
+			timeBoost,
+			resetDelay);
 
 		instance.sequences.Add(result);
 		return result;
@@ -181,8 +183,9 @@ public class SequenceManager : MonoBehaviour
 	{
 		#region Private Fields
 
-		Timer resetDelay;
+		Timer resetTimer;
 		Timer time;
+
 		#endregion
 
 		#region Public Properties
@@ -218,7 +221,8 @@ public class SequenceManager : MonoBehaviour
 			Action onGoodInput,
 			Action onBadInput,
 			float timeLimit,
-			float timeBoost)
+			float timeBoost,
+			float resetDelay)
 		{
 			TimeBoost = timeBoost;
 			Items = new List<SequenceItem>(length);
@@ -246,7 +250,7 @@ public class SequenceManager : MonoBehaviour
 				time.Run();
 			}
 
-			resetDelay = TimeManager.GetNewTimer(1, Retry);
+			resetTimer = TimeManager.GetNewTimer(resetDelay, Retry);
 		}
 
 		#endregion
@@ -261,7 +265,7 @@ public class SequenceManager : MonoBehaviour
 
 		public void DelayedRetry()
 		{
-			resetDelay.Run();
+			resetTimer.Run();
 		}
 
 		public void Dispose()
@@ -270,13 +274,13 @@ public class SequenceManager : MonoBehaviour
 			if (time != null)
 				time.Dispose();
 
-			if (resetDelay != null)
-				resetDelay.Dispose();
+			if (resetTimer != null)
+				resetTimer.Dispose();
 		}
 
 		public void EnterInput(SequenceInput si)
 		{
-			if (Complete || Failed || resetDelay.Running)
+			if (Complete || Failed || resetTimer.Running)
 			{
 				return;
 			}

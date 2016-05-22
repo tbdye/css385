@@ -34,7 +34,11 @@ public class CatSpriteHandler : MonoBehaviour
 	{
 		sitLookTimer.End = Utils.RandomRange(timeInSitPosition);
 
-		render.sprite = CatSit.RandomItem();
+		Sprite last = render.sprite;
+		do
+		{
+			render.sprite = CatSit.RandomItem();
+		} while (render.sprite == last);
 	}
 
 	void SpriteDirection()
@@ -52,7 +56,7 @@ public class CatSpriteHandler : MonoBehaviour
 				loops: true,
 				onComplete: SitLook);
 
-		sitTimer = 
+		sitTimer =
 			TimeManager.GetNewTimer(
 				onComplete: sitLookTimer.Resume);
 
@@ -62,13 +66,13 @@ public class CatSpriteHandler : MonoBehaviour
 
 	void Update()
 	{
-		if ((lastPos - transform.position).magnitude < 0.01f)
+		if ((lastPos - transform.position).magnitude < 0.1f)
 		{
-			if (!sitTimer.Running)
+			if (!sitTimer.Running && !sitLookTimer.Running)
 			{
 				render.sprite = CatStand;
 				sitTimer.End = Utils.RandomRange(timeUntilCatSits);
-				sitTimer.Resume();
+				sitTimer.Run();
 			}
 		}
 		else

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class SequenceDebugger : MonoBehaviour
 {
 	#region Public Fields
+	public ArrowRegion arrowRegion;
 	public ProgressBar progressBar;
 	public GameObject indicatorPrefab;
 
@@ -45,7 +46,7 @@ public class SequenceDebugger : MonoBehaviour
 		instance.indicators = new List<InputIndicator>();
 
 		float i = (float)-seq.Length / 2;
-
+		i += 0.5f;
 		foreach (SequenceItemDetails details in seq.Details)
 		{
 			var obj =
@@ -71,6 +72,53 @@ public class SequenceDebugger : MonoBehaviour
 	}
 
 	#endregion
+
+	public static void FailAnim()
+	{
+		var rect = instance.arrowRegion.GetComponent<RectTransform>();
+		var temp = rect.anchoredPosition;
+
+		int alt = 1;
+		Timer t = TimeManager.GetNewTimer(0.245f);
+		Timer alternator = TimeManager.GetNewTimer(0.025f, loops: true);
+		alternator.Current = 0.0125f;
+		alternator.OnComplete = () =>
+		{
+			alt *= -1;
+		};
+
+		t.OnTick = (dt) =>
+		{
+			rect.anchoredPosition += new Vector2(alt * 600 * dt, 0);
+		};
+
+		t.OnComplete = () =>
+		{
+			temp.x = 0;
+			rect.anchoredPosition = temp;
+			alternator.Dispose();
+			t.Dispose();
+		};
+
+		alternator.Run();
+		t.Run();
+	}
+
+	public static void VictoryAnim()
+	{
+		Timer t = TimeManager.GetNewTimer(0.245f);
+		t.OnTick = (dt) =>
+		{
+			bool alt = false;
+			foreach(var i in instance.indicators)
+			{
+				int d = (alt = !alt) ? 1 : -1;
+				i.transform.Rotate(0,0, 360 * dt * 4 * d);
+			}
+		};
+		t.OnComplete = t.Dispose;
+		t.Run();
+	}
 
 	#region Private Methods
 
@@ -107,7 +155,7 @@ public class SequenceDebugger : MonoBehaviour
 			}
 			else
 			{
-				indicators[i].Renderers[0].color = Color.gray;
+				indicators[i].Renderers[0].color = Color.white;
 			}
 		}
 	}
