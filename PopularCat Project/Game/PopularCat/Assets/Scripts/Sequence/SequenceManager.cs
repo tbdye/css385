@@ -78,12 +78,10 @@ public class SequenceManager : MonoBehaviour
 
 	#region Private Fields
 
-	static AudioSource audioSource;
-	static SequenceManager    instance;
-	LinkedList<SequenceClass> AddBuffer = new LinkedList<SequenceClass>();
-	List<SequenceInput>       Inputs    = new List<SequenceInput>();
-	LinkedList<SequenceClass> Removing  = new LinkedList<SequenceClass>();
-	LinkedList<SequenceClass> Sequences = new LinkedList<SequenceClass>();
+	static AudioSource      audioSource;
+	static SequenceManager  instance;
+	List<SequenceInput>     inputs;
+	SafeList<SequenceClass> sequences;
 
 	#endregion
 
@@ -108,7 +106,8 @@ public class SequenceManager : MonoBehaviour
 			onBadInput,
 			timeLimit,
 			timeBoost);
-		instance.AddBuffer.AddLast(result);
+
+		instance.sequences.Add(result);
 		return result;
 	}
 
@@ -118,22 +117,24 @@ public class SequenceManager : MonoBehaviour
 
 	static SequenceInput RandomItem()
 	{
-		return instance.Inputs.RandomItem();
+		return instance.inputs.RandomItem();
 	}
 
 	void Awake()
 	{
 		instance = this;
+		sequences = new SafeList<SequenceClass>();
+		inputs = new List<SequenceInput>();
 		foreach (var s in keyInputs)
 		{
 			string t = s;
-			Inputs.Add(new SequenceInput(() => Input.GetButton(t), t));
+			inputs.Add(new SequenceInput(() => Input.GetButton(t), t));
 		}
 		foreach (var s in axisInputs)
 		{
 			string t = s;
-			Inputs.Add(new SequenceInput(() => Input.GetAxisRaw(t) > 0.3f, "+" + t));
-			Inputs.Add(new SequenceInput(() => Input.GetAxisRaw(t) < -0.3f, "-" + t));
+			inputs.Add(new SequenceInput(() => Input.GetAxisRaw(t) > 0.3f, "+" + t));
+			inputs.Add(new SequenceInput(() => Input.GetAxisRaw(t) < -0.3f, "-" + t));
 		}
 		foreach (var button in uiButtonInputs)
 		{
@@ -141,7 +142,7 @@ public class SequenceManager : MonoBehaviour
 			if (bb == null)
 				bb = button.gameObject.AddComponent<ButtonBool>();
 			Func<bool> f = () => bb.IsPressed;
-			Inputs.Add(new SequenceInput(f, button.GetComponentInChildren<Text>().text));
+			inputs.Add(new SequenceInput(f, button.GetComponentInChildren<Text>().text));
 		}
 
 		audioSource = GetComponent<AudioSource>();
@@ -152,37 +153,24 @@ public class SequenceManager : MonoBehaviour
 		if (GameState.Paused || GameState.EndOfLevel)
 			return;
 
-		// Add new sequences in the buffer
-		foreach (var i in AddBuffer)
-		{
-			Sequences.AddLast(i);
-		}
-		AddBuffer.Clear();
-
 		if (Debug.isDebugBuild && Input.GetKeyDown(KeyCode.F2))
-			foreach (var s in Sequences)
+			foreach (var s in sequences)
 			{
 				s.Succeed();
 			}
 		else
 			// Check inputs against running sequences
-			foreach (var i in Inputs)
+			foreach (var i in inputs)
 			{
 				bool test = i.Check();
 
 				if (test)
 				{
-					foreach (var s in Sequences)
+					foreach (var s in sequences)
 						s.EnterInput(i);
 				}
 			}
-
-		// Remove disposed sequences
-		foreach (var s in Removing)
-		{
-			Sequences.Remove(s);
-		}
-		Removing.Clear();
+		
 	}
 
 	#endregion
@@ -278,7 +266,7 @@ public class SequenceManager : MonoBehaviour
 
 		public void Dispose()
 		{
-			instance.Removing.AddLast(this);
+			instance.sequences.Remove(this);
 			if (time != null)
 				time.Dispose();
 

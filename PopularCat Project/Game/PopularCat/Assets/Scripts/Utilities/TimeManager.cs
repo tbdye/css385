@@ -66,9 +66,7 @@ public class TimeManager : MonoBehaviour
 {
 	#region Private Fields
 
-	static LinkedList<TimerClass> adding;
-	static LinkedList<TimerClass> removing;
-	static LinkedList<TimerClass> timers;
+	static SafeList<TimerClass> timers;
 
 	#endregion
 
@@ -100,7 +98,7 @@ public class TimeManager : MonoBehaviour
 		bool loops = false)
 	{
 		var result = new TimerClass(span, onComplete, onTick, onTime, runWhilePaused, loops);
-		adding.AddLast(result);
+		timers.Add(result);
 		return result;
 	}
 
@@ -110,23 +108,13 @@ public class TimeManager : MonoBehaviour
 
 	void Awake()
 	{
-		timers = new LinkedList<TimerClass>();
-		adding = new LinkedList<TimerClass>();
-		removing = new LinkedList<TimerClass>();
+		timers = new SafeList<TimerClass>();
 	}
 
 	void Update()
 	{
-		foreach (var t in adding)
-			timers.AddLast(t);
-		adding.Clear();
-
 		foreach (var t in timers)
 			t.Advance();
-
-		foreach (var t in removing)
-			timers.Remove(t);
-		removing.Clear();
 	}
 
 	#endregion
@@ -207,7 +195,7 @@ public class TimeManager : MonoBehaviour
 		public void Dispose()
 		{
 			Pause();
-			removing.AddLast(this);
+			timers.Remove(this);
 		}
 
 		public void Pause() { Running = false; }
