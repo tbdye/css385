@@ -23,19 +23,19 @@ public interface ScoreDetails
 	#endregion
 }
 
+public interface ObjectCounter
+{
+	int Count { get; }
+	int CountUnfiltered { get; }
+}
+
 public static class ScoreManager
 {
-	#region Private Fields
-
-	static ScoreDetailsClass inputs;
-	static ScoreDetailsClass sequences;
-
-	#endregion
-
+	static ObjectCounter<Swarmer> othercats;
 	#region Public Properties
-
-	public static ScoreDetails Inputs { get { return inputs; } }
-	public static ScoreDetails Sequences { get { return sequences; } }
+	public static ObjectCounter Cats { get { return othercats; } }
+	public static ScoreDetails Inputs { get; private set; }
+	public static ScoreDetails Sequences { get; private set; }
 
 	public static int Score
 	{
@@ -51,8 +51,9 @@ public static class ScoreManager
 
 	public static void Initialize()
 	{
-		inputs = new ScoreDetailsClass();
-		sequences = new ScoreDetailsClass();
+		Inputs = new ScoreDetailsClass();
+		Sequences = new ScoreDetailsClass();
+		othercats = new ObjectCounter<Swarmer> { filter = (c) => c.InSwarm };
 	}
 
 	public static string ScoreString
@@ -60,23 +61,66 @@ public static class ScoreManager
 		get
 		{
 			string result = string.Format("Inputs: {0}/{1}\n", Inputs.Hits, Inputs.Total);
+			result += string.Format("Longest streak: {0}\n", Inputs.HighestConsecutive);
 			result += string.Format("Accuracy: {0:P}\n", Inputs.Accuracy);
-			result += string.Format("Sequences: {0}/{1}",Sequences.Hits, Sequences.Total);
-
+			result += string.Format("Sequences: {0}/{1}\n",Sequences.Hits, Sequences.Total);
+			result += string.Format("Cats: {0}/{1}", Cats.Count, Cats.CountUnfiltered);
 			return result;
 		}
 	}
 
 	public static int ScoreCalculation()
 	{
-		//TODO: implement score calculations
+		int inputValue = 10;
+		int inputScore = inputValue * Inputs.Hits;
+		int sequenceValue = 40;
+		int sequenceScore = sequenceValue * Sequences.Hits;
 
-		return 0;
+		int timeScore = (int)GameState.LevelTimer.Remaining * 5;
+
+		int inputStreakScore = Inputs.HighestConsecutive * inputValue;
+		int SequenceStreakScore = Sequences.HighestConsecutive * inputValue;
+
+		return inputScore + sequenceScore + timeScore + inputStreakScore + SequenceStreakScore;
 	}
 
 	#endregion
 
 	#region Private Classes
+
+	class ObjectCounter<T> : ObjectCounter where T:MonoBehaviour
+	{
+		public Func<T,bool> filter;
+		public int Count
+		{
+			get
+			{
+				var pool = UnityEngine.Object.FindObjectsOfType<T>();
+				int i = 0;
+				if (filter != null)
+				{ 
+					foreach (var t in pool)
+					{
+						if (filter(t))
+							i++;
+					}
+				}
+				else
+					i = pool.Length;
+
+				return i;
+			}
+		}
+
+		public int CountUnfiltered
+		{
+			get
+			{
+				var pool = UnityEngine.Object.FindObjectsOfType<T>();
+				return pool.Length;
+			}
+		}
+	}
 
 	class ScoreDetailsClass : ScoreDetails
 	{

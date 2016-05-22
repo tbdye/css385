@@ -14,8 +14,20 @@ public interface ReadOnlyTimer
 	float Remaining { get; }
 	float Remaining01 { get; }
 	bool Running { get; }
-
 	#endregion
+
+	/// <summary>
+	/// Format string
+	/// <para/>
+	/// Current, End, Remaining
+	/// <para/>
+	/// Seconds: 0,3,6
+	/// <para/>
+	/// Minutes: 1,4,7
+	/// <para/>
+	/// Hours: 2,5,8
+	/// </summary>
+	string F(string format);
 }
 
 public interface Timer : ReadOnlyTimer
@@ -182,12 +194,12 @@ public class TimeManager : MonoBehaviour
 
 					if (Complete)
 					{
-						if (OnComplete != null)
-							OnComplete();
 						if (Loop)
 							Current -= End;
 						else
 							Running = false;
+						if (OnComplete != null)
+							OnComplete();
 					}
 				}
 		}
@@ -212,6 +224,18 @@ public class TimeManager : MonoBehaviour
 		{
 			Current = 0;
 			Running = false;
+		}
+
+		public string F(string format)
+		{
+			var c = TimeSpan.FromSeconds(Current);
+			var e = TimeSpan.FromSeconds(End);
+			var r = TimeSpan.FromSeconds(Remaining);
+
+			return string.Format(format,
+				c.Seconds, c.Minutes, c.Hours,
+				e.Seconds, e.Minutes, e.Hours,
+				r.Seconds, r.Minutes, r.Hours);
 		}
 
 		#endregion

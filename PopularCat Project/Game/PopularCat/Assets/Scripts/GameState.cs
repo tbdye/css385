@@ -17,6 +17,7 @@ public class GameState : MonoBehaviour
 
 	#region Private Fields
 
+	static Delayed<bool> inBailoutPrompt;
 	static Timer levelTimer;
 
 	#endregion
@@ -25,7 +26,7 @@ public class GameState : MonoBehaviour
 
 	public static bool EndOfLevel { get; private set; }
 	public static MonitoredValue Fame { get; set; }
-	public static bool InBailoutPrompt { get; private set; }
+	public static bool InBailoutPrompt { get { return inBailoutPrompt; } }
 	public static bool InEncounter { get; private set; }
 	public static bool InFameEncounter { get; private set; }
 	public static ReadOnlyTimer LevelTimer { get { return levelTimer; } }
@@ -39,21 +40,21 @@ public class GameState : MonoBehaviour
 
 	public static void BailoutPromptBegin()
 	{
-		InBailoutPrompt = true;
+		inBailoutPrompt.Value = true;
 		Text tex = GameObject.Find("BailoutPrompt").GetComponent<Text>();
 		var color = tex.color;
 		color.a = 1;
 		tex.color = color;
 	}
+
 	public static void BailoutPromptEnd()
 	{
-		InBailoutPrompt = false;
+		inBailoutPrompt.Value = false;
 		Text tex = GameObject.Find("BailoutPrompt").GetComponent<Text>();
 		var color = tex.color;
 		color.a = 0;
 		tex.color = color;
 	}
-
 
 	public static void BeginEncounter(GameObject target = null)
 	{
@@ -104,7 +105,6 @@ public class GameState : MonoBehaviour
 
 	public static void EndLevel()
 	{
-
 		SequenceDebugger.End();
 
 		levelTimer.Pause();
@@ -125,6 +125,16 @@ public class GameState : MonoBehaviour
 
 	#region Private Methods
 
+	void Awake()
+	{
+		inBailoutPrompt = new Delayed<bool>();
+	}
+
+	void FinalizeStateChange()
+	{
+		inBailoutPrompt.Confirm();
+	}
+
 	void Initialize()
 	{
 		Blackout.Deactivate();
@@ -132,6 +142,11 @@ public class GameState : MonoBehaviour
 		InEncounter = false;
 		InFameEncounter = false;
 		Paused = false;
+	}
+
+	void LateUpdate()
+	{
+		FinalizeStateChange();
 	}
 
 	void Start()
@@ -143,14 +158,8 @@ public class GameState : MonoBehaviour
 
 		levelTimer.OnTick = (dt) =>
 		{
-			var remain = TimeSpan.FromSeconds(levelTimer.Remaining);
-			var total = TimeSpan.FromSeconds(levelTimer.End);
-			string rString = string.Format("{0}:{1:00}", remain.Minutes, remain.Seconds);
-			string tString = string.Format("{0}:{1:00}", total.Minutes, total.Seconds);
-
-			timeText.text = rString + "/" + tString;
+			timeText.text = levelTimer.F("{7}:{6:00}/{4}:{3:00}");
 		};
-
 
 		Stars = FindObjectsOfType<StarSet>();
 		Fame = new MonitoredValue(
@@ -164,13 +173,12 @@ public class GameState : MonoBehaviour
 		onFull: (v) => EndLevel()
 		);
 
-
 		levelTimer.Run();
 	}
 
 	void Update()
 	{
-		if(Debug.isDebugBuild && Input.GetKeyDown(KeyCode.F3))
+		if (Debug.isDebugBuild && Input.GetKeyDown(KeyCode.F3))
 		{
 			levelTimer.Current = levelTimer.End - 5;
 		}

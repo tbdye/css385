@@ -11,8 +11,10 @@ public class OtherCat : MonoBehaviour
 	public float interestBleedRate = 2;
 	public bool isHuman;
 	public float penaltyOnFailure  = 20;
+	public float penaltyOnFailureInPosse  = 25;
 	public int perSequenceTimeLimit = 6;
 	public float progressOnSuccess = 34;
+	public float progressOnSuccessInPosse = 10;
 	public int[] sequenceLengths;
 	public float startingInterest  = 33;
 	public float angryDuration = 3;
@@ -78,8 +80,16 @@ public class OtherCat : MonoBehaviour
 				(sequenceLengths.AccessByMagnitude(Progress.Magnitude),
 				timeLimit: perSequenceTimeLimit);
 
+
+		CurrentSequence.OnBadInput = () =>
+		{
+			SequenceDebugger.FailAnim();
+			CurrentSequence.DelayedRetry();
+		};
+
 		CurrentSequence.OnSuccess = () =>
 		{
+			SequenceDebugger.VictoryAnim();
 			GameState.Fame.Value += fameRate / 100;
 			Timer delay = TimeManager.GetNewTimer(0.25f, () =>
 			{
@@ -101,11 +111,15 @@ public class OtherCat : MonoBehaviour
 	}
 	public void Impress()
 	{
-		Interest.Value += progressOnSuccess;
+		Interest.Value += Impressed ? 
+			progressOnSuccessInPosse :
+			progressOnSuccess;
 	}
 	public void Bore()
 	{
-		Interest.Value -= penaltyOnFailure;
+		Interest.Value -= Impressed ? 
+			penaltyOnFailureInPosse :
+			penaltyOnFailure;
 	}
 
 	void BeginSequence()
@@ -141,6 +155,8 @@ public class OtherCat : MonoBehaviour
 			previousSequenceFailed = false;
 			Impress();
 			FindObjectOfType<SwarmMovement>().ImpressMembers();
+			SequenceDebugger.VictoryAnim();
+
 			Timer delay = TimeManager.GetNewTimer(0.25f,() =>
 			{
 				if (Progress.Magnitude < 1)
@@ -153,10 +169,16 @@ public class OtherCat : MonoBehaviour
 				delay.Run();
 		};
 
+		CurrentSequence.OnBadInput = () =>
+		{
+			SequenceDebugger.FailAnim();
+			CurrentSequence.DelayedRetry();
+		};
+
 		CurrentSequence.OnTimeout = () =>
 		{
 			Bore();
-			//FindObjectOfType<SwarmMovement>().BoreMembers(); Broken
+			FindObjectOfType<SwarmMovement>().BoreMembers();
 			if (CurrentSequence == null)
 				return;
 
@@ -195,7 +217,14 @@ public class OtherCat : MonoBehaviour
 	void StormOff()
 	{
 		if (!Impressed)
+		{
 			SequenceEnd();
+		}
+		else
+		{
+			Blackout.IgnoreList.Remove(gameObject);
+			GetComponent<SpriteRenderer>().sortingLayerName = "Default";
+		}
 
 		Progress.Visibility = 0;
 		Interest.OnEmpty = null;

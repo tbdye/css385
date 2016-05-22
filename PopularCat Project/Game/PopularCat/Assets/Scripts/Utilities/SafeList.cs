@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 /// Provides safe foreach execution that allows modification of the list during a foreach operation 
 /// </summary>
 /// <typeparam name="T"></typeparam>
-class SafeList<T> : IList<T>
+
+public class SafeList<T> : IList<T>
 {
 	#region Private Fields
 	bool dirty = true;
@@ -59,6 +61,11 @@ class SafeList<T> : IList<T>
 	{
 		dirty = true;
 		content.Add(item);
+	}
+
+	public T Find(Predicate<T> match)
+	{
+		return content.Find(match);
 	}
 
 	public void Clear()
