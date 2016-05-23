@@ -36,7 +36,17 @@ public class Blackout : MonoBehaviour
 	{
 		foreach (var o in IgnoreList)
 		{
-			o.GetComponent<SpriteRenderer>().sortingLayerName = "Blackout";
+			var sr = o.GetComponent<SpriteRenderer>();
+
+			if(sr != null)
+				sr.sortingLayerName = "Blackout";
+
+			var csr = o.GetComponentsInChildren<SpriteRenderer>();
+			if (csr != null)
+				foreach (var r in csr)
+				{
+					r.sortingLayerName = "Blackout";
+				}
 		}
 		Active = true;
 	}
@@ -45,7 +55,17 @@ public class Blackout : MonoBehaviour
 	{
 		foreach (var o in IgnoreList)
 		{
-			o.GetComponent<SpriteRenderer>().sortingLayerName = "Default";
+			var sr = o.GetComponent<SpriteRenderer>();
+
+			if (sr != null)
+				sr.sortingLayerName = "Default";
+
+			var csr = o.GetComponentsInChildren<SpriteRenderer>();
+			if (csr != null)
+				foreach (var r in csr)
+				{
+					r.sortingLayerName = "Default";
+				}
 		}
 		Active = false;
 	}

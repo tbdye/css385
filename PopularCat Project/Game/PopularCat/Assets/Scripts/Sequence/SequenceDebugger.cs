@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class SequenceDebugger : MonoBehaviour
 {
 	#region Public Fields
+
 	public ArrowRegion arrowRegion;
 	public ProgressBar progressBar;
 	public GameObject indicatorPrefab;
@@ -62,10 +63,11 @@ public class SequenceDebugger : MonoBehaviour
 			rt.anchorMax = new Vector2(0.5f, 1);
 
 			rt.anchoredPosition3D = new Vector3(i * 60, -60, 0);
-			if (details.Identifier[0] == '-')
-				obj.transform.Rotate(0, 0, 180);
-			if (details.Identifier[1] == 'H')
-				obj.transform.Rotate(0, 0, -90);
+
+			var sr = obj.GetComponent<Image>();
+
+			sr.sprite = details.Sprite;
+			obj.transform.Rotate(0, 0, details.SpriteRotation);
 
 			i += 1;
 		}
@@ -109,11 +111,16 @@ public class SequenceDebugger : MonoBehaviour
 		Timer t = TimeManager.GetNewTimer(0.245f);
 		t.OnTick = (dt) =>
 		{
+			if (GameState.EndOfLevel)
+			{
+				return;
+			}
+
 			bool alt = false;
-			foreach(var i in instance.indicators)
+			foreach (var i in instance.indicators)
 			{
 				int d = (alt = !alt) ? 1 : -1;
-				i.transform.Rotate(0,0, 360 * dt * 4 * d);
+				i.transform.Rotate(0, 0, 360 * dt * 4 * d);
 			}
 		};
 		t.OnComplete = t.Dispose;

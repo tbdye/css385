@@ -10,7 +10,6 @@ GameObject:
   - 224: {fileID: 22478782}
   - 222: {fileID: 22259058}
   - 114: {fileID: 11498984}
-  - 114: {fileID: 11440904}
   - 114: {fileID: 11437224}
   m_Layer: 5
   m_Name: UIInputBall
@@ -30,18 +29,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19d99c7447ae9464bab50c830869209d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11440904
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 132556}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1200242548, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShowMaskGraphic: 1
 --- !u!114 &11498984
 MonoBehaviour:
   m_ObjectHideFlags: 1

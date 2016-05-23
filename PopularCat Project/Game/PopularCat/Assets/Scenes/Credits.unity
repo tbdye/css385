@@ -790,4 +790,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mSceneToLoad: MainMenu
-  mOkayButton: {fileID: 974906799}
+  okayButton: {fileID: 974906799}
+  resetButton: {fileID: 0}
+  menuButton: {fileID: 0}

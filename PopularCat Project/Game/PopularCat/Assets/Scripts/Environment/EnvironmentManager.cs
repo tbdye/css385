@@ -47,7 +47,9 @@ public class EnvironmentManager : MonoBehaviour
 
 		foreach (GameObject n in characterObjects)
 		{
-			characters.Add(n.GetComponent<SpriteRenderer>());
+			var sr = n.GetComponent<SpriteRenderer>();
+			if (sr != null)
+				characters.Add(sr);
 		}
 
 		GameObject[] obstacleObjects = GameObject.FindGameObjectsWithTag("Obstacle");
@@ -66,8 +68,17 @@ public class EnvironmentManager : MonoBehaviour
 	{
 		foreach (SpriteRenderer sr in characters)
 		{
-			sr.sortingOrder =
-				AssignLayer(sr.GetComponent<Collider2D>().bounds.center.y);
+			var coll = sr.GetComponent<Collider2D>();
+			if (coll != null)
+				sr.sortingOrder =
+					AssignLayer(coll.bounds.center.y);
+			else
+			{
+				coll = sr.GetComponentInParent<Collider2D>();
+				if (coll != null)
+					sr.sortingOrder =
+						AssignLayer(coll.bounds.center.y);
+			}
 		}
 	}
 

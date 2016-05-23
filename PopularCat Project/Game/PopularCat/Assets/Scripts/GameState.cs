@@ -11,12 +11,18 @@ public class GameState : MonoBehaviour
 {
 	#region Public Fields
 
+	public bool postponeTimeScore;
+	public bool postponePosseScore;
+	public Text scoreText;
 	public Text timeText;
+	public Text posseText;
+	public Text endOfLevelText;
+	public Button nextLevelButton;
 
 	#endregion
 
 	#region Private Fields
-
+	static GameState instance;
 	static Delayed<bool> inBailoutPrompt;
 	static Timer levelTimer;
 
@@ -24,6 +30,7 @@ public class GameState : MonoBehaviour
 
 	#region Public Properties
 
+	public static bool EndOfLevelPassed { get { return !levelTimer.Complete && Fame != 0; } }
 	public static bool EndOfLevel { get; private set; }
 	public static MonitoredValue Fame { get; set; }
 	public static bool InBailoutPrompt { get { return inBailoutPrompt; } }
@@ -112,11 +119,32 @@ public class GameState : MonoBehaviour
 		foreach (var s in Stars)
 		{
 			s.Visible = false;
-			s.Floor();
+		}
+		Fame.Floor(3);
+		Fame.Lock();
+
+		if (EndOfLevelPassed)
+		{
+			instance.Success();
+		}
+		else
+		{
+			instance.Failed();
 		}
 
 		FindObjectOfType<EndOfLevelPanel>().Visible = true;
 		EndOfLevel = true;
+	}
+
+	void Failed()
+	{
+		endOfLevelText.text = "Failure";
+		nextLevelButton.interactable = false;
+		nextLevelButton.GetComponent<Image>().color = Color.grey;
+	}
+	void Success()
+	{
+		endOfLevelText.text = "Success";
 	}
 
 	public static void EndPause() { Paused = false; }
@@ -127,7 +155,10 @@ public class GameState : MonoBehaviour
 
 	void Awake()
 	{
+		instance = this;
 		inBailoutPrompt = new Delayed<bool>();
+		ScoreManager.postponeTimeBonus =
+			postponeTimeScore;
 	}
 
 	void FinalizeStateChange()
@@ -146,6 +177,10 @@ public class GameState : MonoBehaviour
 
 	void LateUpdate()
 	{
+		scoreText.text = string.Format("{0:000000}", ScoreManager.Score);
+		posseText.text = 
+			string.Format("{0:00}/{1:00}", 
+				ScoreManager.Cats.Count, ScoreManager.Cats.CountUnfiltered);
 		FinalizeStateChange();
 	}
 

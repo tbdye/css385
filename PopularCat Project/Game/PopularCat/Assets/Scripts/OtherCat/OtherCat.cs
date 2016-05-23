@@ -12,13 +12,17 @@ public class OtherCat : MonoBehaviour
 	public bool isHuman;
 	public float penaltyOnFailure  = 20;
 	public float penaltyOnFailureInPosse  = 25;
-	public int perSequenceTimeLimit = 6;
 	public float progressOnSuccess = 34;
 	public float progressOnSuccessInPosse = 10;
-	public int[] sequenceLengths;
 	public float startingInterest  = 33;
 	public float angryDuration = 3;
 	public float fameRate = 10;
+
+	[Header("Sequence difficulty variables")]
+	public int[] sequenceLengths;
+	public int perSequenceTimeLimit = 6;
+	[Range(0, 3)]
+	public int difficulty;
 
 	#endregion
 
@@ -75,10 +79,15 @@ public class OtherCat : MonoBehaviour
 			CurrentSequence = null;
 		}
 
+		int level = 1;
+
+		level += (int) Mathf.Floor(GameState.Fame*3);
+
 		CurrentSequence =
 			SequenceManager.GetNewSequence
 				(sequenceLengths.AccessByMagnitude(Progress.Magnitude),
-				timeLimit: perSequenceTimeLimit);
+				timeLimit: perSequenceTimeLimit,
+				level: level);
 
 
 		CurrentSequence.OnBadInput = () =>
@@ -104,7 +113,15 @@ public class OtherCat : MonoBehaviour
 		CurrentSequence.OnTimeout = () =>
 		{
 			CurrentSequence.Fail();
-			GameState.EndFameEncounter();
+			if(GameState.Fame == 0)
+			{
+				GameState.EndFameEncounter();
+			}
+			else
+			{
+				GameState.Fame.Floor(3);
+				BeginFameSequence();
+			}
 		};
 
 		SequenceDebugger.Setup(CurrentSequence);
@@ -148,7 +165,8 @@ public class OtherCat : MonoBehaviour
 		CurrentSequence =
 			SequenceManager.GetNewSequence
 				(sequenceLengths.AccessByMagnitude(Progress.Magnitude),
-				timeLimit: perSequenceTimeLimit);
+				timeLimit: perSequenceTimeLimit,
+				level: difficulty);
 
 		CurrentSequence.OnSuccess = () =>
 		{
