@@ -74,7 +74,7 @@ public class Player : MonoBehaviour
 	{
 		var aud = GetComponent<AudioSource>();
 
-		if(Input.GetButtonDown("Meow"))
+		if(Input.GetButtonDown("Meow") && !aud.isPlaying)
 		{
 			aud.pitch = Random.Range(0.9f, 1.1f);
 			if(GameState.InBailoutPrompt)
