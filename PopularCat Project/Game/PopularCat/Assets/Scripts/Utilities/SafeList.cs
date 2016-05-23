@@ -12,7 +12,7 @@ public class SafeList<T> : IList<T>
 {
 	#region Private Fields
 	bool dirty = true;
-	List<T> content = new List<T>();
+	readonly List<T> content = new List<T>();
 	IEnumerable<T> working;
 
 	#endregion
