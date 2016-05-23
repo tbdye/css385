@@ -2,6 +2,16 @@
 using System.Collections;
 using UnityEngine;
 
+public interface ObjectCounter
+{
+	#region Public Properties
+
+	int Count { get; }
+	int CountUnfiltered { get; }
+
+	#endregion
+}
+
 public interface ScoreDetails
 {
 	#region Public Properties
@@ -14,6 +24,7 @@ public interface ScoreDetails
 	int Total { get; }
 
 	#endregion
+
 	#region Public Methods
 
 	void Hit();
@@ -23,27 +34,43 @@ public interface ScoreDetails
 	#endregion
 }
 
-public interface ObjectCounter
-{
-	int Count { get; }
-	int CountUnfiltered { get; }
-}
-
 public static class ScoreManager
 {
+	#region Public Fields
+
+	public static bool postponeTimeBonus;
+	public static bool postponePosseBonus;
+
+	#endregion
+
+	#region Private Fields
+
 	static ObjectCounter<Swarmer> othercats;
+
+	#endregion
+
 	#region Public Properties
+
 	public static ObjectCounter Cats { get { return othercats; } }
 	public static ScoreDetails Inputs { get; private set; }
-	public static ScoreDetails Sequences { get; private set; }
+	public static int Score	{ get { return ScoreCalculation(); } }
 
-	public static int Score
+	public static string ScoreString
 	{
 		get
 		{
-			return ScoreCalculation();
+			string result = string.Format("Inputs: {0}/{1}\n", Inputs.Hits, Inputs.Total);
+			result += string.Format("Longest streak: {0}\n", Inputs.HighestConsecutive);
+			result += string.Format("Accuracy: {0:P}\n", Inputs.Accuracy);
+			result += string.Format("Sequences: {0}/{1}\n", Sequences.Hits, Sequences.Total);
+			result += string.Format("Completion Rate: {0:P}\n", Sequences.Accuracy);
+			result += string.Format("Longest streak: {0}\n", Sequences.HighestConsecutive);
+			result += string.Format("Cats: {0}/{1}", Cats.Count, Cats.CountUnfiltered);
+			return result;
 		}
 	}
+
+	public static ScoreDetails Sequences { get; private set; }
 
 	#endregion
 
@@ -56,41 +83,44 @@ public static class ScoreManager
 		othercats = new ObjectCounter<Swarmer> { filter = (c) => c.InSwarm };
 	}
 
-	public static string ScoreString
-	{
-		get
-		{
-			string result = string.Format("Inputs: {0}/{1}\n", Inputs.Hits, Inputs.Total);
-			result += string.Format("Longest streak: {0}\n", Inputs.HighestConsecutive);
-			result += string.Format("Accuracy: {0:P}\n", Inputs.Accuracy);
-			result += string.Format("Sequences: {0}/{1}\n",Sequences.Hits, Sequences.Total);
-			result += string.Format("Cats: {0}/{1}", Cats.Count, Cats.CountUnfiltered);
-			return result;
-		}
-	}
-
 	public static int ScoreCalculation()
 	{
 		int inputValue = 10;
-		int inputScore = inputValue * Inputs.Hits;
 		int sequenceValue = 40;
+
+		int inputScore = inputValue * Inputs.Hits;
 		int sequenceScore = sequenceValue * Sequences.Hits;
 
-		int timeScore = (int)GameState.LevelTimer.Remaining * 5;
+		int timeScore = 0;
+		if(!postponeTimeBonus || GameState.EndOfLevel)
+			timeScore = (int)GameState.LevelTimer.Remaining * 5;
+
+		int posseScore = 0;
+		if (!postponePosseBonus || GameState.EndOfLevel)
+			posseScore = Cats.Count * 20;
 
 		int inputStreakScore = Inputs.HighestConsecutive * inputValue;
 		int SequenceStreakScore = Sequences.HighestConsecutive * inputValue;
 
-		return inputScore + sequenceScore + timeScore + inputStreakScore + SequenceStreakScore;
+		return
+			inputScore + sequenceScore + timeScore +
+			inputStreakScore + SequenceStreakScore + posseScore;
 	}
 
 	#endregion
 
 	#region Private Classes
 
-	class ObjectCounter<T> : ObjectCounter where T:MonoBehaviour
+	class ObjectCounter<T> : ObjectCounter where T : MonoBehaviour
 	{
+		#region Public Fields
+
 		public Func<T,bool> filter;
+
+		#endregion
+
+		#region Public Properties
+
 		public int Count
 		{
 			get
@@ -98,7 +128,7 @@ public static class ScoreManager
 				var pool = UnityEngine.Object.FindObjectsOfType<T>();
 				int i = 0;
 				if (filter != null)
-				{ 
+				{
 					foreach (var t in pool)
 					{
 						if (filter(t))
@@ -120,6 +150,8 @@ public static class ScoreManager
 				return pool.Length;
 			}
 		}
+
+		#endregion
 	}
 
 	class ScoreDetailsClass : ScoreDetails
@@ -138,11 +170,11 @@ public static class ScoreManager
 			}
 		}
 
-		public int Total { get { return Hits + Misses; } }
 		public int CurrentConsecutive { get; set; }
 		public int HighestConsecutive { get; set; }
 		public int Hits { get; set; }
 		public int Misses { get; set; }
+		public int Total { get { return Hits + Misses; } }
 
 		#endregion
 

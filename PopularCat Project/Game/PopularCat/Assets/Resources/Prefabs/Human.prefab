@@ -8,7 +8,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 401458}
-  - 212: {fileID: 21239360}
   - 114: {fileID: 11481152}
   - 114: {fileID: 11427936}
   - 61: {fileID: 6148556}
@@ -19,9 +18,25 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &146618
+--- !u!1 &125130
 GameObject:
   m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 443776}
+  - 212: {fileID: 21279536}
+  m_Layer: 0
+  m_Name: HumanSprite
+  m_TagString: Character
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &146618
+GameObject:
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
@@ -59,10 +74,10 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 105496}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 52.5, y: 7, z: 0}
+  m_LocalPosition: {x: 57.11, y: 6.58, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 472616}
+  - {fileID: 443776}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &413232
@@ -77,6 +92,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 472616}
   m_RootOrder: 0
+--- !u!4 &443776
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 125130}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.27, y: 6.22, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 472616}
+  m_Father: {fileID: 401458}
+  m_RootOrder: 0
 --- !u!4 &472616
 Transform:
   m_ObjectHideFlags: 1
@@ -84,11 +112,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 146618}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 5, z: 0}
+  m_LocalPosition: {x: 0, y: 8, z: 0}
   m_LocalScale: {x: 30, y: 3, z: 1}
   m_Children:
   - {fileID: 413232}
-  m_Father: {fileID: 401458}
+  m_Father: {fileID: 443776}
   m_RootOrder: 0
 --- !u!61 &6148556
 BoxCollider2D:
@@ -101,9 +129,9 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
-  m_Offset: {x: 0, y: -4.3686666}
+  m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: 2.0957613, y: 0.68133736}
+  m_Size: {x: 4.1873507, y: 1.9207916}
 --- !u!114 &11418662
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -130,8 +158,10 @@ MonoBehaviour:
   interestBleedRate: 2
   isHuman: 1
   penaltyOnFailure: 20
+  penaltyOnFailureInPosse: 25
   perSequenceTimeLimit: 6
   progressOnSuccess: 24
+  progressOnSuccessInPosse: 10
   sequenceLengths: 03000000040000000600000008000000
   startingInterest: 33
   angryDuration: 3
@@ -178,12 +208,12 @@ SpriteRenderer:
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
---- !u!212 &21239360
+--- !u!212 &21279536
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 105496}
+  m_GameObject: {fileID: 125130}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -204,8 +234,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 3204a99305a5ba549919e4e7ce870a5b, type: 3}
-  m_Color: {r: 0.5681769, g: 0.6168282, b: 0.6838235, a: 1}
+  m_Sprite: {fileID: 21300000, guid: a06676509c291b442b25016274585560, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
 --- !u!212 &21281106

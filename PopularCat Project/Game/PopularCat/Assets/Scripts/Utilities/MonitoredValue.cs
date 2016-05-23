@@ -9,6 +9,7 @@ using System;
 /// </summary>
 public class MonitoredValue
 {
+	public bool Locked { get; private set; }
 	float val;
 	public float Value
 	{
@@ -18,6 +19,9 @@ public class MonitoredValue
 		}
 		set
 		{
+			if (Locked)
+				return;
+
 			var previous = val;
 			val = Mathf.Clamp(value, Min, Max);
 
@@ -83,5 +87,16 @@ public class MonitoredValue
 		OnModified = onModified;
 		OnFull = onFull;
 		OnEmpty = onEmpty;
+	}
+
+	public void Lock() { Locked = true; }
+	public void Unlock() { Locked = false; }
+
+	public void Floor(int quantization)
+	{
+		float f = Value * quantization;
+		f = Mathf.Floor(f) / quantization;
+
+		Value = f;
 	}
 }

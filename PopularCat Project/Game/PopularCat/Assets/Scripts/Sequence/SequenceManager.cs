@@ -12,6 +12,7 @@ public interface Sequence
 	bool Failed { get; }
 	int Index { get; }
 	int Length { get; }
+	int Level { get; set; }
 
 	/// <summary>
 	/// The method called when a bad input is entered, defaults to a delayed reset 
@@ -46,8 +47,10 @@ public interface Sequence
 	void Dispose();
 
 	void Fail();
-	void Succeed();
+
 	void Retry();
+
+	void Succeed();
 
 	#endregion
 }
@@ -58,6 +61,8 @@ public interface SequenceItemDetails
 
 	bool Failed { get; }
 	string Identifier { get; }
+	Sprite Sprite { get; }
+	float SpriteRotation { get; }
 	bool Passed { get; }
 
 	#endregion
@@ -67,20 +72,27 @@ public class SequenceManager : MonoBehaviour
 {
 	#region Public Fields
 
+	public InputType[] axisInputs;
+
 	public AudioClip badInputSound;
+
 	public AudioClip goodInputSound;
+
 	public AudioClip goodSequenceSound;
-	public string[] axisInputs;
-	public string[] keyInputs;
-	public Button[] uiButtonInputs;
+
+	public InputType[] keyInputs;
 
 	#endregion
 
 	#region Private Fields
 
 	static AudioSource      audioSource;
+
+	//public Button[] uiButtonInputs;
 	static SequenceManager  instance;
+
 	List<SequenceInput>     inputs;
+
 	SafeList<SequenceClass> sequences;
 
 	#endregion
@@ -96,10 +108,11 @@ public class SequenceManager : MonoBehaviour
 		Action onBadInput = null,
 		float timeLimit = 0,
 		float timeBoost = 0.0f,
-		float resetDelay = 0.25f)
+		float resetDelay = 0.25f,
+		int level = 0)
 	{
 		var result = new SequenceClass(
-			length, 
+			length,
 			onFail,
 			onSuccess,
 			onTimeout,
@@ -107,7 +120,8 @@ public class SequenceManager : MonoBehaviour
 			onBadInput,
 			timeLimit,
 			timeBoost,
-			resetDelay);
+			resetDelay,
+			level);
 
 		instance.sequences.Add(result);
 		return result;
@@ -117,9 +131,14 @@ public class SequenceManager : MonoBehaviour
 
 	#region Private Methods
 
-	static SequenceInput RandomItem()
+	static SequenceInput RandomItem(int level)
 	{
-		return instance.inputs.RandomItem();
+		SequenceInput result;
+		do
+		{
+			result = instance.inputs.RandomItem();
+		} while (result.Level > level);
+		return result;
 	}
 
 	void Awake()
@@ -129,23 +148,26 @@ public class SequenceManager : MonoBehaviour
 		inputs = new List<SequenceInput>();
 		foreach (var s in keyInputs)
 		{
-			string t = s;
-			inputs.Add(new SequenceInput(() => Input.GetButton(t), t));
+			string t = s.identifier;
+			inputs.Add(new SequenceInput(() => Input.GetButton(t), s));
 		}
 		foreach (var s in axisInputs)
 		{
-			string t = s;
-			inputs.Add(new SequenceInput(() => Input.GetAxisRaw(t) > 0.3f, "+" + t));
-			inputs.Add(new SequenceInput(() => Input.GetAxisRaw(t) < -0.3f, "-" + t));
+			var rev = s.Reverse();
+			string t = s.identifier;
+			inputs.Add(new SequenceInput(() => Input.GetAxisRaw(t) > 0.3f, s, "+"));
+			inputs.Add(new SequenceInput(() => Input.GetAxisRaw(t) < -0.3f, rev, "-"));
 		}
-		foreach (var button in uiButtonInputs)
-		{
-			var bb = button.GetComponent<ButtonBool>();
-			if (bb == null)
-				bb = button.gameObject.AddComponent<ButtonBool>();
-			Func<bool> f = () => bb.IsPressed;
-			inputs.Add(new SequenceInput(f, button.GetComponentInChildren<Text>().text));
-		}
+
+		inputs.Sort();
+		//foreach (var button in uiButtonInputs)
+		//{
+		//	var bb = button.GetComponent<ButtonBool>();
+		//	if (bb == null)
+		//		bb = button.gameObject.AddComponent<ButtonBool>();
+		//	Func<bool> f = () => bb.IsPressed;
+		//	inputs.Add(new SequenceInput(f, button.GetComponentInChildren<Text>().text, 0));
+		//}
 
 		audioSource = GetComponent<AudioSource>();
 	}
@@ -154,6 +176,8 @@ public class SequenceManager : MonoBehaviour
 	{
 		if (GameState.Paused || GameState.EndOfLevel)
 			return;
+
+		List<string> dupTrap = new List<string>();
 
 		if (Debug.isDebugBuild && Input.GetKeyDown(KeyCode.F2))
 			foreach (var s in sequences)
@@ -164,15 +188,52 @@ public class SequenceManager : MonoBehaviour
 			// Check inputs against running sequences
 			foreach (var i in inputs)
 			{
+				if(dupTrap.Contains(i.Identifier))
+				{
+					continue;
+				}
+				dupTrap.Add(i.Identifier);
 				bool test = i.Check();
 
 				if (test)
 				{
 					foreach (var s in sequences)
-						s.EnterInput(i);
+						s.EnterInput(i.Identifier);
 				}
 			}
-		
+	}
+
+	#endregion
+
+	#region Public Classes
+
+	[Serializable]
+	public class InputType
+	{
+		#region Public Fields
+
+		public string identifier;
+		public int level;
+		public Sprite sprite;
+		public Sprite sprite2;
+		public float spriteRotation;
+
+		public InputType Reverse()
+		{
+			InputType result = new InputType();
+			result.identifier = identifier;
+			result.level = level;
+			if (sprite2 != null)
+				result.sprite = sprite2;
+			else
+			{
+				result.spriteRotation = spriteRotation + 180;
+				result.sprite = sprite;
+			}
+			return result;
+		}
+
+		#endregion
 	}
 
 	#endregion
@@ -190,17 +251,18 @@ public class SequenceManager : MonoBehaviour
 
 		#region Public Properties
 
-		public float TimeBoost { get; set; }
 		public bool Complete { get { return Index == Items.Count; } }
 		public List<SequenceItemDetails> Details { get; private set; }
 		public bool Failed { get; set; }
 		public int Index { get; set; }
 		public int Length { get { return Items.Count; } }
+		public int Level { get; set; }
 		public Action OnBadInput { get; set; }
 		public Action OnFail { get; set; }
 		public Action OnGoodInput { get; set; }
 		public Action OnSuccess { get; set; }
 		public Action OnTimeout { get; set; }
+		public float TimeBoost { get; set; }
 		public ReadOnlyTimer TimeLimit { get; private set; }
 
 		#endregion
@@ -222,14 +284,17 @@ public class SequenceManager : MonoBehaviour
 			Action onBadInput,
 			float timeLimit,
 			float timeBoost,
-			float resetDelay)
+			float resetDelay,
+			int level)
 		{
 			TimeBoost = timeBoost;
 			Items = new List<SequenceItem>(length);
 			Details = new List<SequenceItemDetails>(length);
+			Level = level;
+
 			for (int i = 0; i < length; i++)
 			{
-				var toAdd = new SequenceItem { input = RandomItem() };
+				var toAdd = new SequenceItem { input = RandomItem(Level) };
 				Items.Add(toAdd);
 				Details.Add(toAdd);
 			}
@@ -259,7 +324,7 @@ public class SequenceManager : MonoBehaviour
 
 		public void BoostTime(float amount)
 		{
-			if(time != null)
+			if (time != null)
 				time.Current -= amount;
 		}
 
@@ -278,32 +343,20 @@ public class SequenceManager : MonoBehaviour
 				resetTimer.Dispose();
 		}
 
-		public void EnterInput(SequenceInput si)
+		public void EnterInput(string si)
 		{
 			if (Complete || Failed || resetTimer.Running)
 			{
 				return;
 			}
-			if (si == Items[Index].input)
+			if (si == Items[Index].input.Identifier)
 			{
 				GoodInput();
 				return;
 			}
 			BadInput();
 		}
-		public void Succeed()
-		{
-			time.Pause();
-			if (instance.goodSequenceSound != null)
-			{
-				audioSource.pitch = UnityEngine.Random.Range(0.9f, 1.1f);
-				audioSource.PlayOneShot(instance.goodSequenceSound);
-			}
 
-			ScoreManager.Sequences.Hit();
-			if (OnSuccess != null)
-				OnSuccess();
-		}
 		public void Fail()
 		{
 			Failed = true;
@@ -323,6 +376,20 @@ public class SequenceManager : MonoBehaviour
 				i.Failed = false;
 				i.Passed = false;
 			}
+		}
+
+		public void Succeed()
+		{
+			time.Pause();
+			if (instance.goodSequenceSound != null)
+			{
+				audioSource.pitch = UnityEngine.Random.Range(0.9f, 1.1f);
+				audioSource.PlayOneShot(instance.goodSequenceSound);
+			}
+
+			ScoreManager.Sequences.Hit();
+			if (OnSuccess != null)
+				OnSuccess();
 		}
 
 		#endregion
@@ -353,7 +420,7 @@ public class SequenceManager : MonoBehaviour
 
 			if (instance.goodInputSound != null)
 			{
-				audioSource.pitch = UnityEngine.Random.Range(0.9f,1.1f);
+				audioSource.pitch = UnityEngine.Random.Range(0.9f, 1.1f);
 				audioSource.PlayOneShot(instance.goodInputSound);
 			}
 
@@ -384,6 +451,8 @@ public class SequenceManager : MonoBehaviour
 
 			public bool Failed { get; set; }
 			public string Identifier { get { return input.Identifier; } }
+			public Sprite Sprite { get { return input.Sprite; } }
+			public float SpriteRotation { get { return input.SpriteRotation; } }
 			public bool Passed { get; set; }
 
 			#endregion
@@ -392,11 +461,14 @@ public class SequenceManager : MonoBehaviour
 		#endregion
 	}
 
-	class SequenceInput
+	class SequenceInput : IComparable<SequenceInput>
 	{
 		#region Public Properties
 
 		public string Identifier { get; private set; }
+		public int Level { get; private set; }
+		public Sprite Sprite { get; private set; }
+		public float SpriteRotation { get; private set; }
 		public bool PreviousState { get; private set; }
 
 		#endregion
@@ -409,10 +481,13 @@ public class SequenceManager : MonoBehaviour
 
 		#region Public Constructors
 
-		public SequenceInput(Func<bool> trigger, string id)
+		public SequenceInput(Func<bool> trigger, InputType details, string add = "")
 		{
 			Trigger = trigger;
-			Identifier = id;
+			Identifier = add + details.identifier;
+			Level = details.level;
+			Sprite = details.sprite;
+			SpriteRotation = details.spriteRotation;
 		}
 
 		#endregion
@@ -431,6 +506,11 @@ public class SequenceManager : MonoBehaviour
 			bool test = sample && !PreviousState;
 			PreviousState = sample;
 			return test;
+		}
+
+		public int CompareTo(SequenceInput other)
+		{
+			return Level - other.Level;
 		}
 
 		#endregion
