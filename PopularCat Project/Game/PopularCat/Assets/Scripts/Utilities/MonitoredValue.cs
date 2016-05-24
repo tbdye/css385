@@ -1,16 +1,54 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections;
-using System;
+using UnityEngine;
 
 /// <summary>
-/// Maintains a float clamped to a range.
+/// Maintains a float clamped to a range. 
 /// <para/>
-/// Offers delegate function properties.
+/// Offers delegate function properties. 
 /// </summary>
 public class MonitoredValue
 {
-	public bool Locked { get; private set; }
+	#region Private Fields
+
 	float val;
+
+	#endregion
+
+	#region Public Properties
+
+	public bool Locked { get; private set; }
+	public float Max { get; set; }
+
+	public float Min { get; set; }
+
+	/// <summary>
+	/// The method called whenever the value reaches Min. 
+	/// <para/>
+	/// Only triggers if the value changed. 
+	/// <para/>
+	/// Passes the new value as a parameter. 
+	/// </summary>
+	public Action<float> OnEmpty { get; set; }
+
+	/// <summary>
+	/// The method called whenever the value reaches Max. 
+	/// <para/>
+	/// Only triggers if the value changed. 
+	/// <para/>
+	/// Passes the new value as a parameter. 
+	/// </summary>
+	public Action<float> OnFull { get; set; }
+
+	/// <summary>
+	/// The method called whenever the value is changed. 
+	/// <para/>
+	/// Only triggers if the value changed. 
+	/// <para/>
+	/// Passes the new value as a parameter. 
+	/// </summary>
+	public Action<float> OnModified { get; set; }
+
 	public float Value
 	{
 		get
@@ -38,40 +76,9 @@ public class MonitoredValue
 		}
 	}
 
-	public float Min { get; set; }
-	public float Max { get; set; }
+	#endregion
 
-	/// <summary>
-	/// The method called whenever the value is changed.
-	/// <para/>
-	/// Only triggers if the value changed.
-	/// <para/>
-	/// Passes the new value as a parameter.
-	/// </summary>
-	public Action<float> OnModified { get; set; }
-
-	/// <summary>
-	/// The method called whenever the value reaches Max.
-	/// <para/>
-	/// Only triggers if the value changed.
-	/// <para/>
-	/// Passes the new value as a parameter.
-	/// </summary>
-	public Action<float> OnFull { get; set; }
-
-	/// <summary>
-	/// The method called whenever the value reaches Min.
-	/// <para/>
-	/// Only triggers if the value changed.
-	/// <para/>
-	/// Passes the new value as a parameter.
-	/// </summary>
-	public Action<float> OnEmpty { get; set; }
-
-	public static implicit operator float(MonitoredValue monitor)
-	{
-		return monitor.val;
-	}
+	#region Public Constructors
 
 	public MonitoredValue
 		(float startingValue = 0,
@@ -89,8 +96,22 @@ public class MonitoredValue
 		OnEmpty = onEmpty;
 	}
 
-	public void Lock() { Locked = true; }
-	public void Unlock() { Locked = false; }
+	#endregion
+
+	#region Public Methods
+
+	public static implicit operator float(MonitoredValue monitor)
+	{
+		return monitor.val;
+	}
+
+	public void Floor(int quantization)
+	{
+		float f = Value * quantization;
+		f = Mathf.Floor(f) / quantization;
+
+		Value = f;
+	}
 
 	public void FloorDecrement(int quantization)
 	{
@@ -98,7 +119,12 @@ public class MonitoredValue
 		f -= 1;
 		f = Mathf.Ceil(f) / quantization;
 
-
 		Value = f;
 	}
+
+	public void Lock() { Locked = true; }
+
+	public void Unlock() { Locked = false; }
+
+	#endregion
 }
