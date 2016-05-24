@@ -18,6 +18,9 @@ ExportedObj/
 *.booproj
 *.svd
 
+# SuperCharger VS extension
+*.scgdat
+
 
 # Unity3D generated meta files
 *.pidb.meta
