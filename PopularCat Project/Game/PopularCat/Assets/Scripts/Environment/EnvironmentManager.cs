@@ -7,13 +7,6 @@ public class EnvironmentManager : MonoBehaviour
 	#region Private Fields
 
 	private List<SpriteRenderer> characters, obstacles;
-	int drawLayers;
-
-	#endregion
-
-	#region Public Properties
-
-	public float LayerIncrement { get; private set; }
 
 	#endregion
 
@@ -21,26 +14,15 @@ public class EnvironmentManager : MonoBehaviour
 
 	public int AssignLayer(float posVertical)
 	{
-		return (int)Mathf.Floor(drawLayers * (1 - (posVertical - Boundary.Bottom) / (Boundary.Height)));
+		return (int)Mathf.Floor(posVertical);
 	}
 
 	#endregion
 
 	#region Private Methods
 
-	void SliceCamera()
-	{
-		Camera worldCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-
-		LayerIncrement = worldCamera.orthographicSize * 2 / drawLayers;
-	}
-
 	void Start()
 	{
-		// Scene camera must be tagged with "MainCamera" in order for this to work.
-		drawLayers = 100;
-		SliceCamera();
-
 		// Find character and obstacle objects.
 		GameObject[] characterObjects = GameObject.FindGameObjectsWithTag("Character");
 		characters = new List<SpriteRenderer>();
@@ -60,7 +42,7 @@ public class EnvironmentManager : MonoBehaviour
 			var obstacle = n.GetComponent<SpriteRenderer>();
 			var collide = n.GetComponent<Collider2D>();
 			obstacles.Add(obstacle);
-			obstacle.sortingOrder = AssignLayer(collide.bounds.center.y);
+			obstacle.sortingOrder = AssignLayer(collide.bounds.center.y * -3);
 		}
 	}
 
@@ -71,13 +53,13 @@ public class EnvironmentManager : MonoBehaviour
 			var coll = sr.GetComponent<Collider2D>();
 			if (coll != null)
 				sr.sortingOrder =
-					AssignLayer(coll.bounds.center.y);
+					AssignLayer(coll.bounds.center.y * -3);
 			else
 			{
 				coll = sr.GetComponentInParent<Collider2D>();
 				if (coll != null)
 					sr.sortingOrder =
-						AssignLayer(coll.bounds.center.y);
+						AssignLayer(coll.bounds.center.y * -3);
 			}
 		}
 	}
