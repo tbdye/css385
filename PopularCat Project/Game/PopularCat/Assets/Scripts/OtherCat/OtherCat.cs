@@ -24,6 +24,10 @@ public class OtherCat : MonoBehaviour
 	[Range(0, 3)]
 	public int difficulty;
 
+	[Header("Posse boosts")]
+	public float timeBoostPerMember = 0.33f;
+	public float fameBoostPerMember = 2;
+
 	#endregion
 
 	#region Private Fields
@@ -83,10 +87,14 @@ public class OtherCat : MonoBehaviour
 
 		level += (int) Mathf.Floor(GameState.Fame*3);
 
+
+		float tboost = timeBoostPerMember;
+		tboost *= ScoreManager.Cats.Count;
+
 		CurrentSequence =
 			SequenceManager.GetNewSequence
 				(sequenceLengths.AccessByMagnitude(Progress.Magnitude),
-				timeLimit: perSequenceTimeLimit,
+				timeLimit: perSequenceTimeLimit + tboost,
 				level: level);
 
 
@@ -99,7 +107,11 @@ public class OtherCat : MonoBehaviour
 		CurrentSequence.OnSuccess = () =>
 		{
 			SequenceDebugger.VictoryAnim();
-			GameState.Fame.Value += fameRate / 100;
+
+			float fboost = fameBoostPerMember;
+			fboost *= ScoreManager.Cats.Count;
+
+			GameState.Fame.Value += (fameRate + fboost) / 100;
 			Timer delay = TimeManager.GetNewTimer(0.25f, () =>
 			{
 				if (GameState.Fame < 1)
@@ -119,7 +131,7 @@ public class OtherCat : MonoBehaviour
 			}
 			else
 			{
-				GameState.Fame.Floor(3);
+				GameState.Fame.FloorDecrement(3);
 				BeginFameSequence();
 			}
 		};

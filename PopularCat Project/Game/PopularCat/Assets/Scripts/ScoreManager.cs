@@ -63,7 +63,7 @@ public static class ScoreManager
 			result += string.Format("Longest input streak: {0}\n", Inputs.HighestConsecutive);
 			result += string.Format("Input Accuracy: {0:P}\n", Inputs.Accuracy);
 			result += string.Format("Sequences: {0}/{1}\n", Sequences.Hits, Sequences.Total);
-			result += string.Format("Sequence Completion Rate: {0:P}\n", Sequences.Accuracy);
+			result += string.Format("Sequence Completion: {0:P}\n", Sequences.Accuracy);
 			result += string.Format("Longest sequence streak: {0}\n", Sequences.HighestConsecutive);
 			result += string.Format("Cats: {0}/{1}", Cats.Count, Cats.CountUnfiltered);
 			return result;
