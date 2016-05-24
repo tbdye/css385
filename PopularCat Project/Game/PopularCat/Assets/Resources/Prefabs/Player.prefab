@@ -30,6 +30,7 @@ GameObject:
   - 61: {fileID: 6162876}
   - 114: {fileID: 11447308}
   - 82: {fileID: 8261188}
+  - 95: {fileID: 9563742}
   m_Layer: 0
   m_Name: Player
   m_TagString: Character
@@ -92,7 +93,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: -2}
   serializedVersion: 2
-  m_Size: {x: 2.56, y: 1}
+  m_Size: {x: 7.68, y: 1}
 --- !u!82 &8261188
 AudioSource:
   m_ObjectHideFlags: 1
@@ -167,6 +168,23 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!95 &9563742
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 149310}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9280827c7cd3bb6488f72126b6250c00, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &11408672
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -208,11 +226,11 @@ MonoBehaviour:
   mCatJumpLeap: {fileID: 21300000, guid: 4a6d4dbf0eda1494fbdeeff2301fc701, type: 3}
   mCatJumpAir: {fileID: 21300000, guid: d30154871a5514b439dc534de8ea55cd, type: 3}
   mCatJumpLand: {fileID: 21300000, guid: 96f6e0a448cef7f4bb696773ead96cfa, type: 3}
-  mCatSitLookAway: {fileID: 21300000, guid: 44a00e0e4f6f15848a891b039f6d8c52, type: 3}
-  mCatSitLookForward: {fileID: 21300000, guid: ced86b1e7dad2154e9c853614c6ca7f6, type: 3}
-  mCatSitLookToward: {fileID: 21300000, guid: 739a56939c29f964288f74a3bb05d4c4, type: 3}
-  mCatStand: {fileID: 21300000, guid: 7ca6e2f8dfa426e458d67d3d30ebc670, type: 3}
-  mCatWalk: {fileID: 21300000, guid: bfc48248957b83f47bcca6126438c831, type: 3}
+  mCatSitLookAway: {fileID: 21300000, guid: deb5a5142aaade04d9dfb1736a069557, type: 3}
+  mCatSitLookForward: {fileID: 21300000, guid: 6d7e3382321663641a4911d532646631, type: 3}
+  mCatSitLookToward: {fileID: 21300000, guid: 6d7e3382321663641a4911d532646631, type: 3}
+  mCatStand: {fileID: 21300000, guid: 965edd172c3efac48bc33af5ea00840a, type: 3}
+  mCatWalk: {fileID: 21300000, guid: 6200f048d670a30408532ea9c2b94d30, type: 3}
   mMinTimeUntilCatSits: 3
   mMaxTimeUntilCatSits: 5
   mMinTimeInSitPosition: 0.4
@@ -249,7 +267,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 7ca6e2f8dfa426e458d67d3d30ebc670, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 965edd172c3efac48bc33af5ea00840a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
