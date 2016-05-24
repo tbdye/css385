@@ -119,7 +119,7 @@ public class OtherCat : MonoBehaviour
 			}
 			else
 			{
-				GameState.Fame.Floor(3);
+				GameState.Fame.FloorDecrement(3);
 				BeginFameSequence();
 			}
 		};

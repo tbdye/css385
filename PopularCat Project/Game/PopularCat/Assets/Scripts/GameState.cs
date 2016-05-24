@@ -120,7 +120,7 @@ public class GameState : MonoBehaviour
 		{
 			s.Visible = false;
 		}
-		Fame.Floor(3);
+		Fame.FloorDecrement(3);
 		Fame.Lock();
 
 		if (EndOfLevelPassed)

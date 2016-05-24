@@ -92,10 +92,12 @@ public class MonitoredValue
 	public void Lock() { Locked = true; }
 	public void Unlock() { Locked = false; }
 
-	public void Floor(int quantization)
+	public void FloorDecrement(int quantization)
 	{
 		float f = Value * quantization;
-		f = Mathf.Floor(f) / quantization;
+		f -= 1;
+		f = Mathf.Ceil(f) / quantization;
+
 
 		Value = f;
 	}
