@@ -1,0 +1,43 @@
+Initialize engine version: 5.3.4f1 (fdbb5133b820)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GT 740 (ID=0xfc8)
+    Vendor:   NVIDIA
+    VRAM:     1990 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: X:\thomas\Work\UWB\BCSS 385\Assignments\Offline\EXE_pc\PopularCat_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading X:\thomas\Work\UWB\BCSS 385\Assignments\Offline\EXE_pc\PopularCat_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: X:\thomas\Work\UWB\BCSS 385\Assignments\Offline\EXE_pc\PopularCat_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading X:\thomas\Work\UWB\BCSS 385\Assignments\Offline\EXE_pc\PopularCat_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: X:\thomas\Work\UWB\BCSS 385\Assignments\Offline\EXE_pc\PopularCat_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading X:\thomas\Work\UWB\BCSS 385\Assignments\Offline\EXE_pc\PopularCat_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: X:\thomas\Work\UWB\BCSS 385\Assignments\Offline\EXE_pc\PopularCat_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading X:\thomas\Work\UWB\BCSS 385\Assignments\Offline\EXE_pc\PopularCat_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: X:\thomas\Work\UWB\BCSS 385\Assignments\Offline\EXE_pc\PopularCat_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading X:\thomas\Work\UWB\BCSS 385\Assignments\Offline\EXE_pc\PopularCat_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: X:\thomas\Work\UWB\BCSS 385\Assignments\Offline\EXE_pc\PopularCat_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading X:\thomas\Work\UWB\BCSS 385\Assignments\Offline\EXE_pc\PopularCat_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+- Completed reload, in  0.959 seconds
+Platform assembly: X:\thomas\Work\UWB\BCSS 385\Assignments\Offline\EXE_pc\PopularCat_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: X:\thomas\Work\UWB\BCSS 385\Assignments\Offline\EXE_pc\PopularCat_Data\Managed\System.dll (this message is harmless)
+<RI> Initializing input.
+XInput1_3.dll not found. Trying XInput9_1_0.dll instead...
+<RI> Input initialized.
+desktop: 1920x1080 60Hz; virtual: 4920x1920 at -1920,-274
+<RI> Initialized touch support.
+UnloadTime: 5.304323 ms
+Setting up 1 worker threads for Enlighten.
+  Thread -> id: 1b14 -> priority: 1 
+Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 4.295080 ms
+
+Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 633.
+Total: 0.328884 ms (FindLiveObjects: 0.025600 ms CreateObjectMapping: 0.014456 ms MarkObjects: 0.281901 ms  DeleteObjects: 0.006625 ms)
+
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.249582 ms
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 887.
+Total: 0.386108 ms (FindLiveObjects: 0.028009 ms CreateObjectMapping: 0.020178 ms MarkObjects: 0.330089 ms  DeleteObjects: 0.007228 ms)
+

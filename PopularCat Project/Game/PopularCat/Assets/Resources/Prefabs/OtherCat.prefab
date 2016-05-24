@@ -47,6 +47,7 @@ GameObject:
   - 61: {fileID: 6192460}
   - 114: {fileID: 11408598}
   - 114: {fileID: 11439068}
+  - 95: {fileID: 9524948}
   m_Layer: 0
   m_Name: OtherCat
   m_TagString: Character
@@ -106,6 +107,23 @@ BoxCollider2D:
   m_Offset: {x: 0, y: -2.1620846}
   serializedVersion: 2
   m_Size: {x: 4.06, y: 0.6558304}
+--- !u!95 &9524948
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 178760}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9280827c7cd3bb6488f72126b6250c00, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &11408598
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -134,11 +152,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CatSit:
-  - {fileID: 21300000, guid: ced86b1e7dad2154e9c853614c6ca7f6, type: 3}
-  - {fileID: 21300000, guid: 44a00e0e4f6f15848a891b039f6d8c52, type: 3}
-  - {fileID: 21300000, guid: 739a56939c29f964288f74a3bb05d4c4, type: 3}
-  CatStand: {fileID: 21300000, guid: 7ca6e2f8dfa426e458d67d3d30ebc670, type: 3}
-  CatWalk: {fileID: 21300000, guid: bfc48248957b83f47bcca6126438c831, type: 3}
+  - {fileID: 21300000, guid: deb5a5142aaade04d9dfb1736a069557, type: 3}
+  - {fileID: 21300000, guid: 6d7e3382321663641a4911d532646631, type: 3}
+  - {fileID: 21300000, guid: 6d7e3382321663641a4911d532646631, type: 3}
+  CatStand: {fileID: 21300000, guid: 965edd172c3efac48bc33af5ea00840a, type: 3}
+  CatWalk: {fileID: 21300000, guid: 6200f048d670a30408532ea9c2b94d30, type: 3}
   timeInSitPosition: {x: 0.5, y: 2}
   timeUntilCatSits: {x: 1, y: 5}
 --- !u!114 &11462596
@@ -168,12 +186,17 @@ MonoBehaviour:
   interestBleedRate: 2
   isHuman: 0
   penaltyOnFailure: 20
-  perSequenceTimeLimit: 6
+  penaltyOnFailureInPosse: 25
   progressOnSuccess: 34
-  sequenceLengths: 030000000400000006000000
+  progressOnSuccessInPosse: 10
   startingInterest: 33
   angryDuration: 3
   fameRate: 10
+  sequenceLengths: 030000000400000006000000
+  perSequenceTimeLimit: 6
+  difficulty: 0
+  timeBoostPerMember: 0.33
+  fameBoostPerMember: 2
 --- !u!114 &11498998
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -211,7 +234,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 7ca6e2f8dfa426e458d67d3d30ebc670, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 965edd172c3efac48bc33af5ea00840a, type: 3}
   m_Color: {r: 0.5681769, g: 0.6168282, b: 0.6838235, a: 1}
   m_FlipX: 1
   m_FlipY: 0
