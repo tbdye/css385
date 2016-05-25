@@ -30,7 +30,7 @@ GameObject:
   - 61: {fileID: 6162876}
   - 114: {fileID: 11447308}
   - 82: {fileID: 8261188}
-  - 95: {fileID: 9563742}
+  - 114: {fileID: 11413926}
   m_Layer: 0
   m_Name: Player
   m_TagString: Character
@@ -168,23 +168,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
---- !u!95 &9563742
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 149310}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 9280827c7cd3bb6488f72126b6250c00, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &11408672
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -196,6 +179,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08d1c49a031c07a45b456a89c353779e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11413926
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 149310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f44ff045a9c834d4d8c9af5ecb3db5ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeInSitPosition: {x: 0.5, y: 2}
+  timeUntilCatSits: {x: 1, y: 5}
+  CatSit:
+  - {fileID: 21300000, guid: deb5a5142aaade04d9dfb1736a069557, type: 3}
+  - {fileID: 21300000, guid: 23be2704363ed1d4a8829b7b3382009f, type: 3}
+  - {fileID: 21300000, guid: 6d7e3382321663641a4911d532646631, type: 3}
+  CatStand: {fileID: 21300000, guid: 965edd172c3efac48bc33af5ea00840a, type: 3}
+  CatWalk:
+  - {fileID: 21300000, guid: 6200f048d670a30408532ea9c2b94d30, type: 3}
+  - {fileID: 21300002, guid: 6200f048d670a30408532ea9c2b94d30, type: 3}
+  switchTime: 0.1
+  isPlayer: 1
 --- !u!114 &11431800
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -215,7 +221,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 149310}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f1ea458804911a47b489bfa489f5b50, type: 3}
+  m_Script: {fileID: 11500000, guid: c64b6c3c69178004cb7998d8034fa707, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   happySounds:
@@ -223,24 +229,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 7073edef19f99134fba03e3f58058ad4, type: 3}
   angrySounds:
   - {fileID: 8300000, guid: fa02acb5969bb1747ae2231f75735e38, type: 3}
-  mCatJumpLeap: {fileID: 21300000, guid: 4a6d4dbf0eda1494fbdeeff2301fc701, type: 3}
-  mCatJumpAir: {fileID: 21300000, guid: d30154871a5514b439dc534de8ea55cd, type: 3}
-  mCatJumpLand: {fileID: 21300000, guid: 96f6e0a448cef7f4bb696773ead96cfa, type: 3}
-  mCatSitLookAway: {fileID: 21300000, guid: deb5a5142aaade04d9dfb1736a069557, type: 3}
-  mCatSitLookForward: {fileID: 21300000, guid: 6d7e3382321663641a4911d532646631, type: 3}
-  mCatSitLookToward: {fileID: 21300000, guid: 6d7e3382321663641a4911d532646631, type: 3}
-  mCatStand: {fileID: 21300000, guid: 965edd172c3efac48bc33af5ea00840a, type: 3}
-  mCatWalk: {fileID: 21300000, guid: 6200f048d670a30408532ea9c2b94d30, type: 3}
-  mMinTimeUntilCatSits: 3
-  mMaxTimeUntilCatSits: 5
-  mMinTimeInSitPosition: 0.4
-  mMaxTimeInSitPosition: 2
   mMoveSpeed: 12
-  mDeadzoneX: 0
-  mDeadzoneY: 0
-  mGroundDeadzone: 0
-  mMaxJumpTime: 0
-  mJumpImpulseAddRate: 0
 --- !u!212 &21234082
 SpriteRenderer:
   m_ObjectHideFlags: 1
