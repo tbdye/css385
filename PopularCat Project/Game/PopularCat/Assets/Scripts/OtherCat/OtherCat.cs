@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,24 +10,30 @@ public class OtherCat : MonoBehaviour
 
 	public float bailoutPromptWindow = 3;
 	public float interestBleedRate = 2;
-	public bool isHuman;
 	public float penaltyOnFailure  = 20;
 	public float penaltyOnFailureInPosse  = 25;
 	public float progressOnSuccess = 34;
 	public float progressOnSuccessInPosse = 10;
 	public float startingInterest  = 33;
 	public float angryDuration = 3;
-	public float fameRate = 10;
 
 	[Header("Sequence difficulty variables")]
 	public int[] sequenceLengths;
-	public int perSequenceTimeLimit = 6;
-	[Range(0, 3)]
-	public int difficulty;
+	public float perSequenceTimeLimit = 6;
 
-	[Header("Posse boosts")]
+	public bool isHuman;
+	public float fameRate = 10;
+	
 	public float timeBoostPerMember = 0.33f;
 	public float fameBoostPerMember = 2;
+
+	public InputTypes inputPool = InputTypes.NormalArrows;
+	public InputTypes[] fameInputPool = 
+		{InputTypes.NormalArrows,
+		InputTypes.NormalArrows,
+		InputTypes.NormalArrows};
+
+
 
 	#endregion
 
@@ -83,9 +90,10 @@ public class OtherCat : MonoBehaviour
 			CurrentSequence = null;
 		}
 
-		int level = 1;
+		int level = 0;
 
 		level += (int) Mathf.Floor(GameState.Fame*3);
+
 
 
 		float tboost = timeBoostPerMember;
@@ -95,7 +103,7 @@ public class OtherCat : MonoBehaviour
 			SequenceManager.GetNewSequence
 				(sequenceLengths.AccessByMagnitude(Progress.Magnitude),
 				timeLimit: perSequenceTimeLimit + tboost,
-				level: level);
+				types: fameInputPool[level]);
 
 
 		CurrentSequence.OnBadInput = () =>
@@ -178,7 +186,7 @@ public class OtherCat : MonoBehaviour
 			SequenceManager.GetNewSequence
 				(sequenceLengths.AccessByMagnitude(Progress.Magnitude),
 				timeLimit: perSequenceTimeLimit,
-				level: difficulty);
+				types: inputPool);
 
 		CurrentSequence.OnSuccess = () =>
 		{
@@ -255,6 +263,7 @@ public class OtherCat : MonoBehaviour
 			Blackout.IgnoreList.Remove(gameObject);
 			GetComponent<SpriteRenderer>().sortingLayerName = "Default";
 		}
+		Player.AngrySound();
 
 		Progress.Visibility = 0;
 		Interest.OnEmpty = null;

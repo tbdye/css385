@@ -3,18 +3,22 @@ using System.Collections;
 
 public class Player : MonoBehaviour
 {
-    #region Class Public Instance Variables
-    public AudioClip[] happySounds;
-    public AudioClip[] angrySounds;
-    public float mMoveSpeed;
+	#region Class Public Instance Variables
+	public AudioClip[] happySounds;
+	public AudioClip[] angrySounds;
+	public float mMoveSpeed;
 	#endregion
 
+	AudioSource meow;
+	static Player instance;
 	/// <summary>
 	/// Start
 	/// Use this for initialization
 	/// </summary>
 	void Start ()
 	{
+		instance = this;
+		meow = GetComponent<AudioSource>();
 		Blackout.IgnoreList.Add(gameObject);
 	}
 
@@ -24,19 +28,28 @@ public class Player : MonoBehaviour
 	/// </summary>
 	void Update ()
 	{
-		var aud = GetComponent<AudioSource>();
 
-		if(Input.GetButtonDown("Meow") && !aud.isPlaying)
+		if (Input.GetButtonDown("Meow") && !meow.isPlaying)
 		{
-			aud.pitch = Random.Range(0.9f, 1.1f);
+			meow.pitch = Random.Range(0.9f, 1.1f);
 			if(GameState.InBailoutPrompt)
-				aud.PlayOneShot(angrySounds.RandomItem());
+				meow.PlayOneShot(angrySounds.RandomItem());
 			else
-				aud.PlayOneShot(happySounds.RandomItem());
+				meow.PlayOneShot(happySounds.RandomItem());
 		}
 
 		MoveAround();
 		Boundary.Clamp(gameObject);
+	}
+
+
+	static public void AngrySound()
+	{
+		if (!instance.meow.isPlaying)
+		{
+		instance.meow.pitch = Random.Range(0.9f, 1.1f);
+		instance.meow.PlayOneShot(instance.angrySounds.RandomItem());
+		}
 	}
 
 	/// <summary>
@@ -64,7 +77,7 @@ public class Player : MonoBehaviour
 			moveY /= 2;
 		}
 
-        var position = new Vector3(moveX, moveY, 0f);
-        GetComponent<Rigidbody2D>().velocity = position;
+		var position = new Vector3(moveX, moveY, 0f);
+		GetComponent<Rigidbody2D>().velocity = position;
 	}
 }

@@ -9,6 +9,9 @@ public class SequenceDebugger : MonoBehaviour
 	public ArrowRegion arrowRegion;
 	public ProgressBar progressBar;
 	public GameObject indicatorPrefab;
+	public float randomTipRange = 5;
+	public float curvePower = 13;
+	public float verticalOffset = -45;
 
 	#endregion
 
@@ -62,12 +65,15 @@ public class SequenceDebugger : MonoBehaviour
 			rt.anchorMin = new Vector2(0.5f, 1);
 			rt.anchorMax = new Vector2(0.5f, 1);
 
-			rt.anchoredPosition3D = new Vector3(i * 60, -60, 0);
+			var yval = Mathf.Abs(i) / seq.Length * -instance.curvePower;
+
+			rt.anchoredPosition3D = new Vector3(i * 60, yval+instance.verticalOffset, 0);
 
 			var sr = obj.GetComponent<Image>();
 
 			sr.sprite = details.Sprite;
-			obj.transform.Rotate(0, 0, details.SpriteRotation);
+			float r = Random.Range(-instance.randomTipRange, instance.randomTipRange);
+			obj.transform.Rotate(0, 0, details.SpriteRotation + r);
 
 			i += 1;
 		}

@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public static class Utils
@@ -11,6 +13,32 @@ public static class Utils
 	#endregion
 
 	#region Public Methods
+
+	public static IEnumerable<SerializedProperty> GetArrayElements(this SerializedProperty sp)
+	{
+		int i = 0;
+		while (i < sp.arraySize)
+			yield return sp.GetArrayElementAtIndex(i++);
+		
+	}
+
+	public static IEnumerable<T> Concat<T>(this IEnumerable<T> a, IEnumerable<T> b)
+	{
+		foreach (var x in a)
+			yield return x;
+
+		foreach (var x in b)
+			yield return x;
+	}
+
+	public static IEnumerable<InputTypes> GetFlags(this InputTypes input)
+	{
+		foreach (InputTypes value in Enum.GetValues(input.GetType()))
+			if ((input & value) == value)
+				yield return value;
+	}
+
+
 
 	public static float MoveToward(this float f, float other, float speed)
 	{
@@ -97,7 +125,7 @@ public static class Utils
 	/// <returns></returns>
 	public static T RandomItem<T>(this IList<T> collection)
 	{
-		return collection[Random.Range(0, collection.Count)];
+		return collection[UnityEngine.Random.Range(0, collection.Count)];
 	}
 
 	/// <summary>
@@ -106,7 +134,7 @@ public static class Utils
 	/// <returns></returns>
 	public static float RandomRange(Vector2 minMax)
 	{
-		return Random.Range(minMax.x, minMax.y);
+		return UnityEngine.Random.Range(minMax.x, minMax.y);
 	}
 
 	#endregion
