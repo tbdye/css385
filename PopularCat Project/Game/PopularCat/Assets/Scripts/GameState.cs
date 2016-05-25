@@ -10,7 +10,7 @@ using UnityEngine.UI;
 public class GameState : MonoBehaviour
 {
 	#region Public Fields
-
+	public float levelTime = 300;
 	public bool postponeTimeScore;
 	public bool postponePosseScore;
 	public Text scoreText;
@@ -190,7 +190,7 @@ public class GameState : MonoBehaviour
 		Initialize();
 		ScoreManager.Initialize();
 
-		levelTimer = TimeManager.GetNewTimer(5 * 60, EndLevel);
+		levelTimer = TimeManager.GetNewTimer(levelTime, EndLevel);
 
 		levelTimer.OnTick = (dt) =>
 		{
