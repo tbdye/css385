@@ -1,39 +1,48 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
 
-public class HumanSpriteHandler : MonoBehaviour {
+public class HumanSpriteHandler : MonoBehaviour
+{
+	#region Public Fields
 
-    #region Public Fields
-    public Sprite mIdle;
-    public Sprite mAttention;
-    public Sprite mFilming;
-    #endregion
+	public Sprite mAttention;
+	public Sprite mFilming;
+	public Sprite mIdle;
 
-    #region Private Fields
-    SpriteRenderer render;
-    #endregion
+	#endregion
 
-    void Start ()
-    {
-        render.sprite = mIdle;
+	#region Private Fields
+
+	SpriteRenderer render;
+
+	#endregion
+
+	#region Private Methods
+
+	void Start()
+	{
+		render = GetComponent<SpriteRenderer>();
+		render.sprite = mIdle;
 	}
-	
-	void Update ()
-    {
-	    if (GameState.InEncounter)
-        {
-            if (GameState.InFameEncounter)
-            {
-                render.sprite = mFilming;
-            }
-            else
-            {
-                render.sprite = mAttention;
-            }
-        }
-        else
-        {
-            render.sprite = mIdle;
-        }
+
+	void Update()
+	{
+		if (GameState.InEncounter)
+		{
+			if (GameState.InFameEncounter)
+			{
+				render.sprite = mFilming;
+			}
+			else
+			{
+				render.sprite = mAttention;
+			}
+		}
+		else
+		{
+			render.sprite = mIdle;
+		}
 	}
+
+	#endregion
 }
