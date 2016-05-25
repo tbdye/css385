@@ -9,6 +9,7 @@ public class LoadMenu : MonoBehaviour
 
     public Button mPlayButton;
     public Button mQuitButton;
+    public Button mCreditsButton;
 
     /// <summary>
     /// Start
@@ -21,6 +22,7 @@ public class LoadMenu : MonoBehaviour
         // Create listeners
         mPlayButton.onClick.AddListener(PlayService);
         mQuitButton.onClick.AddListener(QuitService);
+        mCreditsButton.onClick.AddListener(CreditsService);
     }
 
     /// <summary>
@@ -39,7 +41,7 @@ public class LoadMenu : MonoBehaviour
     /// </summary>
     private void PlayService()
     {
-        LoadScene("Level1");
+        LoadScene("Rules");
     }
 
     /// <summary>
@@ -48,6 +50,14 @@ public class LoadMenu : MonoBehaviour
     private void QuitService()
     {
         Application.Quit();
+    }
+
+    /// <summary>
+    /// CreditsService
+    /// </summary>
+    private void CreditsService()
+    {
+        LoadScene("Credits");
     }
     #endregion
 }

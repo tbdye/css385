@@ -5,7 +5,8 @@ using System.Collections;
 
 public class RulesScreen : MonoBehaviour
 {
-    public Button mButton;
+    public Button mContinue;
+    public Button mBack;
 
     // Use this for initialization
     void Start()
@@ -13,7 +14,8 @@ public class RulesScreen : MonoBehaviour
         // Buttons are bound to UI through Unity3d MenuLevelManager object.
 
         // Create listeners
-        mButton.onClick.AddListener(GameService);
+        mContinue.onClick.AddListener(ContinueService);
+        mBack.onClick.AddListener(BackService);
     }
 
     /// <summary>
@@ -28,11 +30,19 @@ public class RulesScreen : MonoBehaviour
 
     #region Button Service Functions
     /// <summary>
-    /// GameService
+    /// ContinueService
     /// </summary>
-    private void GameService()
+    private void ContinueService()
     {
         LoadScene("Level1");
+    }
+
+    /// <summary>
+    /// BackService
+    /// </summary>
+    private void BackService()
+    {
+        LoadScene("MainMenu");
     }
     #endregion
 }
