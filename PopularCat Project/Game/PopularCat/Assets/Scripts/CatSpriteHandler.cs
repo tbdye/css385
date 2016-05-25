@@ -96,7 +96,7 @@ public class CatSpriteHandler : MonoBehaviour
 
         if (!isPlayer)
         {
-            if ((lastPos - transform.position).magnitude < 0.1f && !isPlayer)
+            if ((lastPos - transform.position).magnitude < 0.01f && !isPlayer)
             {
                 if (!sitTimer.Running && !sitLookTimer.Running)
                 {

@@ -133,7 +133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f44ff045a9c834d4d8c9af5ecb3db5ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeInSitPosition: {x: 0.5, y: 0.5}
+  timeInSitPosition: {x: 0.5, y: 5}
   timeUntilCatSits: {x: 1, y: 5}
   CatSit:
   - {fileID: 21300000, guid: deb5a5142aaade04d9dfb1736a069557, type: 3}
@@ -170,19 +170,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bailoutPromptWindow: 3
   interestBleedRate: 2
-  isHuman: 0
   penaltyOnFailure: 20
   penaltyOnFailureInPosse: 25
   progressOnSuccess: 34
   progressOnSuccessInPosse: 10
   startingInterest: 33
   angryDuration: 3
-  fameRate: 10
   sequenceLengths: 030000000400000006000000
   perSequenceTimeLimit: 6
-  difficulty: 0
+  isHuman: 0
+  fameRate: 10
   timeBoostPerMember: 0.33
   fameBoostPerMember: 2
+  inputPool: 1
+  fameInputPool: 010000000100000001000000
 --- !u!114 &11498998
 MonoBehaviour:
   m_ObjectHideFlags: 1
