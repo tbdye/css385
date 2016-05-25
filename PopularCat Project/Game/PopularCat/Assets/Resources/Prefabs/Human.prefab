@@ -27,6 +27,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 443776}
   - 212: {fileID: 21279536}
+  - 114: {fileID: 11453040}
   m_Layer: 0
   m_Name: HumanSprite
   m_TagString: Character
@@ -159,13 +160,30 @@ MonoBehaviour:
   isHuman: 1
   penaltyOnFailure: 20
   penaltyOnFailureInPosse: 25
-  perSequenceTimeLimit: 6
   progressOnSuccess: 24
   progressOnSuccessInPosse: 10
-  sequenceLengths: 03000000040000000600000008000000
   startingInterest: 33
   angryDuration: 3
   fameRate: 10
+  sequenceLengths: 03000000040000000600000008000000
+  perSequenceTimeLimit: 6
+  difficulty: 0
+  timeBoostPerMember: 0.33
+  fameBoostPerMember: 2
+--- !u!114 &11453040
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 125130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d37d868e017fb04e82fac39ef20f1f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mIdle: {fileID: 21300000, guid: a06676509c291b442b25016274585560, type: 3}
+  mAttention: {fileID: 21300000, guid: f20828e6d4c320a469a958d2c780315d, type: 3}
+  mFilming: {fileID: 21300000, guid: adca4c77b97951f4e8ab6ee08971cd95, type: 3}
 --- !u!114 &11481152
 MonoBehaviour:
   m_ObjectHideFlags: 1
