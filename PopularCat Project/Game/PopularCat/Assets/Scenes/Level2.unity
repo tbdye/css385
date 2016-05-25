@@ -306,7 +306,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 486840, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: m_LocalPosition.x
@@ -350,11 +350,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[0]
-      value: 3
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[1]
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 11408598, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: wanderDistance
@@ -383,6 +383,14 @@ Prefab:
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: inputPool
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
+      propertyPath: sequenceLengths.Array.data[2]
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
+      propertyPath: progressOnSuccess
+      value: 24
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
@@ -433,7 +441,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 486840, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: m_LocalPosition.x
@@ -477,11 +485,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[0]
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[1]
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 11408598, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: wanderDistance
@@ -510,6 +518,14 @@ Prefab:
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: inputPool
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
+      propertyPath: sequenceLengths.Array.data[2]
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
+      propertyPath: progressOnSuccess
+      value: 24
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
@@ -597,7 +613,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 579c332eeeca4e045a3b73ef73de60ce, type: 3}
+  m_audioClip: {fileID: 8300000, guid: f8a8e867552f510498cbe125e624f724, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.7
   m_Pitch: 1
@@ -925,7 +941,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[3]
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: progressOnSuccess
@@ -938,6 +954,14 @@ Prefab:
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: inputPool
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
+      propertyPath: sequenceLengths.Array.data[0]
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
+      propertyPath: sequenceLengths.Array.data[1]
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
@@ -1051,7 +1075,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 486840, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: m_LocalPosition.x
@@ -1095,11 +1119,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[0]
-      value: 3
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[1]
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 11408598, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: wanderDistance
@@ -1128,6 +1152,14 @@ Prefab:
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: inputPool
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
+      propertyPath: sequenceLengths.Array.data[2]
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
+      propertyPath: progressOnSuccess
+      value: 24
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
@@ -1197,7 +1229,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11420474, guid: 961fadad7594529418939a9973dee798, type: 2}
       propertyPath: levelTime
-      value: 318
+      value: 316
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 961fadad7594529418939a9973dee798, type: 2}
@@ -1527,7 +1559,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 486840, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: m_LocalPosition.x
@@ -1567,11 +1599,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[1]
-      value: 3
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[0]
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 21202874, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: m_Color.g
@@ -1833,7 +1865,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 486840, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: m_LocalPosition.x
@@ -1877,7 +1909,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[0]
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[1]
@@ -1910,6 +1942,14 @@ Prefab:
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: inputPool
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
+      propertyPath: sequenceLengths.Array.data[2]
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
+      propertyPath: progressOnSuccess
+      value: 24
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
@@ -1971,11 +2011,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[0]
-      value: 3
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[1]
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 11408598, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: wanderDistance
@@ -2004,6 +2044,10 @@ Prefab:
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: inputPool
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
+      propertyPath: progressOnSuccess
+      value: 24
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
@@ -2233,7 +2277,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 486840, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: m_LocalPosition.x
@@ -2277,11 +2321,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[0]
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[1]
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 11408598, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: wanderDistance
@@ -2310,6 +2354,14 @@ Prefab:
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: inputPool
       value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
+      propertyPath: sequenceLengths.Array.data[2]
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
+      propertyPath: progressOnSuccess
+      value: 18
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
@@ -2469,6 +2521,18 @@ Prefab:
       propertyPath: progressOnSuccess
       value: 24
       objectReference: {fileID: 0}
+    - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
+      propertyPath: sequenceLengths.Array.data[1]
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
+      propertyPath: sequenceLengths.Array.data[2]
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
+      propertyPath: sequenceLengths.Array.data[0]
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
   m_IsPrefabParent: 0
@@ -2481,7 +2545,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 486840, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: m_LocalPosition.x
@@ -2521,11 +2585,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[1]
-      value: 3
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[0]
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 21202874, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: m_Color.g
@@ -2545,7 +2609,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: progressOnSuccess
-      value: 50
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: interestBleedRate
@@ -3487,7 +3551,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[0]
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 21202874, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: m_Color.g
