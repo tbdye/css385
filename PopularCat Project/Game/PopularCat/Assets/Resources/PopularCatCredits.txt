@@ -1,0 +1,67 @@
+B-Team is:
+
+    Thomas Dye
+
+    Cary Kawamoto
+
+    Andrew VanKooten
+
+    Holden Woelfl
+
+
+
+Additional help from:
+
+    Amani Dye - Concept and Story
+
+    Lori Collins - Concept Art
+
+    Danny Morris - Music
+
+Music:
+	Level 1 Theme:
+	Housecat Daydreams
+	Composed by Danny Morris
+	Housecat Daydreams (Performance)
+	Composed by Danny Morris
+
+	Level 2 Theme:
+	Downtown
+	Composed by Danny Morris
+	
+	Title Theme:
+	"Blip Stream" Kevin MacLeod (incompetech.com)
+	Licensed under Creative Commons: By Attribution 3.0 License
+	http://creativecommons.org/licenses/by/3.0/
+	https://incompetech.com/wordpress/2015/08/blip-stream/
+
+	Rules Theme:
+	Rollin at 5 Kevin MacLeod (incompetech.com)
+	Licensed under Creative Commons: By Attribution 3.0 License
+	http://creativecommons.org/licenses/by/3.0/
+	http://incompetech.com/music/royalty-free/index.html?isrc=USUAN1400029
+
+	Credits Theme:
+	Pixelland Kevin MacLeod (incompetech.com)
+	Licensed under Creative Commons: By Attribution 3.0 License
+	http://creativecommons.org/licenses/by/3.0/
+	https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1500076
+
+	Failure Theme:
+
+	Victory Theme:
+	Victory Jingle
+	Composed by Danny Morris
+
+
+
+Sound Effects:
+
+	Ding.wav:		http://www.freesound.org/people/Daphne_in_Wonderland/sounds/127149/
+	AngryMeow.wav:		http://www.freesound.org/people/timtube/sounds/61259/
+	Meow1.wav:		http://www.freesound.org/people/steffcaffrey/sounds/262314/
+	Meow2.wav:		http://www.freesound.org/people/thearxx08/sounds/333916/
+	Meow3.wav		http://audiosoundclips.com/cat-sound-effects-sfx/
+	CameraShutter.wav:	http://www.freesound.org/people/kwahmah_02/sounds/260138/
+	IdlePurring.wav		http://audiosoundclips.com/cat-sound-effects-sfx/
+	
