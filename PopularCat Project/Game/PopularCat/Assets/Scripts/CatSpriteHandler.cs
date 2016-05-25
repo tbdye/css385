@@ -3,13 +3,15 @@ using UnityEngine;
 
 public class CatSpriteHandler : MonoBehaviour
 {
-	#region Public Fields
+    #region Public Fields
 
-	public Sprite[] CatSit;
+    public Vector2 timeInSitPosition;
+    public Vector2 timeUntilCatSits;
+    public Sprite[] CatSit;
 	public Sprite   CatStand;
-	public Sprite   CatWalk;
-	public Vector2  timeInSitPosition;
-	public Vector2  timeUntilCatSits;
+	public Sprite[] CatWalk;
+    public float    switchTime;
+    public bool     isPlayer;
 
 	#endregion
 
@@ -19,6 +21,8 @@ public class CatSpriteHandler : MonoBehaviour
 	SpriteRenderer render;
 	Timer          sitLookTimer;
 	Timer          sitTimer;
+    Sprite         currentSprite;
+    int            counter = 0;
 
 	#endregion
 
@@ -62,28 +66,74 @@ public class CatSpriteHandler : MonoBehaviour
 
 		lastPos = transform.position;
 		render = GetComponent<SpriteRenderer>();
+
+        counter = 0;
+        StartCoroutine("SwitchSprite");
 	}
+
+    IEnumerator SwitchSprite()
+    {
+        currentSprite = CatWalk[counter];
+
+        if (counter < CatWalk.Length - 1)
+        {
+            counter++;
+        }
+        else
+        {
+            counter = 0;
+        }
+
+        yield return new WaitForSeconds(switchTime);
+        StartCoroutine("SwitchSprite");
+    }
 
 	void Update()
 	{
-		if ((lastPos - transform.position).magnitude < 0.1f)
-		{
-			if (!sitTimer.Running && !sitLookTimer.Running)
-			{
-				render.sprite = CatStand;
-				sitTimer.End = Utils.RandomRange(timeUntilCatSits);
-				sitTimer.Run();
-			}
-		}
-		else
-		{
-			render.sprite = CatWalk;
-			sitLookTimer.Stop();
-			sitTimer.Stop();
-			SpriteDirection();
-		}
-		lastPos = transform.position;
-	}
+        // get controller/arrow input for movement
+        float inputX = Input.GetAxis("Horizontal");
+        float inputY = Input.GetAxis("Vertical");
+
+        if (!isPlayer)
+        {
+            if ((lastPos - transform.position).magnitude < 0.1f && !isPlayer)
+            {
+                if (!sitTimer.Running && !sitLookTimer.Running)
+                {
+                    render.sprite = CatStand;
+                    sitTimer.End = Utils.RandomRange(timeUntilCatSits);
+                    sitTimer.Run();
+                }
+            }
+            else
+            {
+                render.sprite = currentSprite;
+                sitLookTimer.Stop();
+                sitTimer.Stop();
+                SpriteDirection();
+            }
+        }
+        else
+        {
+            if (!GameState.InEncounter && (Mathf.Abs(inputX) > 0 || Mathf.Abs(inputY) > 0))
+            {
+                render.sprite = currentSprite;
+                sitLookTimer.Stop();
+                sitTimer.Stop();
+                SpriteDirection();
+            }
+            else
+            {
+                if (!sitTimer.Running && !sitLookTimer.Running)
+                {
+                    render.sprite = CatStand;
+                    sitTimer.End = Utils.RandomRange(timeUntilCatSits);
+                    sitTimer.Run();
+                }
+            }
+        }
+        lastPos = transform.position;
+    }
 
 	#endregion
 }
