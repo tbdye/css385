@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
+
 public static class Utils
 {
 	#region Private Fields
@@ -13,14 +14,6 @@ public static class Utils
 	#endregion
 
 	#region Public Methods
-
-	public static IEnumerable<SerializedProperty> GetArrayElements(this SerializedProperty sp)
-	{
-		int i = 0;
-		while (i < sp.arraySize)
-			yield return sp.GetArrayElementAtIndex(i++);
-		
-	}
 
 	public static IEnumerable<T> Concat<T>(this IEnumerable<T> a, IEnumerable<T> b)
 	{

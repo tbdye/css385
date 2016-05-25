@@ -98,7 +98,7 @@ public class OtherCatEditor : Editor
 		GUILayout.Label("Fame Input Types");
 		int i = 1;
 		EditorGUI.indentLevel++;
-		foreach (var e in fameInputPool.GetArrayElements())
+		foreach (var e in GetArrayElements(fameInputPool))
 		{
 			EnumFlagHandler(e, "Level " + i);
 
@@ -142,5 +142,13 @@ public class OtherCatEditor : Editor
 		enumSP.intValue = result;
 	}
 
+
+	static IEnumerable<SerializedProperty> GetArrayElements(SerializedProperty sp)
+	{
+		int i = 0;
+		while (i < sp.arraySize)
+			yield return sp.GetArrayElementAtIndex(i++);
+
+	}
 }
 
