@@ -138,6 +138,7 @@ public class GameState : MonoBehaviour
 
 	void Failed()
 	{
+		Player.AngrySound();
 		endOfLevelText.text = "Failure";
 		nextLevelButton.interactable = false;
 		nextLevelButton.GetComponent<Image>().color = Color.grey;

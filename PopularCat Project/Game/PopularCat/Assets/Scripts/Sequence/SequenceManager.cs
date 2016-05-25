@@ -3,6 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[Flags]
+public enum InputTypes
+{
+	NormalArrows = 1,
+	InvertedArrows = 2,
+	AlternateArrows = 4,
+	InvertedAlternateArrows = 8,
+	TutorialArrows = 16,
+	TutorialAlternateArrows = 32
+
+}
+
 public interface Sequence
 {
 	#region Public Properties
@@ -12,7 +24,7 @@ public interface Sequence
 	bool Failed { get; }
 	int Index { get; }
 	int Length { get; }
-	int Level { get; set; }
+	InputTypes Types { get; set; }
 
 	/// <summary>
 	/// The method called when a bad input is entered, defaults to a delayed reset 
@@ -72,6 +84,8 @@ public class SequenceManager : MonoBehaviour
 {
 	#region Public Fields
 
+	static Dictionary<InputTypes, List<SequenceInput>> InputPools { get; set; }
+
 	public InputType[] axisInputs;
 
 	public AudioClip badInputSound;
@@ -80,7 +94,7 @@ public class SequenceManager : MonoBehaviour
 
 	public AudioClip goodSequenceSound;
 
-	public InputType[] keyInputs;
+	//public InputType[] keyInputs;
 
 	#endregion
 
@@ -91,7 +105,7 @@ public class SequenceManager : MonoBehaviour
 	//public Button[] uiButtonInputs;
 	static SequenceManager  instance;
 
-	List<SequenceInput>     inputs;
+	//List<SequenceInput>     inputs;
 
 	SafeList<SequenceClass> sequences;
 
@@ -109,7 +123,7 @@ public class SequenceManager : MonoBehaviour
 		float timeLimit = 0,
 		float timeBoost = 0.0f,
 		float resetDelay = 0.25f,
-		int level = 0)
+		InputTypes types = InputTypes.NormalArrows)
 	{
 		var result = new SequenceClass(
 			length,
@@ -121,7 +135,7 @@ public class SequenceManager : MonoBehaviour
 			timeLimit,
 			timeBoost,
 			resetDelay,
-			level);
+			types);
 
 		instance.sequences.Add(result);
 		return result;
@@ -131,35 +145,44 @@ public class SequenceManager : MonoBehaviour
 
 	#region Private Methods
 
-	static SequenceInput RandomItem(int level)
+	static SequenceInput RandomItem(InputTypes types)
 	{
-		SequenceInput result;
-		do
-		{
-			result = instance.inputs.RandomItem();
-		} while (result.Level > level);
-		return result;
+		var flags = new List<InputTypes>(types.GetFlags());
+
+		IEnumerable<SequenceInput> combinedPool = InputPools[flags[0]];
+		for(int i = 1; i < flags.Count; i++)
+			combinedPool = combinedPool.Concat(InputPools[flags[i]]);
+
+		var l = new List<SequenceInput>(combinedPool);
+
+		return l.RandomItem();
 	}
 
 	void Awake()
 	{
 		instance = this;
 		sequences = new SafeList<SequenceClass>();
-		inputs = new List<SequenceInput>();
-		foreach (var s in keyInputs)
+		InputPools = new Dictionary<InputTypes, List<SequenceInput>>();
+		foreach (InputTypes e in Enum.GetValues(typeof(InputTypes)))
 		{
-			string t = s.identifier;
-			inputs.Add(new SequenceInput(() => Input.GetButton(t), s));
+			InputPools.Add(e, new List<SequenceInput>());
 		}
+
+		//foreach (var s in keyInputs)
+		//{
+		//	string t = s.identifier;
+		//	inputs.Add(new SequenceInput(() => Input.GetButton(t), s));
+		//}
+
 		foreach (var s in axisInputs)
 		{
 			var rev = s.Reverse();
 			string t = s.identifier;
-			inputs.Add(new SequenceInput(() => Input.GetAxisRaw(t) > 0.3f, s, "+"));
-			inputs.Add(new SequenceInput(() => Input.GetAxisRaw(t) < -0.3f, rev, "-"));
-		}
 
-		inputs.Sort();
+			InputPools[s.type].Add(new SequenceInput(() => Input.GetAxisRaw(t) > 0.3f, s, "+"));
+			InputPools[s.type].Add(new SequenceInput(() => Input.GetAxisRaw(t) < -0.3f, rev, "-"));
+		}
+		
 		//foreach (var button in uiButtonInputs)
 		//{
 		//	var bb = button.GetComponent<ButtonBool>();
@@ -186,20 +209,24 @@ public class SequenceManager : MonoBehaviour
 			}
 		else
 			// Check inputs against running sequences
-			foreach (var i in inputs)
+			foreach (var p in InputPools.Values)
 			{
-				if(dupTrap.Contains(i.Identifier))
+				foreach(var i in p)
 				{
-					continue;
-				}
-				dupTrap.Add(i.Identifier);
-				bool test = i.Check();
+					if(dupTrap.Contains(i.Identifier))
+					{
+						continue;
+					}
+					dupTrap.Add(i.Identifier);
+					bool test = i.Check();
 
-				if (test)
-				{
-					foreach (var s in sequences)
-						s.EnterInput(i.Identifier);
+					if (test)
+					{
+						foreach (var s in sequences)
+							s.EnterInput(i.Identifier);
+					}
 				}
+				
 			}
 	}
 
@@ -211,9 +238,9 @@ public class SequenceManager : MonoBehaviour
 	public class InputType
 	{
 		#region Public Fields
-
+		public string label;
+		public InputTypes type = InputTypes.NormalArrows;
 		public string identifier;
-		public int level;
 		public Sprite sprite;
 		public Sprite sprite2;
 		public float spriteRotation;
@@ -222,7 +249,7 @@ public class SequenceManager : MonoBehaviour
 		{
 			InputType result = new InputType();
 			result.identifier = identifier;
-			result.level = level;
+			result.type = type;
 			if (sprite2 != null)
 				result.sprite = sprite2;
 			else
@@ -256,7 +283,7 @@ public class SequenceManager : MonoBehaviour
 		public bool Failed { get; set; }
 		public int Index { get; set; }
 		public int Length { get { return Items.Count; } }
-		public int Level { get; set; }
+		public InputTypes Types { get; set; }
 		public Action OnBadInput { get; set; }
 		public Action OnFail { get; set; }
 		public Action OnGoodInput { get; set; }
@@ -285,16 +312,16 @@ public class SequenceManager : MonoBehaviour
 			float timeLimit,
 			float timeBoost,
 			float resetDelay,
-			int level)
+			InputTypes level)
 		{
 			TimeBoost = timeBoost;
 			Items = new List<SequenceItem>(length);
 			Details = new List<SequenceItemDetails>(length);
-			Level = level;
+			Types = level;
 
 			for (int i = 0; i < length; i++)
 			{
-				var toAdd = new SequenceItem { input = RandomItem(Level) };
+				var toAdd = new SequenceItem { input = RandomItem(Types) };
 				Items.Add(toAdd);
 				Details.Add(toAdd);
 			}
@@ -461,12 +488,12 @@ public class SequenceManager : MonoBehaviour
 		#endregion
 	}
 
-	class SequenceInput : IComparable<SequenceInput>
+	class SequenceInput
 	{
 		#region Public Properties
 
 		public string Identifier { get; private set; }
-		public int Level { get; private set; }
+		public InputTypes Type { get; private set; }
 		public Sprite Sprite { get; private set; }
 		public float SpriteRotation { get; private set; }
 		public bool PreviousState { get; private set; }
@@ -485,7 +512,7 @@ public class SequenceManager : MonoBehaviour
 		{
 			Trigger = trigger;
 			Identifier = add + details.identifier;
-			Level = details.level;
+			Type = details.type;
 			Sprite = details.sprite;
 			SpriteRotation = details.spriteRotation;
 		}
@@ -506,11 +533,6 @@ public class SequenceManager : MonoBehaviour
 			bool test = sample && !PreviousState;
 			PreviousState = sample;
 			return test;
-		}
-
-		public int CompareTo(SequenceInput other)
-		{
-			return Level - other.Level;
 		}
 
 		#endregion

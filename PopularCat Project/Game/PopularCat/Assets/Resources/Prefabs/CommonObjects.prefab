@@ -1984,50 +1984,81 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   axisInputs:
-  - identifier: Vertical
-    level: 0
+  - label: Normal Vertical
+    type: 1
+    identifier: Vertical
     sprite: {fileID: 21300000, guid: 0dac762ff635dc74a9444bf4c59d2c61, type: 3}
     sprite2: {fileID: 0}
     spriteRotation: 0
-  - identifier: Horizontal
-    level: 0
+  - label: Normal Horizontal
+    type: 1
+    identifier: Horizontal
     sprite: {fileID: 21300000, guid: 0dac762ff635dc74a9444bf4c59d2c61, type: 3}
     sprite2: {fileID: 0}
     spriteRotation: -90
-  - identifier: AltVertical
-    level: 1
-    sprite: {fileID: 21300000, guid: 8c45d3aa7dd052846b968ec02d524ab7, type: 3}
-    sprite2: {fileID: 21300000, guid: d49acdb39cf87a74fb546644e8c4c007, type: 3}
+  - label: Alt Vertical
+    type: 4
+    identifier: AltVertical
+    sprite: {fileID: 21300000, guid: 3ec9bea7346447c40846db6e08ea32b6, type: 3}
+    sprite2: {fileID: 0}
     spriteRotation: 0
-  - identifier: AltHorizontal
-    level: 1
-    sprite: {fileID: 21300000, guid: 6591a7ae2700a364bb33dcdb2e4181b4, type: 3}
-    sprite2: {fileID: 21300000, guid: c575b1f0e82fe504aab0dbe45ed09376, type: 3}
-    spriteRotation: 0
-  - identifier: Vertical
-    level: 2
+  - label: Alt Horizontal
+    type: 4
+    identifier: AltHorizontal
+    sprite: {fileID: 21300000, guid: 3ec9bea7346447c40846db6e08ea32b6, type: 3}
+    sprite2: {fileID: 0}
+    spriteRotation: -90
+  - label: Inverted Vertical
+    type: 2
+    identifier: Vertical
     sprite: {fileID: 21300000, guid: 6e60e2c6ca0d7e141b1fb5e2918e6427, type: 3}
     sprite2: {fileID: 0}
     spriteRotation: 180
-  - identifier: Horizontal
-    level: 2
+  - label: Inverted Horizontal
+    type: 2
+    identifier: Horizontal
     sprite: {fileID: 21300000, guid: 6e60e2c6ca0d7e141b1fb5e2918e6427, type: 3}
     sprite2: {fileID: 0}
     spriteRotation: 90
-  - identifier: AltVertical
-    level: 3
-    sprite: {fileID: 21300000, guid: cd20ca7bf8d58ab439561b556d60149e, type: 3}
-    sprite2: {fileID: 21300000, guid: d398d8293ee56ec4ba7d52cb7a14faf8, type: 3}
+  - label: Alt Inverted Vertical
+    type: 8
+    identifier: AltVertical
+    sprite: {fileID: 21300000, guid: 9ae154947c0876d48a27a514bcc956e4, type: 3}
+    sprite2: {fileID: 0}
+    spriteRotation: 180
+  - label: Alt Inverted Horizontal
+    type: 8
+    identifier: AltHorizontal
+    sprite: {fileID: 21300000, guid: 9ae154947c0876d48a27a514bcc956e4, type: 3}
+    sprite2: {fileID: 0}
+    spriteRotation: 90
+  - label: Tutorial Vertical
+    type: 16
+    identifier: Vertical
+    sprite: {fileID: 21300000, guid: 556b95996bef7e14aaef036cd9920126, type: 3}
+    sprite2: {fileID: 21300000, guid: bed508f3e916cee42b159d7db8d98deb, type: 3}
     spriteRotation: 0
-  - identifier: AltHorizontal
-    level: 3
-    sprite: {fileID: 21300000, guid: 4c44fb3073268c44480c36dc8c03b086, type: 3}
-    sprite2: {fileID: 21300000, guid: 703dd4111428f7a45a6c04484465a22f, type: 3}
+  - label: Tutorial Horizontal
+    type: 16
+    identifier: Horizontal
+    sprite: {fileID: 21300000, guid: 46c1ddba01ba39d4284e72c34501e4cb, type: 3}
+    sprite2: {fileID: 21300000, guid: 62df62cb0b118064ea3f011e3296f78c, type: 3}
+    spriteRotation: 0
+  - label: Alt Tutorial Vertical
+    type: 32
+    identifier: AltVertical
+    sprite: {fileID: 21300000, guid: 591dceff9efe8ac4c948116d83034b51, type: 3}
+    sprite2: {fileID: 21300000, guid: 2978845a6f579804bbbde7d5fc91d651, type: 3}
+    spriteRotation: 0
+  - label: Alt Tutorial Horizontal
+    type: 32
+    identifier: AltHorizontal
+    sprite: {fileID: 21300000, guid: ceb99539a400d964db9759cd55f435af, type: 3}
+    sprite2: {fileID: 21300000, guid: b7ea9f9258d0e1a4494f5f9e3d5b80ff, type: 3}
     spriteRotation: 0
   badInputSound: {fileID: 8300000, guid: 69d7ec27d6b6edf47ad19897acb88362, type: 3}
   goodInputSound: {fileID: 8300000, guid: 8f9f062b630aac140b7e9c0f4068bf2b, type: 3}
   goodSequenceSound: {fileID: 8300000, guid: f5f2e59d24129a34ba3d41d6cb1d5221, type: 3}
-  keyInputs: []
 --- !u!114 &11441966
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2521,6 +2552,9 @@ MonoBehaviour:
   arrowRegion: {fileID: 11494612}
   progressBar: {fileID: 11434846}
   indicatorPrefab: {fileID: 132556, guid: 56b2d222468020048b057b76a58fb28e, type: 2}
+  randomTipRange: 5
+  curvePower: 13
+  verticalOffset: -45
 --- !u!114 &11473408
 MonoBehaviour:
   m_ObjectHideFlags: 1
