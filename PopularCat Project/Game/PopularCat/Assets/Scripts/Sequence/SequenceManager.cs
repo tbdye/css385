@@ -11,7 +11,9 @@ public enum InputTypes
 	AlternateArrows = 4,
 	InvertedAlternateArrows = 8,
 	TutorialArrows = 16,
-	TutorialAlternateArrows = 32
+	TutorialAlternateArrows = 32,
+	TutorialInvertedArrows = 64,
+	TutorialAlternateInvertedArrows = 128
 
 }
 
@@ -191,10 +193,11 @@ public class SequenceManager : MonoBehaviour
 		//	Func<bool> f = () => bb.IsPressed;
 		//	inputs.Add(new SequenceInput(f, button.GetComponentInChildren<Text>().text, 0));
 		//}
-
-		audioSource = GetComponent<AudioSource>();
 	}
-
+	void Start()
+	{
+		audioSource = GetComponent<MusicManager>().SpareAudioSource;
+	}
 	void Update()
 	{
 		if (GameState.Paused || GameState.EndOfLevel)

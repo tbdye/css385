@@ -1231,6 +1231,14 @@ Prefab:
       propertyPath: levelTime
       value: 316
       objectReference: {fileID: 0}
+    - target: {fileID: 11458366, guid: 961fadad7594529418939a9973dee798, type: 2}
+      propertyPath: ATrack
+      value: 
+      objectReference: {fileID: 8300000, guid: f8a8e867552f510498cbe125e624f724, type: 3}
+    - target: {fileID: 11458366, guid: 961fadad7594529418939a9973dee798, type: 2}
+      propertyPath: BTrack
+      value: 
+      objectReference: {fileID: 8300000, guid: 847ef6195bbebd74ba849ef12dab788d, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 961fadad7594529418939a9973dee798, type: 2}
   m_IsPrefabParent: 0
@@ -2172,6 +2180,14 @@ Prefab:
     - target: {fileID: 11427936, guid: e0d1872c13d507147bb2a4344a734a25, type: 2}
       propertyPath: isHuman
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11427936, guid: e0d1872c13d507147bb2a4344a734a25, type: 2}
+      propertyPath: fameBoostPerMember
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11427936, guid: e0d1872c13d507147bb2a4344a734a25, type: 2}
+      propertyPath: timeBoostPerMember
+      value: 0.35
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e0d1872c13d507147bb2a4344a734a25, type: 2}

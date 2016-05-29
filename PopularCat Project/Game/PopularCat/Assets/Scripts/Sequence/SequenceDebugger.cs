@@ -7,7 +7,7 @@ public class SequenceDebugger : MonoBehaviour
 	#region Public Fields
 
 	public ArrowRegion arrowRegion;
-	public ProgressBar progressBar;
+	public SequenceTimerBar progressBar;
 	public GameObject indicatorPrefab;
 	public float randomTipRange = 5;
 	public float curvePower = 13;
@@ -154,7 +154,7 @@ public class SequenceDebugger : MonoBehaviour
 		}
 
 		progressBar.Visibility = 1;
-		progressBar.Value = mySequence.TimeLimit.Remaining01 * 100;
+		progressBar.Value = mySequence.TimeLimit.Remaining01;
 
 		for (int i = 0; i < mySequence.Details.Count; i++)
 		{

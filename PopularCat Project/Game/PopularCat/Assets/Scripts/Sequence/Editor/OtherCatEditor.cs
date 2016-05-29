@@ -22,8 +22,7 @@ public class OtherCatEditor : Editor
 	SerializedProperty perSequenceTimeLimit;
 	SerializedProperty fameInputPool;
 	SerializedProperty inputPool;
-
-	OtherCat oc;
+	
 
 	void OnEnable()
 	{
@@ -48,8 +47,7 @@ public class OtherCatEditor : Editor
 	public override void OnInspectorGUI()
 	{
 		serializedObject.Update();
-
-		oc = target as OtherCat;
+		
 		CommonVariables();
 
 		EditorGUILayout.PropertyField(isHuman, true);
