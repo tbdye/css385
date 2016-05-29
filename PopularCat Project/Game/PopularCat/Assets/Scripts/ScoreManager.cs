@@ -34,17 +34,23 @@ public interface ScoreDetails
 	#endregion
 }
 
-public static class ScoreManager
+public class ScoreManager : MonoBehaviour
 {
 	#region Public Fields
 
-	public static bool postponeTimeBonus;
 	public static bool postponePosseBonus;
+	public static bool postponeTimeBonus;
+	public int catValue = 20;
+	public int inputValue = 10;
+	public int sequenceValue = 40;
+	public int streakMultiplier = 1;
+	public int timeMultiplier = 5;
 
 	#endregion
 
 	#region Private Fields
 
+	static ScoreManager instance;
 	static ObjectCounter<Swarmer> othercats;
 
 	#endregion
@@ -53,7 +59,7 @@ public static class ScoreManager
 
 	public static ObjectCounter Cats { get { return othercats; } }
 	public static ScoreDetails Inputs { get; private set; }
-	public static int Score	{ get { return ScoreCalculation(); } }
+	public static int Score { get { return ScoreCalculation(); } }
 
 	public static string ScoreString
 	{
@@ -85,26 +91,32 @@ public static class ScoreManager
 
 	public static int ScoreCalculation()
 	{
-		int inputValue = 10;
-		int sequenceValue = 40;
-
-		int inputScore = inputValue * Inputs.Hits;
-		int sequenceScore = sequenceValue * Sequences.Hits;
+		int inputScore = instance.inputValue * Inputs.Hits;
+		int sequenceScore = instance.sequenceValue * Sequences.Hits;
 
 		int timeScore = 0;
-		if(!postponeTimeBonus || GameState.EndOfLevel)
-			timeScore = (int)GameState.LevelTimer.Remaining * 5;
+		if (!postponeTimeBonus || GameState.EndOfLevel)
+			timeScore = (int)GameState.LevelTimer.Remaining * instance.timeMultiplier;
 
 		int posseScore = 0;
 		if (!postponePosseBonus || GameState.EndOfLevel)
-			posseScore = Cats.Count * 20;
+			posseScore = Cats.Count * instance.catValue;
 
-		int inputStreakScore = Inputs.HighestConsecutive * inputValue;
-		int SequenceStreakScore = Sequences.HighestConsecutive * inputValue;
+		int inputStreakScore = Inputs.HighestConsecutive * instance.inputValue * instance.streakMultiplier;
+		int SequenceStreakScore = Sequences.HighestConsecutive * instance.inputValue * instance.streakMultiplier;
 
 		return
 			inputScore + sequenceScore + timeScore +
 			inputStreakScore + SequenceStreakScore + posseScore;
+	}
+
+	#endregion
+
+	#region Private Methods
+
+	void Awake()
+	{
+		instance = this;
 	}
 
 	#endregion
@@ -125,7 +137,7 @@ public static class ScoreManager
 		{
 			get
 			{
-				var pool = UnityEngine.Object.FindObjectsOfType<T>();
+				var pool = FindObjectsOfType<T>();
 				int i = 0;
 				if (filter != null)
 				{
@@ -146,7 +158,7 @@ public static class ScoreManager
 		{
 			get
 			{
-				var pool = UnityEngine.Object.FindObjectsOfType<T>();
+				var pool = FindObjectsOfType<T>();
 				return pool.Length;
 			}
 		}
