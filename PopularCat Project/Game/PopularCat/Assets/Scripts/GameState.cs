@@ -30,7 +30,7 @@ public class GameState : MonoBehaviour
 
 	#region Public Properties
 
-	public static bool EndOfLevelPassed { get { return !levelTimer.Complete && Fame != 0; } }
+	public static bool EndOfLevelPassed { get { return Fame != 0; } }
 	public static bool EndOfLevel { get; private set; }
 	public static MonitoredValue Fame { get; set; }
 	public static bool InBailoutPrompt { get { return inBailoutPrompt; } }

@@ -1002,6 +1002,10 @@ Prefab:
       propertyPath: trackingTarget
       value: 
       objectReference: {fileID: 780867333}
+    - target: {fileID: 11458366, guid: 961fadad7594529418939a9973dee798, type: 2}
+      propertyPath: Failure
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 961fadad7594529418939a9973dee798, type: 2}
   m_IsPrefabParent: 0

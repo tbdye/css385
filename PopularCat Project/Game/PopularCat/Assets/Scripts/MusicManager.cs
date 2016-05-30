@@ -48,27 +48,28 @@ public class MusicManager : MonoBehaviour
 		sources[0].volume = AVolume;
 		sources[1].volume = BVolume;
 
-		if (GameState.EndOfLevel)
-		{
-			AVolume.Value = 0;
-			BVolume.Value = 0;
-			sources[2].clip = GameState.EndOfLevelPassed ?
-				Victory :
-				Failure;
-			sources[2].Play();
-		}
-		else if (!ab && GameState.InEncounter)
-		{
-			AVolume.Value = 0;
-			BVolume.Value = 1;
-			ab = true;
-		}
-		else if (ab && !GameState.InEncounter)
-		{
-			AVolume.Value = 1;
-			BVolume.Value = 0;
-			ab = false;
-		}
+		if(!sources[2].isPlaying)
+			if (GameState.EndOfLevel)
+			{
+				AVolume.Value = 0;
+				BVolume.Value = 0;
+				sources[2].clip = GameState.EndOfLevelPassed ?
+					Victory :
+					Failure;
+				sources[2].Play();
+			}
+			else if (!ab && GameState.InEncounter)
+			{
+				AVolume.Value = 0;
+				BVolume.Value = 1;
+				ab = true;
+			}
+			else if (ab && !GameState.InEncounter)
+			{
+				AVolume.Value = 1;
+				BVolume.Value = 0;
+				ab = false;
+			}
 	}
 
 	#endregion
