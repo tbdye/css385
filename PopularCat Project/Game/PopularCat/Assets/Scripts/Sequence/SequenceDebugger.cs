@@ -133,6 +133,13 @@ public class SequenceDebugger : MonoBehaviour
 		t.Run();
 	}
 
+	public static void TimeOutAnim()
+	{
+		foreach (var i in instance.indicators)
+		{
+			i.Renderers[0].color = new Color(0.333f, 0, 0);
+		}
+	}
 	#region Private Methods
 
 	void Awake()
@@ -156,6 +163,7 @@ public class SequenceDebugger : MonoBehaviour
 		progressBar.Visibility = 1;
 		progressBar.Value = mySequence.TimeLimit.Remaining01;
 
+		if(mySequence.TimeLimit.Running)
 		for (int i = 0; i < mySequence.Details.Count; i++)
 		{
 			if (mySequence.Details[i].Passed)

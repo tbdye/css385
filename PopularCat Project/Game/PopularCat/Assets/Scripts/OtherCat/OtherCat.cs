@@ -132,7 +132,10 @@ public class OtherCat : MonoBehaviour
 
 		CurrentSequence.OnTimeout = () =>
 		{
+			SequenceDebugger.TimeOutAnim();
+
 			CurrentSequence.Fail();
+
 			if(GameState.Fame == 0)
 			{
 				GameState.EndFameEncounter();
@@ -140,7 +143,8 @@ public class OtherCat : MonoBehaviour
 			else
 			{
 				GameState.Fame.FloorDecrement(3);
-				BeginFameSequence();
+
+				TimeManager.Delay(BeginFameSequence, 0.5f);
 			}
 		};
 
@@ -215,23 +219,29 @@ public class OtherCat : MonoBehaviour
 
 		CurrentSequence.OnTimeout = () =>
 		{
+			SequenceDebugger.TimeOutAnim();
 			Bore();
 			FindObjectOfType<SwarmMovement>().BoreMembers();
 			if (CurrentSequence == null)
 				return;
 
 			CurrentSequence.Fail();
-			if (previousSequenceFailed)
-			{
-				previousSequenceFailed = false;
-				PresentBailout();
-				SequenceDebugger.End();
-			}
-			else
-			{
-				previousSequenceFailed = true;
-				BeginSequence();
-			}
+			TimeManager.Delay(time: 0.5f,
+				onComplete: () =>
+				{
+					if (previousSequenceFailed)
+					{
+						previousSequenceFailed = false;
+						PresentBailout();
+						SequenceDebugger.End();
+					}
+					else
+					{
+						previousSequenceFailed = true;
+						BeginSequence();
+					}
+				});
+
 		};
 
 		if (!GameState.InEncounter)

@@ -203,7 +203,7 @@ public class SequenceManager : MonoBehaviour
 		if (GameState.Paused || GameState.EndOfLevel)
 			return;
 
-		List<string> dupTrap = new List<string>();
+		var dupTrap = new List<string>();
 
 		if (Debug.isDebugBuild && Input.GetKeyDown(KeyCode.F2))
 			foreach (var s in sequences)
@@ -375,6 +375,8 @@ public class SequenceManager : MonoBehaviour
 
 		public void EnterInput(string si)
 		{
+			if (TimeLimit != null && !TimeLimit.Running)
+				return;
 			if (Complete || Failed || resetTimer.Running)
 			{
 				return;

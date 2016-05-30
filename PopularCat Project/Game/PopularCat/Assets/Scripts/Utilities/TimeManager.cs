@@ -114,6 +114,20 @@ public class TimeManager : MonoBehaviour
 		return result;
 	}
 
+	public static ReadOnlyTimer Delay(Action onComplete , float time = 1)
+	{
+		var result = new TimerClass(time);
+		Action autoDispose = () =>
+		{
+			onComplete();
+			result.Dispose();
+		};
+		result.OnComplete = autoDispose;
+		timers.Add(result);
+		result.Run();
+		return result;
+	}
+
 	#endregion
 
 	#region Private Methods
@@ -155,12 +169,12 @@ public class TimeManager : MonoBehaviour
 		#region Public Constructors
 
 		public TimerClass
-			(float span,
-			Action onComplete,
-			Action<float> onTick,
-			Dictionary<float, Action> onTime,
-			bool runWhilePaused,
-			bool loops)
+			(float span = 1,
+			Action onComplete = null,
+			Action<float> onTick = null,
+			Dictionary<float, Action> onTime = null,
+			bool runWhilePaused = false,
+			bool loops = false)
 		{
 			End = span;
 			OnComplete = onComplete;
