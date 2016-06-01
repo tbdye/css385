@@ -12,7 +12,7 @@ public class MusicManager : MonoBehaviour
 	#region Private Fields
 
 	static MusicManager instance;
-	bool ab;
+	bool ab, eol;
 	SlowFloat AVolume, BVolume;
 	AudioSource[] sources;
 
@@ -48,27 +48,34 @@ public class MusicManager : MonoBehaviour
 		sources[0].volume = AVolume;
 		sources[1].volume = BVolume;
 
-		if(!sources[2].isPlaying)
-			if (GameState.EndOfLevel)
+		if (!eol)
+			if (!sources[2].isPlaying)
 			{
-				AVolume.Value = 0;
-				BVolume.Value = 0;
-				sources[2].clip = GameState.EndOfLevelPassed ?
-					Victory :
-					Failure;
-				sources[2].Play();
+				if (GameState.EndOfLevel)
+				{
+					AVolume.Value = 0;
+					BVolume.Value = 0;
+					sources[2].clip = GameState.EndOfLevelPassed ?
+						Victory :
+						Failure;
+					sources[2].Play();
+				}
+				else if (!ab && GameState.InEncounter)
+				{
+					AVolume.Value = 0;
+					BVolume.Value = 1;
+					ab = true;
+				}
+				else if (ab && !GameState.InEncounter)
+				{
+					AVolume.Value = 1;
+					BVolume.Value = 0;
+					ab = false;
+				}
 			}
-			else if (!ab && GameState.InEncounter)
+			else
 			{
-				AVolume.Value = 0;
-				BVolume.Value = 1;
-				ab = true;
-			}
-			else if (ab && !GameState.InEncounter)
-			{
-				AVolume.Value = 1;
-				BVolume.Value = 0;
-				ab = false;
+				eol = true;
 			}
 	}
 
