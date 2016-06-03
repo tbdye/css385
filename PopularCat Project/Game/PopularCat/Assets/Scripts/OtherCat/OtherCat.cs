@@ -14,7 +14,7 @@ public class OtherCat : MonoBehaviour
 	public float penaltyOnFailureInPosse  = 25;
 	public float progressOnSuccess = 34;
 	public float progressOnSuccessInPosse = 10;
-	public float startingInterest  = 33;
+	public float startingInterest  = 10;
 	public float angryDuration = 3;
 
 	[Header("Sequence difficulty variables")]
