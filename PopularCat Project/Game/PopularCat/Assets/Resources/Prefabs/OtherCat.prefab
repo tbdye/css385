@@ -141,9 +141,11 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 6d7e3382321663641a4911d532646631, type: 3}
   CatStand: {fileID: 21300000, guid: 965edd172c3efac48bc33af5ea00840a, type: 3}
   CatWalk:
-  - {fileID: 21300000, guid: 6200f048d670a30408532ea9c2b94d30, type: 3}
-  - {fileID: 21300002, guid: 6200f048d670a30408532ea9c2b94d30, type: 3}
-  switchTime: 0.1
+  - {fileID: 21300000, guid: 94d1ef051ad42df438f4b47b24dbb135, type: 3}
+  - {fileID: 21300000, guid: bd55c858f941c5d478424790e73391b8, type: 3}
+  - {fileID: 21300000, guid: d7c8728ed12d7614699be592fff3f7ab, type: 3}
+  - {fileID: 21300000, guid: 016e8c8b596ff8f439b54b7aa0deda8d, type: 3}
+  - {fileID: 21300000, guid: c963e74f0d67d394f8b2cf9bf9df3e6d, type: 3}
   isPlayer: 0
 --- !u!114 &11462596
 MonoBehaviour:
