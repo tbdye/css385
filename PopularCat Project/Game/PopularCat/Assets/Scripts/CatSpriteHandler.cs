@@ -3,15 +3,15 @@ using UnityEngine;
 
 public class CatSpriteHandler : MonoBehaviour
 {
-    #region Public Fields
+	#region Public Fields
 
-    public Vector2 timeInSitPosition;
-    public Vector2 timeUntilCatSits;
-    public Sprite[] CatSit;
+	public Vector2 timeInSitPosition;
+	public Vector2 timeUntilCatSits;
+	public Sprite[] CatSit;
 	public Sprite   CatStand;
 	public Sprite[] CatWalk;
-    public float    switchTime;
-    public bool     isPlayer;
+	public float    switchTime;
+	public bool     isPlayer;
 
 	#endregion
 
@@ -21,8 +21,8 @@ public class CatSpriteHandler : MonoBehaviour
 	SpriteRenderer render;
 	Timer          sitLookTimer;
 	Timer          sitTimer;
-    Sprite         currentSprite;
-    int            counter = 0;
+	Timer          walkTimer;
+	Rigidbody2D    rigidBody;
 
 	#endregion
 
@@ -47,14 +47,26 @@ public class CatSpriteHandler : MonoBehaviour
 
 	void SpriteDirection()
 	{
-		float currentX = transform.position.x;
-		if (Mathf.Abs(currentX - lastPos.x) < 0.001f)
+		if (rigidBody != null)
+		{
+			if (rigidBody.velocity.x.Abs() > 0.02f)
+				render.flipX = rigidBody.velocity.x < 0;
+			
 			return;
-		GetComponent<SpriteRenderer>().flipX = lastPos.x > currentX;
+		}
+
+		float currentX = transform.position.x;
+
+		if (Mathf.Abs(currentX - lastPos.x) < 0.1f)
+			return;
+
+		render.flipX = lastPos.x > currentX;
 	}
 
 	void Start()
 	{
+		rigidBody = GetComponent<Rigidbody2D>();
+
 		sitLookTimer =
 			TimeManager.GetNewTimer(
 				loops: true,
@@ -66,74 +78,76 @@ public class CatSpriteHandler : MonoBehaviour
 
 		lastPos = transform.position;
 		render = GetComponent<SpriteRenderer>();
-
-        counter = 0;
-        StartCoroutine("SwitchSprite");
+		
+		walkTimer = TimeManager.GetNewTimer(
+			switchTime, 
+			onTick: (dt) => render.sprite = CatWalk.AccessByMagnitude(walkTimer.Completion),
+			loops: true);
 	}
 
-    IEnumerator SwitchSprite()
-    {
-        currentSprite = CatWalk[counter];
-
-        if (counter < CatWalk.Length - 1)
-        {
-            counter++;
-        }
-        else
-        {
-            counter = 0;
-        }
-
-        yield return new WaitForSeconds(switchTime);
-        StartCoroutine("SwitchSprite");
-    }
 
 	void Update()
 	{
-        // get controller/arrow input for movement
-        float inputX = Input.GetAxis("Horizontal");
-        float inputY = Input.GetAxis("Vertical");
+		bool play = GetComponent<Player>() != null;
 
-        if (!isPlayer)
-        {
-            if ((lastPos - transform.position).magnitude < 0.01f && !isPlayer)
-            {
-                if (!sitTimer.Running && !sitLookTimer.Running)
-                {
-                    render.sprite = CatStand;
-                    sitTimer.End = Utils.RandomRange(timeUntilCatSits);
-                    sitTimer.Run();
-                }
-            }
-            else
-            {
-                render.sprite = currentSprite;
-                sitLookTimer.Stop();
-                sitTimer.Stop();
-                SpriteDirection();
-            }
-        }
-        else
-        {
-            if (!GameState.InEncounter && (Mathf.Abs(inputX) > 0 || Mathf.Abs(inputY) > 0))
-            {
-                render.sprite = currentSprite;
-                sitLookTimer.Stop();
-                sitTimer.Stop();
-                SpriteDirection();
-            }
-            else
-            {
-                if (!sitTimer.Running && !sitLookTimer.Running)
-                {
-                    render.sprite = CatStand;
-                    sitTimer.End = Utils.RandomRange(timeUntilCatSits);
-                    sitTimer.Run();
-                }
-            }
-        }
-        lastPos = transform.position;
-    }
+		
+		if(GameState.InEncounter)
+		{
+			InEncounterAnim(play);
+		}
+		else
+		{
+			OutEncounterAnim(play);
+		}
+		
+		lastPos = transform.position;
+	}
+
+	void InEncounterAnim(bool play)
+	{
+		bool test = play;
+
+		if(!test)
+		{
+			var s = GetComponent<Swarmer>();
+			if(s!= null)
+			{
+				test = s.InSwarm;
+			}
+		}
+
+
+		if(test)
+		{
+			// do dancing animation
+			return;
+		}
+
+		OutEncounterAnim(play);
+	}
+	void OutEncounterAnim(bool play)
+	{
+		bool test = play ? 
+			Utils.InputVector.magnitude > 0 :
+			(lastPos - transform.position).magnitude > 0.01f;
+		if (test)
+		{
+			walkTimer.Resume();
+			sitLookTimer.Stop();
+			sitTimer.Stop();
+			SpriteDirection();
+		}
+		else
+		{
+			if (!sitTimer.Running && !sitLookTimer.Running)
+			{
+				render.sprite = CatStand;
+				sitTimer.End = Utils.RandomRange(timeUntilCatSits);
+				sitTimer.Run();
+				walkTimer.Stop();
+			}
+		}
+	}
 
 	#endregion
 }

@@ -62,22 +62,18 @@ public class Player : MonoBehaviour
 			GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 			return;
 		}
-			
-		// get controller/arrow input for movement
-		float inputX = Input.GetAxis("Horizontal");
-		float inputY = Input.GetAxis("Vertical");
 
-		float moveX = inputX * mMoveSpeed;
-		float moveY = inputY * mMoveSpeed;
+		// get controller/arrow input for movement
+		var input = Utils.InputVector;
+
+		input *= mMoveSpeed;
 
 		// set walk speed for keyboard users
 		if (Input.GetKey(KeyCode.RightControl))
-		{
-			moveX /= 2;
-			moveY /= 2;
-		}
+			input /= 2;
+		
 
-		var position = new Vector3(moveX, moveY, 0f);
+		var position = new Vector3(input.x, input.y, 0f);
 		GetComponent<Rigidbody2D>().velocity = position;
 	}
 }

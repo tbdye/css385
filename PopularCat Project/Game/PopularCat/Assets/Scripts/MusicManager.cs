@@ -6,6 +6,7 @@ public class MusicManager : MonoBehaviour
 	#region Public Fields
 
 	public AudioClip ATrack, BTrack, Victory, Failure;
+	
 
 	#endregion
 
@@ -14,6 +15,7 @@ public class MusicManager : MonoBehaviour
 	static MusicManager instance;
 	bool ab, eol;
 	SlowFloat AVolume, BVolume;
+	float uniformVol;
 	AudioSource[] sources;
 
 	#endregion
@@ -40,13 +42,17 @@ public class MusicManager : MonoBehaviour
 		sources[1].clip = BTrack;
 		sources[0].Play();
 		sources[1].Play();
+
+		uniformVol = 0.55f;
 	}
 
 	void Update()
 	{
 		sources[1].time = sources[0].time;
-		sources[0].volume = AVolume;
-		sources[1].volume = BVolume;
+
+		sources[0].volume = AVolume * uniformVol;
+		sources[1].volume = BVolume * uniformVol;
+		sources[2].volume = uniformVol;
 
 		if (!eol)
 			if (!sources[2].isPlaying)

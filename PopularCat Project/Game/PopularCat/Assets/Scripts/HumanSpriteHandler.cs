@@ -27,7 +27,7 @@ public class HumanSpriteHandler : MonoBehaviour
 
 	void Update()
 	{
-		if (GameState.InEncounter)
+		if (GameState.InEncounter && GameState.Target == gameObject)
 		{
 			if (GameState.InFameEncounter)
 			{
