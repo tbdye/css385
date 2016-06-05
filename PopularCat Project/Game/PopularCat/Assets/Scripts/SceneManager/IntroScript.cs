@@ -6,17 +6,24 @@ public class IntroScript : MonoBehaviour {
 
     #region Public Fields
     public Sprite[] sprites;
-    public float[] screenDuration = new float[9];
-    public string[] dialogCollection = new string[8];
+    public float[] screenDuration;
+    public AudioClip[] angrySounds;
+    public AudioClip[] happySounds;
     #endregion
 
     #region Private Fields
-    SpriteRenderer render;
+    Camera main;
+    SpriteRenderer piper;
     Text dialog;
+    Renderer background;
     Renderer human;
     GameObject[] cats;
+    Transform bubbleObj;
     Renderer bubble;
+    Renderer poop;
     Renderer thumb;
+    Renderer logo;
+    AudioSource meow;
 
     int counter = 0;
     #endregion
@@ -26,22 +33,19 @@ public class IntroScript : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
-        render = GetComponent<SpriteRenderer>();
+        main = GameObject.Find("Main Camera").GetComponentInChildren<Camera>();
+        piper = GetComponent<SpriteRenderer>();
+        background = GameObject.Find("Background").GetComponent<Renderer>();
         human = GameObject.Find("Human").GetComponent<Renderer>();
         cats = GameObject.FindGameObjectsWithTag("Character");
         bubble = GameObject.Find("SpeechBubble").GetComponent<Renderer>();
+        bubbleObj = GameObject.Find("SpeechBubble").GetComponent<Transform>();
+        poop = GameObject.Find("Poop").GetComponent<Renderer>();
         thumb = GameObject.Find("Thumb").GetComponent<Renderer>();
+        logo = GameObject.Find("Logo").GetComponent<Renderer>();
+        meow = GetComponent<AudioSource>();
 
-        render.sprite = sprites[0];
-
-        dialogCollection[0] = "Meet Piper.";
-        dialogCollection[1] = "Piper only loves two things...";
-        dialogCollection[2] = "his human...";
-        dialogCollection[3] = "...and dancing.";
-        dialogCollection[4] = "But piper has competition at home.";
-        dialogCollection[5] = "His human barely notices him.";
-        dialogCollection[6] = "But Piper has a plan to win his human back.";
-        dialogCollection[7] = "A plan to become...";
+        piper.sprite = sprites[0];
 
         StartCoroutine("PlayScene");
     }
@@ -63,9 +67,9 @@ public class IntroScript : MonoBehaviour {
 
         if (counter < screenDuration.Length - 1)
         {
-            counter++;
-
             yield return new WaitForSeconds(screenDuration[counter]);
+
+            counter++;
             StartCoroutine("PlayScene");
         }
     }
@@ -75,51 +79,92 @@ public class IntroScript : MonoBehaviour {
         switch (counter)
         {
             case 0:
-                message.text = dialogCollection[counter];
+
                 break;
             case 1:
-                message.text = dialogCollection[counter];
+                piper.enabled = true;
+                background.enabled = true;
                 break;
             case 2:
-                message.text = dialogCollection[counter];
-                human.enabled = true;
+                HappyMeow();
+                message.text = "Meet Piper.";
                 break;
             case 3:
-                message.text = dialogCollection[counter];
-                render.sprite = sprites[1];
+                message.text = "Piper only loves two things...";
                 break;
             case 4:
-                message.text = dialogCollection[counter];
+                message.text = "his human...";
+                human.enabled = true;
+                break;
+            case 5:
+                HappyMeow();
+                message.text = "...and dancing.";
+                piper.sprite = sprites[1];
+                break;
+            case 6:
+                message.text = "But piper has competition at home.";
                 foreach (GameObject cat in cats)
                 {
                     Renderer thisCat = cat.GetComponent<Renderer>();
                     thisCat.enabled = true;
+                    StartCoroutine("DelayedMeow");
                 }
                 break;
-            case 5:
-                message.text = dialogCollection[counter];
+            case 7:
+                AngryMeow();
+                message.text = "His human barely notices him.";
+                bubble.enabled = true;
+                poop.enabled = true;
                 break;
-            case 6:
-                message.text = dialogCollection[counter];
+            case 8:
+                message.text = "But Piper has a plan to win his human back.";
                 human.enabled = false;
+                bubble.enabled = false;
+                poop.enabled = false;
                 foreach (GameObject cat in cats)
                 {
                     Renderer thisCat = cat.GetComponent<Renderer>();
                     thisCat.enabled = false;
                 }
-                render.sprite = sprites[2];
+                piper.sprite = sprites[2];
                 GetComponent<Transform>().position = new Vector3(0, 5.5f, 0);
                 break;
-            case 7:
-                message.text = dialogCollection[counter];
-                render.sprite = sprites[3];
+            case 9:
+                message.text = "A plan to become...";
+                piper.sprite = sprites[3];
                 GetComponent<Transform>().position = new Vector3(0, 2.9f, 0);
+                bubbleObj.localPosition = new Vector3(-6, 14, 0);
+                bubbleObj.localScale = new Vector3(5, 7, 1);
                 bubble.enabled = true;
                 thumb.enabled = true;
                 break;
-            case 8:
-                //message.text = dialogCollection[counter];
+            case 10:
+                background.enabled = false;
+                message.enabled = false;
+                piper.enabled = false;
+                bubble.enabled = false;
+                thumb.enabled = false;
+                logo.enabled = true;
+                Camera.main.backgroundColor = new Color(0.682f, 0.369f, 0.369f);
                 break;
         }
+    }
+
+    IEnumerator DelayedMeow()
+    {
+        yield return new WaitForSeconds(Random.Range(0, 5.5f));
+        HappyMeow();
+    }
+
+    void HappyMeow()
+    {
+        meow.pitch = Random.Range(0.9f, 1.1f);
+        meow.PlayOneShot(happySounds.RandomItem());
+    }
+
+    void AngryMeow()
+    {
+        meow.pitch = Random.Range(0.9f, 1.1f);
+        meow.PlayOneShot(angrySounds.RandomItem());
     }
 }
