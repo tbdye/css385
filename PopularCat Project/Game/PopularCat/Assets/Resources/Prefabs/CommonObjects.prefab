@@ -2710,6 +2710,7 @@ MonoBehaviour:
   BTrack: {fileID: 8300000, guid: 1e9a6bbda0d204d40935c9322e66bbcf, type: 3}
   Victory: {fileID: 8300000, guid: 397d031412335bd43b71b1d408de726d, type: 3}
   Failure: {fileID: 8300000, guid: 5f47add08275d9f49bc3e7c86e7139e5, type: 3}
+  musicMasterVolume: 1
 --- !u!114 &11466416
 MonoBehaviour:
   m_ObjectHideFlags: 1

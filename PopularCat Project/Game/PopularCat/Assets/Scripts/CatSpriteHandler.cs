@@ -12,7 +12,7 @@ public class CatSpriteHandler : MonoBehaviour
 	public Sprite[] CatWalk;
 	public Sprite[] CatIdleDance;
 	public float    walkCycleLength = 0.55f;
-	public float    danceCycleLength;
+	public float    danceCycleLength = 0.88f;
 	public bool     isPlayer;
 
 	#endregion
@@ -60,10 +60,8 @@ public class CatSpriteHandler : MonoBehaviour
 
 		float currentX = transform.position.x;
 
-		if (Mathf.Abs(currentX - lastPos.x) < 0.1f)
-			return;
-
-		render.flipX = lastPos.x > currentX;
+		if (Mathf.Abs(currentX - lastPos.x) > 0.01f * Time.deltaTime)
+			render.flipX = lastPos.x > currentX;
 	}
 
 	void Start()

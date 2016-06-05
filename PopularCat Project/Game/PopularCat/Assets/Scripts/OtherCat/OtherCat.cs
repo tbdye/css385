@@ -186,10 +186,14 @@ public class OtherCat : MonoBehaviour
 			CurrentSequence = null;
 		}
 
+
+		float tboost = timeBoostPerMember;
+		tboost *= ScoreManager.Cats.Count;
+
 		CurrentSequence =
 			SequenceManager.GetNewSequence
 				(sequenceLengths.AccessByMagnitude(Progress.Magnitude),
-				timeLimit: perSequenceTimeLimit,
+				timeLimit: perSequenceTimeLimit + (isHuman? tboost :0),
 				types: inputPool);
 
 		CurrentSequence.OnSuccess = () =>
