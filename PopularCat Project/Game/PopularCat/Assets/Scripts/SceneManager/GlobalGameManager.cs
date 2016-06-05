@@ -4,7 +4,7 @@ using System.Collections;
 
 public class GlobalGameManager : MonoBehaviour
 {
-    private string mCurrentLevel = "Menu";
+    private string mCurrentLevel = "Level0";
 
     /// <summary>
     /// Start
