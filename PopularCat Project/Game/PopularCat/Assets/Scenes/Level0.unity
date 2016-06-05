@@ -866,8 +866,8 @@ RectTransform:
   m_RootOrder: 9
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 737.4, y: 420.3}
-  m_SizeDelta: {x: 160, y: 81.899994}
+  m_AnchoredPosition: {x: 1123.6, y: 180.9}
+  m_SizeDelta: {x: 131.1, y: 145.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &581597171
 GameObject:
@@ -1043,10 +1043,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1576705195}
   m_RootOrder: 3
---- !u!1 &787711119 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 147698, guid: 961fadad7594529418939a9973dee798, type: 2}
-  m_PrefabInternal: {fileID: 1074586271}
 --- !u!114 &787711121 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 11483814, guid: 961fadad7594529418939a9973dee798,
@@ -1955,8 +1951,8 @@ RectTransform:
   m_RootOrder: 8
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 441.9, y: 420.3}
-  m_SizeDelta: {x: 160, y: 81.899994}
+  m_AnchoredPosition: {x: 151.4, y: 155.1}
+  m_SizeDelta: {x: 207.1, y: 122.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1698807010
 MonoBehaviour:
@@ -1997,12 +1993,12 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 787711119}
-        m_MethodName: 
+      - m_Target: {fileID: 787711121}
+        m_MethodName: Quit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

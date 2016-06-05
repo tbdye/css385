@@ -50,5 +50,9 @@ public class SceneLoader : MonoBehaviour
 	{
 		LoadScene("MainMenu");
 	}
+	public void Quit()
+	{
+		Application.Quit();
+	}
 	#endregion
 }
