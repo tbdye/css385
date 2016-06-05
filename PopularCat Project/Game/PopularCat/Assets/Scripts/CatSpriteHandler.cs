@@ -118,6 +118,8 @@ public class CatSpriteHandler : MonoBehaviour
 		failAnimTimer.OnTime[0.8f] = () => render.sprite = CatFail[1];
 		failAnimTimer.OnTime[0.85f] = () => render.sprite = CatFail[2];
 		failAnimTimer.OnTime[0.9f] = () => render.sprite = CatFail[1];
+		failAnimTimer.OnComplete = () => failQueued = false;
+
 		activeDanceTimer = TimeManager.GetNewTimer();
 		activeDanceTimer.OnTime[0.3f] = 
 			() => 
@@ -168,8 +170,12 @@ public class CatSpriteHandler : MonoBehaviour
 		failAnimTimer.Run();
 	}
 
+	bool failQueued;
 	public void QueueFailAnim()
 	{
+		if (failQueued)
+			return;
+
 		bool play = GetComponent<Player>() != null;
 
 		if (!play)
@@ -182,6 +188,7 @@ public class CatSpriteHandler : MonoBehaviour
 		}
 
 		ReadOnlyTimer randDelay = TimeManager.Delay(FailAnim, UnityEngine.Random.Range(0, 0.4f));
+		failQueued = true;
 	}
 
 	void Update()
@@ -189,6 +196,15 @@ public class CatSpriteHandler : MonoBehaviour
 		bool play = GetComponent<Player>() != null;
 
 		
+		if(GameState.EndOfLevel)
+		{
+			if (!GameState.EndOfLevelPassed)
+			{
+				if (!failAnimTimer.Running && render.sprite != CatFail[1])
+					QueueFailAnim();
+				return;
+			}
+		}
 
 		if (GameState.InEncounter)
 			InEncounterAnim(play);
