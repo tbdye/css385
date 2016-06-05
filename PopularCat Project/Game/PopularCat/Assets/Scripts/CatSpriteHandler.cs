@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class CatSpriteHandler : MonoBehaviour
@@ -11,9 +12,11 @@ public class CatSpriteHandler : MonoBehaviour
 	public Sprite   CatStand;
 	public Sprite[] CatWalk;
 	public Sprite[] CatIdleDance;
+	public Sprite[] CatActiveDances;
+	public Sprite   tweenActiveDance;
+	public Sprite[] CatFail;
 	public float    walkCycleLength = 0.55f;
 	public float    danceCycleLength = 0.88f;
-	public bool     isPlayer;
 
 	#endregion
 
@@ -25,8 +28,11 @@ public class CatSpriteHandler : MonoBehaviour
 	Timer          sitTimer;
 	Timer          walkTimer;
 	Timer          idleDanceTimer;
+	Timer          failAnimTimer;
+	Timer          activeDanceTimer;
 	Rigidbody2D    rigidBody;
 
+	static float activePoseSelector;
 	#endregion
 
 	#region Private Methods
@@ -99,15 +105,88 @@ public class CatSpriteHandler : MonoBehaviour
 				CatIdleDance.AccessByMagnitude(idleDanceTimer.Completion),
 			loops: true);
 
+		failAnimTimer = TimeManager.GetNewTimer(1.3f);
+		failAnimTimer.OnTime[0] = () => render.sprite = CatFail[0];
+		failAnimTimer.OnTime[0.1f] = () => render.sprite = CatFail[1];
+		failAnimTimer.OnTime[0.15f] = () => render.sprite = CatFail[2];
+		failAnimTimer.OnTime[0.2f] = () => render.sprite = CatFail[1];
+		failAnimTimer.OnTime[0.75f] = () => render.sprite = CatFail[2];
+		failAnimTimer.OnTime[0.8f] = () => render.sprite = CatFail[1];
+		failAnimTimer.OnTime[0.85f] = () => render.sprite = CatFail[2];
+		failAnimTimer.OnTime[0.9f] = () => render.sprite = CatFail[1];
+		activeDanceTimer = TimeManager.GetNewTimer();
+		activeDanceTimer.OnTime[0.3f] = 
+			() => 
+			render.sprite = 
+				CatActiveDances.AccessByMagnitude(activePoseSelector);
 	}
 
+	static int currentFrame;
+
+	public void GoodAnim()
+	{
+		if (activeDanceTimer.Running)
+			return;
+
+		bool play = GetComponent<Player>() != null;
+		if (!play)
+		{
+			var s = GetComponent<Swarmer>();
+			if (s == null || !s.InSwarm)
+			{
+				return;
+			}
+		}
+
+		if (currentFrame != Time.frameCount)
+		{
+			activePoseSelector = UnityEngine.Random.Range(0f, 1f);
+		}
+		currentFrame = Time.frameCount;
+
+		sitTimer.Stop();
+		sitLookTimer.Stop();
+		walkTimer.Stop();
+		idleDanceTimer.Pause();
+		activeDanceTimer.Run();
+
+		render.sprite = tweenActiveDance;
+	}
+
+	void FailAnim()
+	{
+		if(GetComponent<Player>() == null)
+			render.flipX = UnityEngine.Random.Range(0, 2) > 0.5f;
+		sitTimer.Stop();
+		sitLookTimer.Stop();
+		walkTimer.Stop();
+		idleDanceTimer.Pause();
+		failAnimTimer.Run();
+	}
+
+	public void QueueFailAnim()
+	{
+		bool play = GetComponent<Player>() != null;
+
+		if (!play)
+		{
+			var s = GetComponent<Swarmer>();
+			if (s == null || !s.InSwarm)
+			{
+				return;
+			}
+		}
+
+		ReadOnlyTimer randDelay = TimeManager.Delay(FailAnim, UnityEngine.Random.Range(0, 0.4f));
+	}
 
 	void Update()
 	{
 		bool play = GetComponent<Player>() != null;
 
 		
-		if(GameState.InEncounter)
+
+		if (GameState.InEncounter)
 			InEncounterAnim(play);
 		else
 			OutEncounterAnim(play);
@@ -118,6 +197,9 @@ public class CatSpriteHandler : MonoBehaviour
 
 	void InEncounterAnim(bool play)
 	{
+		if (failAnimTimer.Running || activeDanceTimer.Running)
+			return;
+
 		bool test = play;
 
 		if(!test)

@@ -1469,6 +1469,10 @@ Prefab:
       propertyPath: sequenceLengths.Array.data[4]
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
+      propertyPath: startingInterest
+      value: 33
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
   m_IsPrefabParent: 0
@@ -3238,14 +3242,6 @@ Prefab:
       propertyPath: trackingTarget
       value: 
       objectReference: {fileID: 390821280}
-    - target: {fileID: 496596, guid: 961fadad7594529418939a9973dee798, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 24.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 496596, guid: 961fadad7594529418939a9973dee798, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0.1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 961fadad7594529418939a9973dee798, type: 2}
   m_IsPrefabParent: 0

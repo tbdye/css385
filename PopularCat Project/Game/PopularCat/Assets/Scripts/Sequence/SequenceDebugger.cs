@@ -110,6 +110,7 @@ public class SequenceDebugger : MonoBehaviour
 
 		alternator.Run();
 		t.Run();
+
 	}
 
 	public static void VictoryAnim()
@@ -131,6 +132,11 @@ public class SequenceDebugger : MonoBehaviour
 		};
 		t.OnComplete = t.Dispose;
 		t.Run();
+
+		foreach (var c in FindObjectsOfType<CatSpriteHandler>())
+		{
+			c.GoodAnim();
+		}
 	}
 
 	public static void TimeOutAnim()
@@ -138,6 +144,11 @@ public class SequenceDebugger : MonoBehaviour
 		foreach (var i in instance.indicators)
 		{
 			i.Renderers[0].color = new Color(0.333f, 0, 0);
+		}
+
+		foreach (var c in FindObjectsOfType<CatSpriteHandler>())
+		{
+			c.QueueFailAnim();
 		}
 	}
 	#region Private Methods

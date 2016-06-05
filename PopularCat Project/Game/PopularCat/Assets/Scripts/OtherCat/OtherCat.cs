@@ -172,6 +172,12 @@ public class OtherCat : MonoBehaviour
 
 	void BeginSequence()
 	{
+		if(startingInterest >= 100)
+		{
+			Join();
+			return;
+		}
+
 		if(pissedOffTimer.Running)
 		{
 			return;

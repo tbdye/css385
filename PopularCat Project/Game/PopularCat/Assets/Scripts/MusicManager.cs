@@ -47,7 +47,8 @@ public class MusicManager : MonoBehaviour
 
 	void Update()
 	{
-		sources[1].time = sources[0].time;
+		if(sources[0].isPlaying)
+			sources[1].time = sources[0].time;
 
 		sources[0].volume = AVolume * musicMasterVolume;
 		sources[1].volume = BVolume * musicMasterVolume;
