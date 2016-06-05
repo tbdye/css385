@@ -210,7 +210,7 @@ public class CatSpriteHandler : MonoBehaviour
 			InEncounterAnim(play);
 		else
 		{
-			activeDanceTimer.Stop();
+
 			OutEncounterAnim(play);
 		}
 		
@@ -248,6 +248,12 @@ public class CatSpriteHandler : MonoBehaviour
 	}
 	void OutEncounterAnim(bool play)
 	{
+		if ((lastPos - transform.position).magnitude > 0.001f)
+			activeDanceTimer.Stop();
+
+		if (activeDanceTimer.Running)
+			return;
+
 		idleDanceTimer.Stop();
 
 		bool test = play ? 
