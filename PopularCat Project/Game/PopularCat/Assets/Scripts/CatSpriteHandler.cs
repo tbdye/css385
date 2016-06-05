@@ -120,7 +120,7 @@ public class CatSpriteHandler : MonoBehaviour
 		if(!test)
 		{
 			var s = GetComponent<Swarmer>();
-			if(s!= null)
+			if(s != null)
 				test = s.InSwarm;
 		}
 

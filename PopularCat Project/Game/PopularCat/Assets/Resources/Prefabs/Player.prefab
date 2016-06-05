@@ -208,7 +208,8 @@ MonoBehaviour:
   - {fileID: 21300002, guid: 86f21d0a218158e479d86677c4d49914, type: 3}
   - {fileID: 21300004, guid: 86f21d0a218158e479d86677c4d49914, type: 3}
   - {fileID: 21300002, guid: 86f21d0a218158e479d86677c4d49914, type: 3}
-  switchTime: 0.55
+  walkCycleLength: 0.55
+  danceCycleLength: 0.88
   isPlayer: 1
 --- !u!114 &11431800
 MonoBehaviour:
