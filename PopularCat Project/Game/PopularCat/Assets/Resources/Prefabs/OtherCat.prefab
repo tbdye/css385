@@ -119,7 +119,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   destination: {fileID: 0}
   slackDistance: 1
-  speed: 16
+  speed: 17
   updateFrequency: {x: 0, y: 10}
   wanderDistance: 0
 --- !u!114 &11439068

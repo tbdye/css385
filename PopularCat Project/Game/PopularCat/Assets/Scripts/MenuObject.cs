@@ -7,9 +7,8 @@ using UnityEngine.UI;
 public class MenuObject : MonoBehaviour
 {
 	#region Public Fields
-	
-	
 
+	public Button myButton;
 
 	#endregion
 
@@ -31,10 +30,16 @@ public class MenuObject : MonoBehaviour
 	
 	void Start()
 	{
+		var c = myButton.colors;
+		c.normalColor = Color.clear;
+		myButton.colors = c;
 	}
 
 	void Update()
 	{
+		var newPos = Camera.main.WorldToScreenPoint(transform.position);
+
+		myButton.GetComponent<RectTransform>().anchoredPosition = newPos;
 
 		if (GameState.Paused)
 			return;
@@ -44,9 +49,8 @@ public class MenuObject : MonoBehaviour
 			Input.GetButtonDown("Meow")
 			)
 		{
-			//Do the thing
+			myButton.onClick.Invoke();
 		}
-		this.ClampToBoundary();
 	}
 
 	#endregion
