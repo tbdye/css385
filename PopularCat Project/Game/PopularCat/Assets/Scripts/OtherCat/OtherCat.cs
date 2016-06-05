@@ -74,7 +74,7 @@ public class OtherCat : MonoBehaviour
 			max: 100,
 			startingValue: startingInterest,
 			onModified: (v) => Progress.Value = v);
-
+		
 	}
 
 	void BeginFameSequence()
@@ -344,6 +344,8 @@ public class OtherCat : MonoBehaviour
 	void Start()
 	{
 		pissedOffTimer = TimeManager.GetNewTimer(angryDuration);
+
+		Progress.Value = startingInterest;
 
 		PassiveDrain =
 			TimeManager.GetNewTimer(

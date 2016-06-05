@@ -63,12 +63,12 @@ public class ProgressBar : MonoBehaviour
 			alphaKeys[0].time = 0;
 			ColorGradient.SetKeys(colorKeys, alphaKeys);
 		}
+		End = 100;
+		Value = 33;
 	}
 
 	void Start()
 	{
-		End = 100;
-		Value = 33;
 	}
 
 	void Update()
