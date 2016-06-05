@@ -164,7 +164,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 92aff818f09280a468c12b5a417b211d, type: 3}
   CatVictoryDance:
   - {fileID: 21300000, guid: 763536ddf764df040b16673f578a3ddd, type: 3}
-  - {fileID: 21300000, guid: 1bbcd4d14c848ae4a8f985890c8759a7, type: 3}
+  - {fileID: 21300000, guid: 428068d71ad18a741ba4079a82be26d7, type: 3}
   walkCycleLength: 0.55
   danceCycleLength: 0.88
 --- !u!114 &11462596
