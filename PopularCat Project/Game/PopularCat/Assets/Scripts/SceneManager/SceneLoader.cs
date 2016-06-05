@@ -48,7 +48,7 @@ public class SceneLoader : MonoBehaviour
 
 	public void MenuService()
 	{
-		LoadScene("MainMenu");
+		LoadScene("Level0");
 	}
 	public void Quit()
 	{

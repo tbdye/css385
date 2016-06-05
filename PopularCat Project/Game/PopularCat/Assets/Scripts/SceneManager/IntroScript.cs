@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
 
@@ -53,12 +54,12 @@ public class IntroScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        //// Allow player to quit to main menu
-        //if (Input.GetKey(KeyCode.Escape))
-        //{
-        //    SceneManager.LoadScene("Level0");
-        //    FirstGameManager.GameState.SetCurrentLevel("Level0");
-        //}
+        // Allow player to quit to main menu
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            SceneManager.LoadScene("Level0");
+            FirstGameManager.GameState.SetCurrentLevel("Level0");
+        }
     }
 
     IEnumerator PlayScene()
@@ -102,7 +103,7 @@ public class IntroScript : MonoBehaviour {
                 piper.sprite = sprites[1];
                 break;
             case 6:
-                message.text = "But piper has competition at home.";
+                message.text = "But Piper has competition at home.";
                 foreach (GameObject cat in cats)
                 {
                     Renderer thisCat = cat.GetComponent<Renderer>();
@@ -146,6 +147,10 @@ public class IntroScript : MonoBehaviour {
                 thumb.enabled = false;
                 logo.enabled = true;
                 Camera.main.backgroundColor = new Color(0.682f, 0.369f, 0.369f);
+                break;
+            case 11:
+                SceneManager.LoadScene("Level0");
+                FirstGameManager.GameState.SetCurrentLevel("Level0");
                 break;
         }
     }

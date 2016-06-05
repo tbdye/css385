@@ -1457,7 +1457,12 @@ Prefab:
       propertyPath: m_Navigation.m_Mode
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8247914, guid: 961fadad7594529418939a9973dee798, type: 2}
+    - {fileID: 8218502, guid: 961fadad7594529418939a9973dee798, type: 2}
+    - {fileID: 8221742, guid: 961fadad7594529418939a9973dee798, type: 2}
+    - {fileID: 8207976, guid: 961fadad7594529418939a9973dee798, type: 2}
+    - {fileID: 11458366, guid: 961fadad7594529418939a9973dee798, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 961fadad7594529418939a9973dee798, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &1081968008
