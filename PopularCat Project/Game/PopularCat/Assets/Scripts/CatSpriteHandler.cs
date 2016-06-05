@@ -19,6 +19,7 @@ public class CatSpriteHandler : MonoBehaviour
 	public Sprite[] CatIdleDance;
 	public SpritePair[] CatActiveDances;
 	public Sprite[] CatFail;
+	public Sprite[] CatVictoryDance;
 	public float    walkCycleLength = 0.55f;
 	public float    danceCycleLength = 0.88f;
 
@@ -34,6 +35,7 @@ public class CatSpriteHandler : MonoBehaviour
 	Timer          idleDanceTimer;
 	Timer          failAnimTimer;
 	Timer          activeDanceTimer;
+	Timer          victoryDanceTimer;
 	Rigidbody2D    rigidBody;
 
 	static float activePoseSelector;
@@ -128,6 +130,12 @@ public class CatSpriteHandler : MonoBehaviour
 			render.sprite =
 				CatActiveDances.AccessByMagnitude(activePoseSelector).first;
 
+		victoryDanceTimer = TimeManager.GetNewTimer(UnityEngine.Random.Range(0.33f,0.66f), loops:true);
+
+		victoryDanceTimer.OnTick = (dt) =>
+		{
+			render.sprite = CatVictoryDance.AccessByMagnitude(victoryDanceTimer.Completion);
+		};
 	}
 
 	static int currentFrame;
@@ -196,8 +204,11 @@ public class CatSpriteHandler : MonoBehaviour
 
 	void Update()
 	{
+		if(victoryDanceTimer.Running)
+		{
+			return;
+		}
 		bool play = GetComponent<Player>() != null;
-
 		
 		if(GameState.EndOfLevel)
 		{
@@ -206,6 +217,23 @@ public class CatSpriteHandler : MonoBehaviour
 				if (!failAnimTimer.Running && render.sprite != CatFail[1])
 					QueueFailAnim();
 				return;
+			}
+			if (!play)
+			{
+				var s = GetComponent<Swarmer>();
+				if (s != null && s.InSwarm)
+				{
+					victoryDanceTimer.Run();
+					activeDanceTimer.Stop();
+					idleDanceTimer.Stop();
+					return;
+				}
+			}
+			else
+			{
+				victoryDanceTimer.Run();
+				activeDanceTimer.Stop();
+				idleDanceTimer.Stop();
 			}
 		}
 

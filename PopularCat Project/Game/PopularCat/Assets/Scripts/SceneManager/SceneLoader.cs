@@ -35,18 +35,18 @@ public class SceneLoader : MonoBehaviour
 	/// <summary>
 	/// NewGameService
 	/// </summary>
-	void OkayService()
+	public void OkayService()
 	{
 		LoadScene(mSceneToLoad);
 	}
 
-	void ResetService()
+	public void ResetService()
 	{
 		var scene = SceneManager.GetActiveScene();
 		LoadScene(scene.name);
 	}
 
-	void MenuService()
+	public void MenuService()
 	{
 		LoadScene("MainMenu");
 	}
