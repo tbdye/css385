@@ -64,6 +64,11 @@ public class CatSpriteHandler : MonoBehaviour
 			render.flipX = lastPos.x > currentX;
 	}
 
+	void MatchPlayerDirection()
+	{
+		render.flipX = Player.Instance.GetComponent<SpriteRenderer>().flipX;
+	}
+
 	void Start()
 	{
 		rigidBody = GetComponent<Rigidbody2D>();
@@ -130,7 +135,7 @@ public class CatSpriteHandler : MonoBehaviour
 			sitLookTimer.Stop();
 
 			idleDanceTimer.Resume();
-
+			MatchPlayerDirection();
 			return;
 		}
 

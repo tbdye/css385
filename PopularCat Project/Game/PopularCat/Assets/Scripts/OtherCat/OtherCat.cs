@@ -23,9 +23,10 @@ public class OtherCat : MonoBehaviour
 
 	public bool isHuman;
 	public float fameRate = 10;
-	
+
 	public float timeBoostPerMember = 0.33f;
 	public float fameBoostPerMember = 2;
+	public float coolnessBoostPerMember = 1;
 
 	public InputTypes inputPool = InputTypes.NormalArrows;
 	public InputTypes[] fameInputPool = 
@@ -152,9 +153,15 @@ public class OtherCat : MonoBehaviour
 	}
 	public void Impress()
 	{
+
+		float cboost = 0;
+		if (isHuman)
+			cboost = ScoreManager.Cats.Count *
+				coolnessBoostPerMember;
+
 		Interest.Value += Impressed ? 
 			progressOnSuccessInPosse :
-			progressOnSuccess;
+			progressOnSuccess + (isHuman? cboost : 0);
 	}
 	public void Bore()
 	{
