@@ -213,6 +213,8 @@ MonoBehaviour:
     second: {fileID: 21300000, guid: 781c1005ba966434584f858b2f0b9742, type: 3}
   - first: {fileID: 21300000, guid: ee4b69a3388d10a41aa50b5979334758, type: 3}
     second: {fileID: 21300000, guid: d4b96a40a3ffa6c4cac2a49b32b8385e, type: 3}
+  - first: {fileID: 21300000, guid: 70f15e40a2df13f4683bba4c86dac9c4, type: 3}
+    second: {fileID: 21300000, guid: c3e5a0d9d406f3b429bfd851db056e28, type: 3}
   CatFail:
   - {fileID: 21300000, guid: 0ce93846b926e60499270014cd0e2c19, type: 3}
   - {fileID: 21300000, guid: ae78c509dedd59b49ba23032e675413e, type: 3}

@@ -121,10 +121,13 @@ public class CatSpriteHandler : MonoBehaviour
 		failAnimTimer.OnComplete = () => failQueued = false;
 
 		activeDanceTimer = TimeManager.GetNewTimer();
-		activeDanceTimer.OnTime[0.3f] = 
-			() => 
+		activeDanceTimer.OnTime[0.25f] = () => 
 			render.sprite = 
 				CatActiveDances.AccessByMagnitude(activePoseSelector).second;
+		activeDanceTimer.OnTime[0.90f] = () =>
+			render.sprite =
+				CatActiveDances.AccessByMagnitude(activePoseSelector).first;
+
 	}
 
 	static int currentFrame;
