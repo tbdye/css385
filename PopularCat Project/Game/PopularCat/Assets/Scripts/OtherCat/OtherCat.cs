@@ -23,9 +23,10 @@ public class OtherCat : MonoBehaviour
 
 	public bool isHuman;
 	public float fameRate = 10;
-	
+
 	public float timeBoostPerMember = 0.33f;
 	public float fameBoostPerMember = 2;
+	public float coolnessBoostPerMember = 1;
 
 	public InputTypes inputPool = InputTypes.NormalArrows;
 	public InputTypes[] fameInputPool = 
@@ -73,7 +74,7 @@ public class OtherCat : MonoBehaviour
 			max: 100,
 			startingValue: startingInterest,
 			onModified: (v) => Progress.Value = v);
-
+		
 	}
 
 	void BeginFameSequence()
@@ -152,9 +153,15 @@ public class OtherCat : MonoBehaviour
 	}
 	public void Impress()
 	{
+
+		float cboost = 0;
+		if (isHuman)
+			cboost = ScoreManager.Cats.Count *
+				coolnessBoostPerMember;
+
 		Interest.Value += Impressed ? 
 			progressOnSuccessInPosse :
-			progressOnSuccess;
+			progressOnSuccess + (isHuman? cboost : 0);
 	}
 	public void Bore()
 	{
@@ -165,6 +172,12 @@ public class OtherCat : MonoBehaviour
 
 	void BeginSequence()
 	{
+		if(startingInterest >= 100)
+		{
+			Join();
+			return;
+		}
+
 		if(pissedOffTimer.Running)
 		{
 			return;
@@ -186,10 +199,14 @@ public class OtherCat : MonoBehaviour
 			CurrentSequence = null;
 		}
 
+
+		float tboost = timeBoostPerMember;
+		tboost *= ScoreManager.Cats.Count;
+
 		CurrentSequence =
 			SequenceManager.GetNewSequence
 				(sequenceLengths.AccessByMagnitude(Progress.Magnitude),
-				timeLimit: perSequenceTimeLimit,
+				timeLimit: perSequenceTimeLimit + (isHuman? tboost :0),
 				types: inputPool);
 
 		CurrentSequence.OnSuccess = () =>
@@ -333,6 +350,8 @@ public class OtherCat : MonoBehaviour
 	void Start()
 	{
 		pissedOffTimer = TimeManager.GetNewTimer(angryDuration);
+
+		Progress.Value = startingInterest;
 
 		PassiveDrain =
 			TimeManager.GetNewTimer(

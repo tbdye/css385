@@ -27,8 +27,12 @@ public class HumanSpriteHandler : MonoBehaviour
 
 	void Update()
 	{
-		if (GameState.InEncounter)
+		bool eol = GameState.EndOfLevel && !GameState.EndOfLevelPassed;
+
+		if (GameState.InEncounter && GameState.Target == GetComponentInParent<OtherCat>().gameObject)
 		{
+			render.flipX = Player.Instance.transform.position.x > transform.position.x;
+
 			if (GameState.InFameEncounter)
 			{
 				render.sprite = mFilming;
@@ -37,11 +41,11 @@ public class HumanSpriteHandler : MonoBehaviour
 			{
 				render.sprite = mAttention;
 			}
+			if(!eol)
+			return;
 		}
-		else
-		{
+		
 			render.sprite = mIdle;
-		}
 	}
 
 	#endregion

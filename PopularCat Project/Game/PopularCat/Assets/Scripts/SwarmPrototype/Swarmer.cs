@@ -37,8 +37,14 @@ public class Swarmer : MonoBehaviour, DestinationProvider
 
 	public Vector3 Destination()
 	{
+
 		if (InSwarm)
+		{
+			if (GameState.EndOfLevel)
+				return transform.position;
 			return SwarmArea.RandomPoint;
+		}
+			
 
 		var rand = UnityEngine.Random.insideUnitCircle * wanderDistance;
 		var newPos = transform.position + new Vector3(rand.x, rand.y);

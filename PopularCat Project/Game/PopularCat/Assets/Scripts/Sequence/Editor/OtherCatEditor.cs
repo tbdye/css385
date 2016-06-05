@@ -9,6 +9,7 @@ public class OtherCatEditor : Editor
 	SerializedProperty fameRate;
 	SerializedProperty timeBoostPerMember;
 	SerializedProperty fameBoostPerMember;
+	SerializedProperty coolnessBoostPerMember;
 	SerializedProperty interestBleedRate;
 	SerializedProperty progressOnSuccessInPosse;
 	SerializedProperty penaltyOnFailureInPosse;
@@ -29,6 +30,7 @@ public class OtherCatEditor : Editor
 		fameRate = serializedObject.FindProperty("fameRate");
 		timeBoostPerMember = serializedObject.FindProperty("timeBoostPerMember");
 		fameBoostPerMember = serializedObject.FindProperty("fameBoostPerMember");
+		coolnessBoostPerMember = serializedObject.FindProperty("coolnessBoostPerMember");
 		interestBleedRate = serializedObject.FindProperty("interestBleedRate");
 		progressOnSuccessInPosse = serializedObject.FindProperty("progressOnSuccessInPosse");
 		penaltyOnFailureInPosse = serializedObject.FindProperty("penaltyOnFailureInPosse");
@@ -60,6 +62,7 @@ public class OtherCatEditor : Editor
 			EditorGUILayout.PropertyField(fameRate, true);
 			EditorGUILayout.PropertyField(timeBoostPerMember, true);
 			EditorGUILayout.PropertyField(fameBoostPerMember, true);
+			EditorGUILayout.PropertyField(coolnessBoostPerMember, true);
 			FameSequencePicker();
 			EditorGUI.indentLevel--;
 		}

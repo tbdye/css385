@@ -1,17 +1,26 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class CatSpriteHandler : MonoBehaviour
 {
-    #region Public Fields
+	[Serializable]
+	public class SpritePair
+	{
+		public Sprite first,second;
+	}
+	#region Public Fields
 
-    public Vector2 timeInSitPosition;
-    public Vector2 timeUntilCatSits;
-    public Sprite[] CatSit;
+	public Vector2 timeInSitPosition;
+	public Vector2 timeUntilCatSits;
+	public Sprite[] CatSit;
 	public Sprite   CatStand;
 	public Sprite[] CatWalk;
-    public float    switchTime;
-    public bool     isPlayer;
+	public Sprite[] CatIdleDance;
+	public SpritePair[] CatActiveDances;
+	public Sprite[] CatFail;
+	public float    walkCycleLength = 0.55f;
+	public float    danceCycleLength = 0.88f;
 
 	#endregion
 
@@ -21,9 +30,13 @@ public class CatSpriteHandler : MonoBehaviour
 	SpriteRenderer render;
 	Timer          sitLookTimer;
 	Timer          sitTimer;
-    Sprite         currentSprite;
-    int            counter = 0;
+	Timer          walkTimer;
+	Timer          idleDanceTimer;
+	Timer          failAnimTimer;
+	Timer          activeDanceTimer;
+	Rigidbody2D    rigidBody;
 
+	static float activePoseSelector;
 	#endregion
 
 	#region Private Methods
@@ -47,14 +60,29 @@ public class CatSpriteHandler : MonoBehaviour
 
 	void SpriteDirection()
 	{
-		float currentX = transform.position.x;
-		if (Mathf.Abs(currentX - lastPos.x) < 0.001f)
+		if (rigidBody != null)
+		{
+			if (rigidBody.velocity.x.Abs() > 0.02f)
+				render.flipX = rigidBody.velocity.x < 0;
+			
 			return;
-		GetComponent<SpriteRenderer>().flipX = lastPos.x > currentX;
+		}
+
+		float currentX = transform.position.x;
+
+		if (Mathf.Abs(currentX - lastPos.x) > 0.01f * Time.deltaTime)
+			render.flipX = lastPos.x > currentX;
+	}
+
+	void MatchPlayerDirection()
+	{
+		render.flipX = Player.Instance.GetComponent<SpriteRenderer>().flipX;
 	}
 
 	void Start()
 	{
+		rigidBody = GetComponent<Rigidbody2D>();
+
 		sitLookTimer =
 			TimeManager.GetNewTimer(
 				loops: true,
@@ -66,74 +94,192 @@ public class CatSpriteHandler : MonoBehaviour
 
 		lastPos = transform.position;
 		render = GetComponent<SpriteRenderer>();
+		
+		walkTimer = TimeManager.GetNewTimer(
+			walkCycleLength, 
+			onTick: (dt) => 
+			render.sprite = 
+				CatWalk.AccessByMagnitude(walkTimer.Completion),
+			loops: true);
 
-        counter = 0;
-        StartCoroutine("SwitchSprite");
+		idleDanceTimer = TimeManager.GetNewTimer(
+			danceCycleLength,
+			onTick: (dt) => 
+			render.sprite = 
+				CatIdleDance.AccessByMagnitude(idleDanceTimer.Completion),
+			loops: true);
+
+		failAnimTimer = TimeManager.GetNewTimer(1.3f);
+		failAnimTimer.OnTime[0] = () => render.sprite = CatFail[0];
+		failAnimTimer.OnTime[0.1f] = () => render.sprite = CatFail[1];
+		failAnimTimer.OnTime[0.15f] = () => render.sprite = CatFail[2];
+		failAnimTimer.OnTime[0.2f] = () => render.sprite = CatFail[1];
+		failAnimTimer.OnTime[0.75f] = () => render.sprite = CatFail[2];
+		failAnimTimer.OnTime[0.8f] = () => render.sprite = CatFail[1];
+		failAnimTimer.OnTime[0.85f] = () => render.sprite = CatFail[2];
+		failAnimTimer.OnTime[0.9f] = () => render.sprite = CatFail[1];
+		failAnimTimer.OnComplete = () => failQueued = false;
+
+		activeDanceTimer = TimeManager.GetNewTimer();
+		activeDanceTimer.OnTime[0.25f] = () => 
+			render.sprite = 
+				CatActiveDances.AccessByMagnitude(activePoseSelector).second;
+		activeDanceTimer.OnTime[0.90f] = () =>
+			render.sprite =
+				CatActiveDances.AccessByMagnitude(activePoseSelector).first;
+
 	}
 
-    IEnumerator SwitchSprite()
-    {
-        currentSprite = CatWalk[counter];
+	static int currentFrame;
 
-        if (counter < CatWalk.Length - 1)
-        {
-            counter++;
-        }
-        else
-        {
-            counter = 0;
-        }
+	public void GoodAnim()
+	{
+		if (activeDanceTimer.Running)
+			return;
 
-        yield return new WaitForSeconds(switchTime);
-        StartCoroutine("SwitchSprite");
-    }
+		bool play = GetComponent<Player>() != null;
+		if (!play)
+		{
+			var s = GetComponent<Swarmer>();
+			if (s == null || !s.InSwarm)
+			{
+				return;
+			}
+		}
+
+		if (currentFrame != Time.frameCount)
+		{
+			activePoseSelector = UnityEngine.Random.Range(0f, 1f);
+		}
+		currentFrame = Time.frameCount;
+
+		sitTimer.Stop();
+		sitLookTimer.Stop();
+		walkTimer.Stop();
+		idleDanceTimer.Pause();
+		activeDanceTimer.Run();
+
+		render.sprite = CatActiveDances.AccessByMagnitude(activePoseSelector).first;
+	}
+
+	void FailAnim()
+	{
+		if(GetComponent<Player>() == null)
+			render.flipX = UnityEngine.Random.Range(0, 2) > 0.5f;
+		sitTimer.Stop();
+		sitLookTimer.Stop();
+		walkTimer.Stop();
+		idleDanceTimer.Pause();
+		failAnimTimer.Run();
+	}
+
+	bool failQueued;
+	public void QueueFailAnim()
+	{
+		if (failQueued)
+			return;
+
+		bool play = GetComponent<Player>() != null;
+
+		if (!play)
+		{
+			var s = GetComponent<Swarmer>();
+			if (s == null || !s.InSwarm)
+			{
+				return;
+			}
+		}
+
+		ReadOnlyTimer randDelay = TimeManager.Delay(FailAnim, UnityEngine.Random.Range(0, 0.4f));
+		failQueued = true;
+	}
 
 	void Update()
 	{
-        // get controller/arrow input for movement
-        float inputX = Input.GetAxis("Horizontal");
-        float inputY = Input.GetAxis("Vertical");
+		bool play = GetComponent<Player>() != null;
 
-        if (!isPlayer)
-        {
-            if ((lastPos - transform.position).magnitude < 0.01f && !isPlayer)
-            {
-                if (!sitTimer.Running && !sitLookTimer.Running)
-                {
-                    render.sprite = CatStand;
-                    sitTimer.End = Utils.RandomRange(timeUntilCatSits);
-                    sitTimer.Run();
-                }
-            }
-            else
-            {
-                render.sprite = currentSprite;
-                sitLookTimer.Stop();
-                sitTimer.Stop();
-                SpriteDirection();
-            }
-        }
-        else
-        {
-            if (!GameState.InEncounter && (Mathf.Abs(inputX) > 0 || Mathf.Abs(inputY) > 0))
-            {
-                render.sprite = currentSprite;
-                sitLookTimer.Stop();
-                sitTimer.Stop();
-                SpriteDirection();
-            }
-            else
-            {
-                if (!sitTimer.Running && !sitLookTimer.Running)
-                {
-                    render.sprite = CatStand;
-                    sitTimer.End = Utils.RandomRange(timeUntilCatSits);
-                    sitTimer.Run();
-                }
-            }
-        }
-        lastPos = transform.position;
-    }
+		
+		if(GameState.EndOfLevel)
+		{
+			if (!GameState.EndOfLevelPassed)
+			{
+				if (!failAnimTimer.Running && render.sprite != CatFail[1])
+					QueueFailAnim();
+				return;
+			}
+		}
+
+		if (GameState.InEncounter)
+			InEncounterAnim(play);
+		else
+		{
+
+			OutEncounterAnim(play);
+		}
+		
+		
+		lastPos = transform.position;
+	}
+
+	void InEncounterAnim(bool play)
+	{
+		if (failAnimTimer.Running || activeDanceTimer.Running)
+			return;
+
+		bool test = play;
+
+		if(!test)
+		{
+			var s = GetComponent<Swarmer>();
+			if(s != null)
+				test = s.InSwarm;
+		}
+
+
+		if(test)
+		{
+			walkTimer.Stop();
+			sitTimer.Stop();
+			sitLookTimer.Stop();
+
+			idleDanceTimer.Resume();
+			MatchPlayerDirection();
+			return;
+		}
+
+		OutEncounterAnim(play);
+	}
+	void OutEncounterAnim(bool play)
+	{
+		if ((lastPos - transform.position).magnitude > 0.001f)
+			activeDanceTimer.Stop();
+
+		if (activeDanceTimer.Running)
+			return;
+
+		idleDanceTimer.Stop();
+
+		bool test = play ? 
+			Utils.InputVector.magnitude > 0 :
+			(lastPos - transform.position).magnitude > 0.01f;
+		if (test)
+		{
+			walkTimer.Resume();
+			sitLookTimer.Stop();
+			sitTimer.Stop();
+			SpriteDirection();
+		}
+		else
+		{
+			if (!sitTimer.Running && !sitLookTimer.Running)
+			{
+				render.sprite = CatStand;
+				sitTimer.End = Utils.RandomRange(timeUntilCatSits);
+				sitTimer.Run();
+				walkTimer.Stop();
+			}
+		}
+	}
 
 	#endregion
 }

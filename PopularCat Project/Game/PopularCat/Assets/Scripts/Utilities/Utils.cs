@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public static class Utils
 {
 	#region Private Fields
@@ -11,44 +10,32 @@ public static class Utils
 
 	#endregion
 
+	#region Public Properties
+
+	public static Vector2 InputVector
+	{
+		get
+		{
+			var v = new Vector2
+			{
+				x = Input.GetAxis("Horizontal"),
+				y = Input.GetAxis("Vertical")
+			};
+
+			return 
+				(v.magnitude > 1) ?
+				v.normalized :
+				v;
+		}
+	}
+
+	#endregion
+
 	#region Public Methods
 
-	public static IEnumerable<T> Concat<T>(this IEnumerable<T> a, IEnumerable<T> b)
+	public static float Abs(this float x)
 	{
-		foreach (var x in a)
-			yield return x;
-
-		foreach (var x in b)
-			yield return x;
-	}
-
-	public static IEnumerable<InputTypes> GetFlags(this InputTypes input)
-	{
-		foreach (InputTypes value in Enum.GetValues(input.GetType()))
-			if ((input & value) == value)
-				yield return value;
-	}
-
-
-
-	public static float MoveToward(this float f, float other, float speed)
-	{
-		if (Mathf.Abs(other - f) < speed)
-			return other;
-
-		if (f > other)
-			speed *= -1;
-
-		return f + speed;
-	}
-
-	public static IEnumerable<Transform> Children(this Transform t)
-	{
-		for(int i = 0; i < t.childCount; i++)
-		{
-			yield return t.GetChild(i);
-		}
-
+		return Mathf.Abs(x);
 	}
 
 	/// <summary>
@@ -64,6 +51,23 @@ public static class Utils
 		if (index == list.Count)
 			index--;
 		return list[index];
+	}
+
+	public static IEnumerable<Transform> Children(this Transform t)
+	{
+		for (int i = 0; i < t.childCount; i++)
+		{
+			yield return t.GetChild(i);
+		}
+	}
+
+	public static IEnumerable<T> Concat<T>(this IEnumerable<T> a, IEnumerable<T> b)
+	{
+		foreach (var x in a)
+			yield return x;
+
+		foreach (var x in b)
+			yield return x;
 	}
 
 	public static Vector3 DistanceTo(this MonoBehaviour mb, GameObject dest)
@@ -100,6 +104,18 @@ public static class Utils
 		}
 	}
 
+	public static IEnumerable<InputTypes> GetFlags(this InputTypes input)
+	{
+		foreach (InputTypes value in Enum.GetValues(input.GetType()))
+			if ((input & value) == value)
+				yield return value;
+	}
+
+	public static IEnumerator<T> LoopEnum<T>(IList<T> list)
+	{
+		return LoopingEnumSource(list).GetEnumerator();
+	}
+
 	/// <summary>
 	/// Ensures that the maximum value of a MinMax pair is not less than the minimum 
 	/// </summary>
@@ -108,6 +124,24 @@ public static class Utils
 	{
 		if (v.x > v.y)
 			v.y = v.x;
+	}
+
+	public static float MoveToward(this float f, float other, float speed)
+	{
+		if (Mathf.Abs(other - f) < speed)
+			return other;
+
+		if (f > other)
+			speed *= -1;
+
+		return f + speed;
+	}
+
+	public static T Next<T>(this IEnumerator<T> enumer)
+	{
+		if (enumer.MoveNext())
+			return enumer.Current;
+		return default(T);
 	}
 
 	/// <summary>
@@ -126,6 +160,22 @@ public static class Utils
 	public static float RandomRange(Vector2 minMax)
 	{
 		return UnityEngine.Random.Range(minMax.x, minMax.y);
+	}
+
+	#endregion
+
+	#region Private Methods
+
+	static IEnumerable<T> LoopingEnumSource<T>(IList<T> list)
+	{
+
+		int i = 0;
+		while (list.Count > 0)
+		{
+			yield return list[i];
+			if (++i >= list.Count)
+				i = 0;
+		}
 	}
 
 	#endregion
