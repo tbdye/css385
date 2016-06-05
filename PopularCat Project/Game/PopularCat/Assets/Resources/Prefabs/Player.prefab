@@ -203,6 +203,11 @@ MonoBehaviour:
   - {fileID: 21300000, guid: d7c8728ed12d7614699be592fff3f7ab, type: 3}
   - {fileID: 21300000, guid: 016e8c8b596ff8f439b54b7aa0deda8d, type: 3}
   - {fileID: 21300000, guid: c963e74f0d67d394f8b2cf9bf9df3e6d, type: 3}
+  CatIdleDance:
+  - {fileID: 21300000, guid: 86f21d0a218158e479d86677c4d49914, type: 3}
+  - {fileID: 21300002, guid: 86f21d0a218158e479d86677c4d49914, type: 3}
+  - {fileID: 21300004, guid: 86f21d0a218158e479d86677c4d49914, type: 3}
+  - {fileID: 21300002, guid: 86f21d0a218158e479d86677c4d49914, type: 3}
   switchTime: 0.55
   isPlayer: 1
 --- !u!114 &11431800
@@ -227,12 +232,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c64b6c3c69178004cb7998d8034fa707, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  angrySounds:
+  - {fileID: 8300000, guid: fa02acb5969bb1747ae2231f75735e38, type: 3}
   happySounds:
   - {fileID: 8300000, guid: 6a501dc48622c5d4dbfec775bcd09ad9, type: 3}
   - {fileID: 8300000, guid: 7073edef19f99134fba03e3f58058ad4, type: 3}
-  angrySounds:
-  - {fileID: 8300000, guid: fa02acb5969bb1747ae2231f75735e38, type: 3}
-  mMoveSpeed: 15
+  mMoveSpeed: 16
 --- !u!212 &21234082
 SpriteRenderer:
   m_ObjectHideFlags: 1

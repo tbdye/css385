@@ -27,8 +27,10 @@ public class HumanSpriteHandler : MonoBehaviour
 
 	void Update()
 	{
-		if (GameState.InEncounter && GameState.Target == gameObject)
+		if (GameState.InEncounter && GameState.Target == GetComponentInParent<OtherCat>().gameObject)
 		{
+			render.flipX = Player.Instance.transform.position.x > transform.position.x;
+
 			if (GameState.InFameEncounter)
 			{
 				render.sprite = mFilming;

@@ -1,59 +1,45 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-	#region Class Public Instance Variables
-	public AudioClip[] happySounds;
+	#region Public Fields
+
 	public AudioClip[] angrySounds;
+	public AudioClip[] happySounds;
 	public float mMoveSpeed;
+
 	#endregion
 
+	#region Private Fields
+
 	AudioSource meow;
-	static Player instance;
-	/// <summary>
-	/// Start
-	/// Use this for initialization
-	/// </summary>
-	void Start ()
-	{
-		instance = this;
-		meow = GetComponent<AudioSource>();
-		Blackout.IgnoreList.Add(gameObject);
-	}
 
-	/// <summary>
-	/// Update
-	/// Update is called once per frame
-	/// </summary>
-	void Update ()
-	{
+	#endregion
 
-		if (Input.GetButtonDown("Meow") && !meow.isPlaying)
-		{
-			meow.pitch = Random.Range(0.9f, 1.1f);
-			if(GameState.InBailoutPrompt)
-				meow.PlayOneShot(angrySounds.RandomItem());
-			else
-				meow.PlayOneShot(happySounds.RandomItem());
-		}
+	#region Public Properties
 
-		MoveAround();
-		Boundary.Clamp(gameObject);
-	}
+	public static Player Instance { get; private set; }
 
+	#endregion
+
+	#region Public Methods
 
 	static public void AngrySound()
 	{
-		if (!instance.meow.isPlaying)
+		if (!Instance.meow.isPlaying)
 		{
-		instance.meow.pitch = Random.Range(0.9f, 1.1f);
-		instance.meow.PlayOneShot(instance.angrySounds.RandomItem());
+			Instance.meow.pitch = Random.Range(0.9f, 1.1f);
+			Instance.meow.PlayOneShot(Instance.angrySounds.RandomItem());
 		}
 	}
 
+	#endregion
+
+	#region Private Methods
+
 	/// <summary>
-	/// MoveAround
+	/// MoveAround 
 	/// </summary>
 	void MoveAround()
 	{
@@ -71,9 +57,38 @@ public class Player : MonoBehaviour
 		// set walk speed for keyboard users
 		if (Input.GetKey(KeyCode.RightControl))
 			input /= 2;
-		
 
 		var position = new Vector3(input.x, input.y, 0f);
 		GetComponent<Rigidbody2D>().velocity = position;
 	}
+
+	/// <summary>
+	/// Start Use this for initialization 
+	/// </summary>
+	void Start()
+	{
+		Instance = this;
+		meow = GetComponent<AudioSource>();
+		Blackout.IgnoreList.Add(gameObject);
+	}
+
+	/// <summary>
+	/// Update Update is called once per frame 
+	/// </summary>
+	void Update()
+	{
+		if (Input.GetButtonDown("Meow") && !meow.isPlaying)
+		{
+			meow.pitch = Random.Range(0.9f, 1.1f);
+			if (GameState.InBailoutPrompt)
+				meow.PlayOneShot(angrySounds.RandomItem());
+			else
+				meow.PlayOneShot(happySounds.RandomItem());
+		}
+
+		MoveAround();
+		Boundary.Clamp(gameObject);
+	}
+
+	#endregion
 }

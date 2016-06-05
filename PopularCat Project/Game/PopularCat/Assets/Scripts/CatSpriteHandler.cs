@@ -10,7 +10,9 @@ public class CatSpriteHandler : MonoBehaviour
 	public Sprite[] CatSit;
 	public Sprite   CatStand;
 	public Sprite[] CatWalk;
-	public float    switchTime;
+	public Sprite[] CatIdleDance;
+	public float    walkCycleLength = 0.55f;
+	public float    danceCycleLength;
 	public bool     isPlayer;
 
 	#endregion
@@ -22,6 +24,7 @@ public class CatSpriteHandler : MonoBehaviour
 	Timer          sitLookTimer;
 	Timer          sitTimer;
 	Timer          walkTimer;
+	Timer          idleDanceTimer;
 	Rigidbody2D    rigidBody;
 
 	#endregion
@@ -80,9 +83,19 @@ public class CatSpriteHandler : MonoBehaviour
 		render = GetComponent<SpriteRenderer>();
 		
 		walkTimer = TimeManager.GetNewTimer(
-			switchTime, 
-			onTick: (dt) => render.sprite = CatWalk.AccessByMagnitude(walkTimer.Completion),
+			walkCycleLength, 
+			onTick: (dt) => 
+			render.sprite = 
+				CatWalk.AccessByMagnitude(walkTimer.Completion),
 			loops: true);
+
+		idleDanceTimer = TimeManager.GetNewTimer(
+			danceCycleLength,
+			onTick: (dt) => 
+			render.sprite = 
+				CatIdleDance.AccessByMagnitude(idleDanceTimer.Completion),
+			loops: true);
+
 	}
 
 
@@ -92,13 +105,10 @@ public class CatSpriteHandler : MonoBehaviour
 
 		
 		if(GameState.InEncounter)
-		{
 			InEncounterAnim(play);
-		}
 		else
-		{
 			OutEncounterAnim(play);
-		}
+		
 		
 		lastPos = transform.position;
 	}
@@ -111,15 +121,18 @@ public class CatSpriteHandler : MonoBehaviour
 		{
 			var s = GetComponent<Swarmer>();
 			if(s!= null)
-			{
 				test = s.InSwarm;
-			}
 		}
 
 
 		if(test)
 		{
-			// do dancing animation
+			walkTimer.Stop();
+			sitTimer.Stop();
+			sitLookTimer.Stop();
+
+			idleDanceTimer.Resume();
+
 			return;
 		}
 
@@ -127,6 +140,8 @@ public class CatSpriteHandler : MonoBehaviour
 	}
 	void OutEncounterAnim(bool play)
 	{
+		idleDanceTimer.Stop();
+
 		bool test = play ? 
 			Utils.InputVector.magnitude > 0 :
 			(lastPos - transform.position).magnitude > 0.01f;
