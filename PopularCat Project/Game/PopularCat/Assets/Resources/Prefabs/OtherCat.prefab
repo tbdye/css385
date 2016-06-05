@@ -152,9 +152,10 @@ MonoBehaviour:
   - {fileID: 21300004, guid: 86f21d0a218158e479d86677c4d49914, type: 3}
   - {fileID: 21300002, guid: 86f21d0a218158e479d86677c4d49914, type: 3}
   CatActiveDances:
-  - {fileID: 21300000, guid: 781c1005ba966434584f858b2f0b9742, type: 3}
-  - {fileID: 21300000, guid: 30dc450044f098547accb6d62b68393f, type: 3}
-  tweenActiveDance: {fileID: 21300000, guid: a61eb5ea35d251d4391ee6f810f721b7, type: 3}
+  - first: {fileID: 21300000, guid: a61eb5ea35d251d4391ee6f810f721b7, type: 3}
+    second: {fileID: 21300000, guid: 781c1005ba966434584f858b2f0b9742, type: 3}
+  - first: {fileID: 21300000, guid: f373fa79dedfc01478b5913ff3cf309b, type: 3}
+    second: {fileID: 21300000, guid: 5e75be51a537ff94aa95455f7c69254e, type: 3}
   CatFail:
   - {fileID: 21300000, guid: 0ce93846b926e60499270014cd0e2c19, type: 3}
   - {fileID: 21300000, guid: ae78c509dedd59b49ba23032e675413e, type: 3}

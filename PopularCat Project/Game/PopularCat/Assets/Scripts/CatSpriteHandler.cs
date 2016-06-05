@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class CatSpriteHandler : MonoBehaviour
 {
+	[Serializable]
+	public class SpritePair
+	{
+		public Sprite first,second;
+	}
 	#region Public Fields
 
 	public Vector2 timeInSitPosition;
@@ -12,8 +17,7 @@ public class CatSpriteHandler : MonoBehaviour
 	public Sprite   CatStand;
 	public Sprite[] CatWalk;
 	public Sprite[] CatIdleDance;
-	public Sprite[] CatActiveDances;
-	public Sprite   tweenActiveDance;
+	public SpritePair[] CatActiveDances;
 	public Sprite[] CatFail;
 	public float    walkCycleLength = 0.55f;
 	public float    danceCycleLength = 0.88f;
@@ -118,7 +122,7 @@ public class CatSpriteHandler : MonoBehaviour
 		activeDanceTimer.OnTime[0.3f] = 
 			() => 
 			render.sprite = 
-				CatActiveDances.AccessByMagnitude(activePoseSelector);
+				CatActiveDances.AccessByMagnitude(activePoseSelector).second;
 	}
 
 	static int currentFrame;
@@ -150,7 +154,7 @@ public class CatSpriteHandler : MonoBehaviour
 		idleDanceTimer.Pause();
 		activeDanceTimer.Run();
 
-		render.sprite = tweenActiveDance;
+		render.sprite = CatActiveDances.AccessByMagnitude(activePoseSelector).first;
 	}
 
 	void FailAnim()
@@ -189,7 +193,10 @@ public class CatSpriteHandler : MonoBehaviour
 		if (GameState.InEncounter)
 			InEncounterAnim(play);
 		else
+		{
+			activeDanceTimer.Stop();
 			OutEncounterAnim(play);
+		}
 		
 		
 		lastPos = transform.position;
