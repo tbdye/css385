@@ -196,7 +196,13 @@ public class SequenceManager : MonoBehaviour
 	}
 	void Start()
 	{
-		audioSource = GetComponent<MusicManager>().SpareAudioSource;
+		var mm = GetComponent<MusicManager>();
+		if(mm != null)
+			audioSource = GetComponent<MusicManager>().SpareAudioSource;
+		else
+		{
+			audioSource = GetComponent<AudioSource>();
+		}
 	}
 	void Update()
 	{
