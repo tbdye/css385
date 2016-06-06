@@ -246,15 +246,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[0]
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
-      propertyPath: sequenceLengths.Array.data[1]
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
-      propertyPath: sequenceLengths.Array.data[2]
+      propertyPath: sequenceLengths.Array.data[1]
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
+      propertyPath: sequenceLengths.Array.data[2]
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: perSequenceTimeLimit
@@ -884,7 +884,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[2]
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: perSequenceTimeLimit
@@ -912,7 +912,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[0]
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
@@ -1126,7 +1126,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[0]
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[1]
@@ -1134,11 +1134,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[2]
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: perSequenceTimeLimit
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: inputPool
@@ -1408,7 +1408,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[3]
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: progressOnSuccess
@@ -1416,15 +1416,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[2]
-      value: 8
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[1]
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[0]
-      value: 6
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: inputPool
@@ -1444,7 +1444,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: perSequenceTimeLimit
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: bailoutPromptWindow
@@ -1866,7 +1866,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[2]
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[1]
@@ -1874,7 +1874,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[0]
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: perSequenceTimeLimit
@@ -1886,7 +1886,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[3]
-      value: 8
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
@@ -2006,23 +2006,23 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[3]
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[0]
-      value: 6
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[1]
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[2]
-      value: 8
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: perSequenceTimeLimit
-      value: 3.5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: inputPool
@@ -2162,19 +2162,19 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[3]
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[0]
-      value: 6
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[1]
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[2]
-      value: 8
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: bailoutPromptWindow
@@ -2314,7 +2314,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[2]
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: inputPool
@@ -2418,7 +2418,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11427936, guid: e0d1872c13d507147bb2a4344a734a25, type: 2}
       propertyPath: progressOnSuccess
-      value: 16
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 11427936, guid: e0d1872c13d507147bb2a4344a734a25, type: 2}
       propertyPath: bailoutPromptWindow
@@ -2426,15 +2426,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11427936, guid: e0d1872c13d507147bb2a4344a734a25, type: 2}
       propertyPath: sequenceLengths.Array.data[2]
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 11427936, guid: e0d1872c13d507147bb2a4344a734a25, type: 2}
       propertyPath: sequenceLengths.Array.data[1]
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 11427936, guid: e0d1872c13d507147bb2a4344a734a25, type: 2}
       propertyPath: sequenceLengths.Array.data[0]
-      value: 5
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 11427936, guid: e0d1872c13d507147bb2a4344a734a25, type: 2}
       propertyPath: perSequenceTimeLimit
@@ -2446,7 +2446,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11427936, guid: e0d1872c13d507147bb2a4344a734a25, type: 2}
       propertyPath: fameBoostPerMember
-      value: 0.3
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 11427936, guid: e0d1872c13d507147bb2a4344a734a25, type: 2}
       propertyPath: timeBoostPerMember
@@ -3102,7 +3102,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[0]
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[1]
@@ -3110,11 +3110,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[2]
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: perSequenceTimeLimit
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: inputPool
@@ -3708,11 +3708,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[1]
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[2]
-      value: 8
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: inputPool
@@ -3732,7 +3732,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11480140, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}
       propertyPath: sequenceLengths.Array.data[3]
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}

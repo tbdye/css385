@@ -3,7 +3,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
 
-public class IntroScript : MonoBehaviour {
+public class IntroScript : MonoBehaviour
+{
 
     #region Public Fields
     public Sprite[] sprites;
@@ -55,7 +56,7 @@ public class IntroScript : MonoBehaviour {
 	void Update ()
     {
         // Allow player to quit to main menu
-        if (Input.GetKey(KeyCode.Escape))
+        if (Input.GetKey(KeyCode.Escape) || Input.GetKey(KeyCode.Space))
         {
             SceneManager.LoadScene("Level0");
             FirstGameManager.GameState.SetCurrentLevel("Level0");
@@ -106,9 +107,7 @@ public class IntroScript : MonoBehaviour {
                 message.text = "But Piper has competition at home.";
                 foreach (GameObject cat in cats)
                 {
-                    Renderer thisCat = cat.GetComponent<Renderer>();
-                    thisCat.enabled = true;
-                    StartCoroutine("DelayedMeow");
+                    StartCoroutine(DelayedCat(cat));
                 }
                 break;
             case 7:
@@ -155,9 +154,11 @@ public class IntroScript : MonoBehaviour {
         }
     }
 
-    IEnumerator DelayedMeow()
+    IEnumerator DelayedCat(GameObject cat)
     {
         yield return new WaitForSeconds(Random.Range(0, 5.5f));
+        Renderer thisCat = cat.GetComponent<Renderer>();
+        thisCat.enabled = true;
         HappyMeow();
     }
 
