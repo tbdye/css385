@@ -1,29 +1,27 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Collections;
 
-public class MusicPlayer : MonoBehaviour {
+public class MusicPlayer : MonoBehaviour
+{
+	public AudioSource music { get; set; }
 
-    AudioSource music;
+	void Awake()
+	{
+		DontDestroyOnLoad(gameObject);
 
-    // Initializes before Start()
-    void Awake()
-    {
-        DontDestroyOnLoad(gameObject);
-        music = GetComponent<AudioSource>();
+		music = GetComponent<AudioSource>();
 
-        if (!music.isPlaying)
-        {
-            music.Play();
-        }
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (SceneManager.GetActiveScene().name == "Level1")
-        {
-            Destroy(gameObject);
-        }
-    }
+		
+	}
+
+	void Update()
+	{
+		if (FindObjectOfType<MusicManager>() != null)
+		{
+			Destroy(gameObject);
+			return;
+		}
+	}
 }

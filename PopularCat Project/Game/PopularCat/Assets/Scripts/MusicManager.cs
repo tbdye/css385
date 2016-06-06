@@ -4,16 +4,16 @@ using UnityEngine;
 public class MusicManager : MonoBehaviour
 {
 	#region Public Fields
-
+	public GameObject carryOverPlayer;
 	public AudioClip ATrack, BTrack, Victory, Failure;
 	[Range(0,1)]
 	public float musicMasterVolume = 1;
+	public bool useLastLevel;
 
 	#endregion
 
 	#region Private Fields
 
-	static MusicManager instance;
 	bool ab, eol;
 	SlowFloat AVolume, BVolume;
 	AudioSource[] sources;
@@ -35,6 +35,7 @@ public class MusicManager : MonoBehaviour
 
 	void Start()
 	{
+
 		AVolume = new SlowFloat();
 		BVolume = new SlowFloat();
 		AVolume.Value = 1;
@@ -42,12 +43,12 @@ public class MusicManager : MonoBehaviour
 		sources[1].clip = BTrack;
 		sources[0].Play();
 		sources[1].Play();
-		
+
 	}
 
 	void Update()
 	{
-		if(sources[0].isPlaying)
+		if (sources[0].isPlaying)
 			sources[1].time = sources[0].time;
 
 		sources[0].volume = AVolume * musicMasterVolume;
@@ -85,5 +86,15 @@ public class MusicManager : MonoBehaviour
 			}
 	}
 
+	void OnDestroy()
+	{
+		var newb = Instantiate(carryOverPlayer);
+		DontDestroyOnLoad(newb);
+		newb.GetComponent<AudioSource>().clip = ATrack;
+		newb.GetComponent<AudioSource>().Play();
+	}
+
+
 	#endregion
+
 }
