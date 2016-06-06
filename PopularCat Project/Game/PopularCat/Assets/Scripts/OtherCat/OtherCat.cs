@@ -8,6 +8,7 @@ public class OtherCat : MonoBehaviour
 {
 	#region Public Fields
 
+	public Text congratulationText;
 	public float bailoutPromptWindow = 3;
 	public float interestBleedRate = 2;
 	public float penaltyOnFailure  = 20;
@@ -19,9 +20,11 @@ public class OtherCat : MonoBehaviour
 
 	[Header("Sequence difficulty variables")]
 	public int[] sequenceLengths;
+
 	public float perSequenceTimeLimit = 6;
 
 	public bool isHuman;
+	public bool tutorial;
 	public float fameRate = 10;
 
 	public float timeBoostPerMember = 0.33f;
@@ -29,12 +32,11 @@ public class OtherCat : MonoBehaviour
 	public float coolnessBoostPerMember = 1;
 
 	public InputTypes inputPool = InputTypes.NormalArrows;
-	public InputTypes[] fameInputPool = 
+
+	public InputTypes[] fameInputPool =
 		{InputTypes.NormalArrows,
 		InputTypes.NormalArrows,
 		InputTypes.NormalArrows};
-
-
 
 	#endregion
 
@@ -74,7 +76,13 @@ public class OtherCat : MonoBehaviour
 			max: 100,
 			startingValue: startingInterest,
 			onModified: (v) => Progress.Value = v);
-		
+
+		if (tutorial)
+		{
+			congratulationText.color = Color.clear;
+			penaltyOnFailure = 0;
+			bailoutPromptWindow = 0;
+		}
 	}
 
 	void BeginFameSequence()
@@ -92,10 +100,7 @@ public class OtherCat : MonoBehaviour
 		}
 
 		int level = 0;
-
-		level += (int) Mathf.Floor(GameState.Fame*3);
-
-
+		level += (int)Mathf.Floor(GameState.Fame * 3);
 
 		float tboost = timeBoostPerMember;
 		tboost *= ScoreManager.Cats.Count;
@@ -105,7 +110,6 @@ public class OtherCat : MonoBehaviour
 				(sequenceLengths.AccessByMagnitude(Progress.Magnitude),
 				timeLimit: perSequenceTimeLimit + tboost,
 				types: fameInputPool[level]);
-
 
 		CurrentSequence.OnBadInput = () =>
 		{
@@ -137,7 +141,7 @@ public class OtherCat : MonoBehaviour
 
 			CurrentSequence.Fail();
 
-			if(GameState.Fame == 0)
+			if (GameState.Fame == 0)
 			{
 				GameState.EndFameEncounter();
 			}
@@ -151,34 +155,37 @@ public class OtherCat : MonoBehaviour
 
 		SequenceDebugger.Setup(CurrentSequence);
 	}
+
 	public void Impress()
 	{
-
 		float cboost = 0;
 		if (isHuman)
 			cboost = ScoreManager.Cats.Count *
 				coolnessBoostPerMember;
 
-		Interest.Value += Impressed ? 
+		Interest.Value += Impressed ?
 			progressOnSuccessInPosse :
-			progressOnSuccess + (isHuman? cboost : 0);
+			progressOnSuccess + (isHuman ? cboost : 0);
 	}
+
 	public void Bore()
 	{
-		Interest.Value -= Impressed ? 
+		Interest.Value -= Impressed ?
 			penaltyOnFailureInPosse :
 			penaltyOnFailure;
 	}
 
+	Timer breakoutTimer;
+
 	void BeginSequence()
 	{
-		if(startingInterest >= 100)
+		if (startingInterest >= 100)
 		{
 			Join();
 			return;
 		}
 
-		if(pissedOffTimer.Running)
+		if (pissedOffTimer.Running)
 		{
 			return;
 		}
@@ -199,14 +206,13 @@ public class OtherCat : MonoBehaviour
 			CurrentSequence = null;
 		}
 
-
 		float tboost = timeBoostPerMember;
 		tboost *= ScoreManager.Cats.Count;
 
 		CurrentSequence =
 			SequenceManager.GetNewSequence
 				(sequenceLengths.AccessByMagnitude(Progress.Magnitude),
-				timeLimit: perSequenceTimeLimit + (isHuman? tboost :0),
+				timeLimit: perSequenceTimeLimit + (isHuman ? tboost : 0),
 				types: inputPool);
 
 		CurrentSequence.OnSuccess = () =>
@@ -216,16 +222,32 @@ public class OtherCat : MonoBehaviour
 			FindObjectOfType<SwarmMovement>().ImpressMembers();
 			SequenceDebugger.VictoryAnim();
 
-			Timer delay = TimeManager.GetNewTimer(0.25f,() =>
-			{
-				if (Progress.Magnitude < 1)
-					BeginSequence();
-				else if (isHuman)
-					BeginFameSequence();
-				else
-					SequenceComplete();
-			});
-				delay.Run();
+			Timer delay = TimeManager.GetNewTimer(0.25f, () =>
+			 {
+				 if (Progress.Magnitude < 1)
+					 BeginSequence();
+				 else if (tutorial)
+				 {
+					 congratulationText.color = Color.white;
+					 BeginSequence();
+					 if (!(breakoutTimer != null))
+					 {
+						 breakoutTimer =
+						 TimeManager.GetNewTimer(
+							 onTick: (dt) =>
+							 {
+								 if (Input.GetKeyDown(KeyCode.Space))
+									 FindObjectOfType<SceneLoader>().OkayService();
+							 }, loops: true);
+						 breakoutTimer.Run();
+					 }
+				 }
+				 else if (isHuman)
+					 BeginFameSequence();
+				 else
+					 SequenceComplete();
+			 });
+			delay.Run();
 		};
 
 		CurrentSequence.OnBadInput = () =>
@@ -258,7 +280,6 @@ public class OtherCat : MonoBehaviour
 						BeginSequence();
 					}
 				});
-
 		};
 
 		if (!GameState.InEncounter)

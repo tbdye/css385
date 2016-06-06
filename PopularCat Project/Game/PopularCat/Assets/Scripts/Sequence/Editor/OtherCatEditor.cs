@@ -1,11 +1,13 @@
-﻿using UnityEngine;
-using System;
-using UnityEditor;
+﻿using System;
 using System.Collections.Generic;
+using UnityEditor;
+using UnityEngine;
 
 [CustomEditor(typeof(OtherCat))]
 public class OtherCatEditor : Editor
 {
+	SerializedProperty congratulationText;
+	SerializedProperty tutorial;
 	SerializedProperty fameRate;
 	SerializedProperty timeBoostPerMember;
 	SerializedProperty fameBoostPerMember;
@@ -23,10 +25,11 @@ public class OtherCatEditor : Editor
 	SerializedProperty perSequenceTimeLimit;
 	SerializedProperty fameInputPool;
 	SerializedProperty inputPool;
-	
 
 	void OnEnable()
 	{
+		congratulationText = serializedObject.FindProperty("congratulationText");
+		tutorial = serializedObject.FindProperty("tutorial");
 		fameRate = serializedObject.FindProperty("fameRate");
 		timeBoostPerMember = serializedObject.FindProperty("timeBoostPerMember");
 		fameBoostPerMember = serializedObject.FindProperty("fameBoostPerMember");
@@ -51,30 +54,41 @@ public class OtherCatEditor : Editor
 		serializedObject.Update();
 		
 		CommonVariables();
+		if(tutorial.boolValue)
+			EditorGUILayout.PropertyField(congratulationText, true);
+
+
 
 		EditorGUILayout.PropertyField(isHuman, true);
-
-		if (isHuman.boolValue)
-		{
-			GUILayout.Label("Fame sequence variables");
-
-			EditorGUI.indentLevel++;
-			EditorGUILayout.PropertyField(fameRate, true);
-			EditorGUILayout.PropertyField(timeBoostPerMember, true);
-			EditorGUILayout.PropertyField(fameBoostPerMember, true);
-			EditorGUILayout.PropertyField(coolnessBoostPerMember, true);
-			FameSequencePicker();
-			EditorGUI.indentLevel--;
-		}
+		if(isHuman.boolValue)
+			EditorGUILayout.PropertyField(tutorial, true);
 		else
 		{
-			EditorGUI.indentLevel++;
-			EditorGUILayout.PropertyField(interestBleedRate, true);
-			EditorGUILayout.PropertyField(progressOnSuccessInPosse, true);
-			EditorGUILayout.PropertyField(penaltyOnFailureInPosse, true);
-			EditorGUILayout.PropertyField(angryDuration, true);
-			EditorGUI.indentLevel--;
+			tutorial.boolValue = false;
 		}
+
+		if (!tutorial.boolValue)
+			if (isHuman.boolValue)
+			{
+				GUILayout.Label("Fame sequence variables");
+
+				EditorGUI.indentLevel++;
+				EditorGUILayout.PropertyField(fameRate, true);
+				EditorGUILayout.PropertyField(timeBoostPerMember, true);
+				EditorGUILayout.PropertyField(fameBoostPerMember, true);
+				EditorGUILayout.PropertyField(coolnessBoostPerMember, true);
+				FameSequencePicker();
+				EditorGUI.indentLevel--;
+			}
+			else
+			{
+				EditorGUI.indentLevel++;
+				EditorGUILayout.PropertyField(interestBleedRate, true);
+				EditorGUILayout.PropertyField(progressOnSuccessInPosse, true);
+				EditorGUILayout.PropertyField(penaltyOnFailureInPosse, true);
+				EditorGUILayout.PropertyField(angryDuration, true);
+				EditorGUI.indentLevel--;
+			}
 
 		serializedObject.ApplyModifiedProperties();
 	}
@@ -83,17 +97,16 @@ public class OtherCatEditor : Editor
 	{
 		EditorGUILayout.PropertyField(startingInterest, true);
 		EditorGUILayout.PropertyField(progressOnSuccess, true);
-		EditorGUILayout.PropertyField(penaltyOnFailure, true);
-		EditorGUILayout.PropertyField(bailoutPromptWindow, true);
+		if (!tutorial.boolValue)
+			EditorGUILayout.PropertyField(penaltyOnFailure, true);
+		if (!tutorial.boolValue)
+			EditorGUILayout.PropertyField(bailoutPromptWindow, true);
 		EditorGUILayout.PropertyField(sequenceLengths, true);
-		EditorGUILayout.PropertyField(perSequenceTimeLimit, true);
-
 
 		perSequenceTimeLimit.floatValue = EditorGUILayout.FloatField("Time Limit Per Sequence", perSequenceTimeLimit.floatValue);
-
-
 		EnumFlagHandler(inputPool, "Sequence Input Types");
 	}
+
 	void FameSequencePicker()
 	{
 		GUILayout.Label("Fame Input Types");
@@ -109,6 +122,7 @@ public class OtherCatEditor : Editor
 	}
 
 	Dictionary<string, bool> foldouts;
+
 	void EnumFlagHandler(SerializedProperty enumSP, string label)
 	{
 		string key = enumSP.propertyPath;
@@ -126,16 +140,15 @@ public class OtherCatEditor : Editor
 			EditorGUI.indentLevel++;
 			foreach (var e in Enum.GetNames(typeof(InputTypes)))
 			{
-
-				bool set = EditorGUILayout.Toggle(e, 
+				bool set = EditorGUILayout.Toggle(e,
 					((InputTypes)enumSP.intValue & (InputTypes)i) == (InputTypes)i);
 
-				if(set)
+				if (set)
 					result |= i;
 				else
 					result &= ~i;
-				
-				i*=2;
+
+				i *= 2;
 			}
 			EditorGUI.indentLevel--;
 		}
@@ -143,13 +156,10 @@ public class OtherCatEditor : Editor
 		enumSP.intValue = result;
 	}
 
-
 	static IEnumerable<SerializedProperty> GetArrayElements(SerializedProperty sp)
 	{
 		int i = 0;
 		while (i < sp.arraySize)
 			yield return sp.GetArrayElementAtIndex(i++);
-
 	}
 }
-
