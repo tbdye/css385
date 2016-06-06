@@ -2351,7 +2351,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11420474, guid: 961fadad7594529418939a9973dee798, type: 2}
       propertyPath: levelTime
-      value: 284
+      value: 100000000
       objectReference: {fileID: 0}
     - target: {fileID: 11483814, guid: 961fadad7594529418939a9973dee798, type: 2}
       propertyPath: mSceneToLoad
@@ -2419,6 +2419,26 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11482316, guid: 961fadad7594529418939a9973dee798, type: 2}
       propertyPath: m_Navigation.m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11484168, guid: 961fadad7594529418939a9973dee798, type: 2}
+      propertyPath: timeMultiplier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11484168, guid: 961fadad7594529418939a9973dee798, type: 2}
+      propertyPath: streakMultiplier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11484168, guid: 961fadad7594529418939a9973dee798, type: 2}
+      propertyPath: sequenceValue
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11484168, guid: 961fadad7594529418939a9973dee798, type: 2}
+      propertyPath: inputValue
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11484168, guid: 961fadad7594529418939a9973dee798, type: 2}
+      propertyPath: catValue
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
