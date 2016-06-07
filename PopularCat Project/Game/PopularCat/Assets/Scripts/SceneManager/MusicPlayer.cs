@@ -12,8 +12,6 @@ public class MusicPlayer : MonoBehaviour
 
 		music = GetComponent<AudioSource>();
 
-
-		
 	}
 
 	void Update()

@@ -268,7 +268,7 @@ public class OtherCat : MonoBehaviour
 			TimeManager.Delay(time: 0.5f,
 				onComplete: () =>
 				{
-					if (previousSequenceFailed)
+					if (bailoutPromptWindow > 0 && previousSequenceFailed)
 					{
 						previousSequenceFailed = false;
 						PresentBailout();
