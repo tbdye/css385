@@ -38,8 +38,9 @@ public class MenuObject : MonoBehaviour
 	void Update()
 	{
 		var newPos = Camera.main.WorldToScreenPoint(transform.position);
+		newPos.y *= 1;
 
-		myButton.GetComponent<RectTransform>().anchoredPosition = newPos;
+		myButton.GetComponent<RectTransform>().position = newPos;
 
 		if (GameState.Paused)
 			return;

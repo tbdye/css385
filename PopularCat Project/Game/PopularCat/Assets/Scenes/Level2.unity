@@ -1020,7 +1020,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11483814, guid: 961fadad7594529418939a9973dee798, type: 2}
       propertyPath: mSceneToLoad
-      value: Credits
+      value: Level0
       objectReference: {fileID: 0}
     - target: {fileID: 11420474, guid: 961fadad7594529418939a9973dee798, type: 2}
       propertyPath: levelTime

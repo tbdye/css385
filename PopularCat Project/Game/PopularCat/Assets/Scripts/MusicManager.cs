@@ -9,6 +9,7 @@ public class MusicManager : MonoBehaviour
 	[Range(0,1)]
 	public float musicMasterVolume = 1;
 	public bool useLastLevel;
+	public bool carryMusicIntoMenu;
 
 	#endregion
 
@@ -90,7 +91,8 @@ public class MusicManager : MonoBehaviour
 	{
 		var newb = Instantiate(carryOverPlayer);
 		DontDestroyOnLoad(newb);
-		newb.GetComponent<AudioSource>().clip = ATrack;
+		if (carryMusicIntoMenu)
+			newb.GetComponent<AudioSource>().clip = ATrack;
 		newb.GetComponent<AudioSource>().Play();
 	}
 
