@@ -43,7 +43,7 @@ public class Player : MonoBehaviour
 	/// </summary>
 	void MoveAround()
 	{
-		if (GameState.Paused || GameState.InEncounter || GameState.EndOfLevel)
+		if (GameState.Paused || GameState.InEncounter || GameState.EndOfLevel || GameState.LoadingScene)
 		{
 			GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 			return;

@@ -33,8 +33,9 @@ public class SceneLoader : MonoBehaviour
 	{
 		loadingOperation = SceneManager.LoadSceneAsync(level);
 		nextLevel = level;
+		Blackout.Activate();
 		blackout.activeAlpha = 1;
-
+		GameState.LoadingScene = true;
 		foreach(var sr in FindObjectsOfType<SpriteRenderer>())
 		{
 			sr.sortingLayerName = "Default";

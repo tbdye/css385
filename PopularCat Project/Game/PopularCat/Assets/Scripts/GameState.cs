@@ -22,6 +22,7 @@ public class GameState : MonoBehaviour
 	#endregion
 
 	#region Private Fields
+
 	static GameState instance;
 	static Delayed<bool> inBailoutPrompt;
 	static Timer levelTimer;

@@ -237,7 +237,7 @@ public class CatSpriteHandler : MonoBehaviour
 			}
 		}
 
-		if (GameState.InEncounter)
+		if (GameState.InEncounter || GameState.LoadingScene)
 			InEncounterAnim(play);
 		else
 		{
