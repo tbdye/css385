@@ -5,10 +5,14 @@ using System.Collections;
 
 public class SceneLoader : MonoBehaviour
 {
+	public Blackout blackout;
 	public string mSceneToLoad;
 	public Button okayButton;
 	public Button resetButton;
 	public Button menuButton;
+
+	AsyncOperation loadingOperation;
+	string nextLevel;
 
 	// Use this for initialization
 	void Start ()
@@ -27,8 +31,31 @@ public class SceneLoader : MonoBehaviour
 	/// <param name="level"></param>
 	void LoadScene(string level)
 	{
-		SceneManager.LoadScene(level);
-		FirstGameManager.GameState.SetCurrentLevel(level);
+		loadingOperation = SceneManager.LoadSceneAsync(level);
+		nextLevel = level;
+		blackout.activeAlpha = 1;
+
+		foreach(var sr in FindObjectsOfType<SpriteRenderer>())
+		{
+			sr.sortingLayerName = "Default";
+		}
+		FindObjectOfType<Player>().GetComponent<SpriteRenderer>().sortingLayerName = "Blackout";
+		FindObjectOfType<Blackout>().GetComponent<SpriteRenderer>().sortingLayerName = "Blackout";
+		foreach (var ui in FindObjectsOfType<MaskableGraphic>())
+		{
+			ui.color = Color.clear;
+		}
+		SequenceManager.StopSequences();
+		SequenceDebugger.End();
+	}
+
+	void Update()
+	{
+		if(loadingOperation != null && loadingOperation.isDone)
+		{
+			FirstGameManager.GameState.SetCurrentLevel(nextLevel);
+		}
+
 	}
 
 	#region Button Service Functions

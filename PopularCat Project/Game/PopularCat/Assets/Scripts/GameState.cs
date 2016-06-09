@@ -30,6 +30,7 @@ public class GameState : MonoBehaviour
 
 	#region Public Properties
 
+	public static bool LoadingScene { get; set; }
 	public static bool EndOfLevelPassed { get { return Fame != 0; } }
 	public static bool EndOfLevel { get; private set; }
 	public static MonitoredValue Fame { get; set; }
@@ -174,6 +175,7 @@ public class GameState : MonoBehaviour
 		InEncounter = false;
 		InFameEncounter = false;
 		Paused = false;
+		LoadingScene = false;
 	}
 
 	void LateUpdate()

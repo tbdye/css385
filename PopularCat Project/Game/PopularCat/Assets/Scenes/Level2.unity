@@ -1042,9 +1042,19 @@ Prefab:
       propertyPath: m_LocalPosition.y
       value: 1.1
       objectReference: {fileID: 0}
+    - target: {fileID: 11483814, guid: 961fadad7594529418939a9973dee798, type: 2}
+      propertyPath: blackout
+      value: 
+      objectReference: {fileID: 493893196}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 961fadad7594529418939a9973dee798, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &493893196 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11477320, guid: 961fadad7594529418939a9973dee798,
+    type: 2}
+  m_PrefabInternal: {fileID: 493893195}
+  m_Script: {fileID: 11500000, guid: 8a45b2dcd338c864a9862a33fe4ae78b, type: 3}
 --- !u!4 &536500047 stripped
 Transform:
   m_PrefabParentObject: {fileID: 486840, guid: 2d1568994fff2574da0ce0b9d423baf6, type: 2}

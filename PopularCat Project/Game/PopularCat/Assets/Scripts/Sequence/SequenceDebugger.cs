@@ -115,6 +115,7 @@ public class SequenceDebugger : MonoBehaviour
 
 	public static void VictoryAnim()
 	{
+
 		Timer t = TimeManager.GetNewTimer(0.245f);
 		t.OnTick = (dt) =>
 		{
@@ -126,6 +127,7 @@ public class SequenceDebugger : MonoBehaviour
 			bool alt = false;
 			foreach (var i in instance.indicators)
 			{
+				i.Renderers[0].color = Color.green;
 				int d = (alt = !alt) ? 1 : -1;
 				i.transform.Rotate(0, 0, 360 * dt * 4 * d);
 			}

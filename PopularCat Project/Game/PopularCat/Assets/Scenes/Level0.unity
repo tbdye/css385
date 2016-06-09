@@ -1698,8 +1698,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 712143723}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.4000015, y: 8, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalPosition: {x: -3.13, y: 9.55, z: 0}
+  m_LocalScale: {x: 2.2, y: 2.2, z: 1}
   m_Children: []
   m_Father: {fileID: 1576705195}
   m_RootOrder: 3
@@ -2195,7 +2195,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 967602615}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 22.3, y: 8, z: 0}
+  m_LocalPosition: {x: 27.75, y: 8, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 1924584798}
@@ -2579,6 +2579,10 @@ Prefab:
       propertyPath: far clip plane
       value: 1000
       objectReference: {fileID: 0}
+    - target: {fileID: 11483814, guid: 961fadad7594529418939a9973dee798, type: 2}
+      propertyPath: blackout
+      value: 
+      objectReference: {fileID: 1671134903}
     m_RemovedComponents:
     - {fileID: 8247914, guid: 961fadad7594529418939a9973dee798, type: 2}
     - {fileID: 8218502, guid: 961fadad7594529418939a9973dee798, type: 2}
@@ -3753,6 +3757,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teeterWidth: 8
+--- !u!114 &1671134903 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11477320, guid: 961fadad7594529418939a9973dee798,
+    type: 2}
+  m_PrefabInternal: {fileID: 1074586271}
+  m_Script: {fileID: 11500000, guid: 8a45b2dcd338c864a9862a33fe4ae78b, type: 3}
 --- !u!1 &1698807008
 GameObject:
   m_ObjectHideFlags: 0
@@ -4160,7 +4170,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1924584797}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 33.27, y: 0, z: 0}
+  m_LocalPosition: {x: 22.38, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1490163737}

@@ -14,7 +14,6 @@ public enum InputTypes
 	TutorialAlternateArrows = 32,
 	TutorialInvertedArrows = 64,
 	TutorialAlternateInvertedArrows = 128
-
 }
 
 public interface Sequence
@@ -26,7 +25,6 @@ public interface Sequence
 	bool Failed { get; }
 	int Index { get; }
 	int Length { get; }
-	InputTypes Types { get; set; }
 
 	/// <summary>
 	/// The method called when a bad input is entered, defaults to a delayed reset 
@@ -48,7 +46,8 @@ public interface Sequence
 	/// </summary>
 	Action OnTimeout { get; set; }
 
-	ReadOnlyTimer TimeLimit { get; }
+	Timer TimeLimit { get; }
+	InputTypes Types { get; set; }
 
 	#endregion
 
@@ -75,9 +74,9 @@ public interface SequenceItemDetails
 
 	bool Failed { get; }
 	string Identifier { get; }
+	bool Passed { get; }
 	Sprite Sprite { get; }
 	float SpriteRotation { get; }
-	bool Passed { get; }
 
 	#endregion
 }
@@ -86,17 +85,10 @@ public class SequenceManager : MonoBehaviour
 {
 	#region Public Fields
 
-	static Dictionary<InputTypes, List<SequenceInput>> InputPools { get; set; }
-
 	public InputType[] axisInputs;
-
 	public AudioClip badInputSound;
-
 	public AudioClip goodInputSound;
-
 	public AudioClip goodSequenceSound;
-
-	//public InputType[] keyInputs;
 
 	#endregion
 
@@ -104,17 +96,23 @@ public class SequenceManager : MonoBehaviour
 
 	static AudioSource      audioSource;
 
+	//public InputType[] keyInputs;
 	//public Button[] uiButtonInputs;
 	static SequenceManager  instance;
-
-	//List<SequenceInput>     inputs;
 
 	SafeList<SequenceClass> sequences;
 
 	#endregion
 
+	#region Private Properties
+
+	static Dictionary<InputTypes, List<SequenceInput>> InputPools { get; set; }
+
+	#endregion
+
 	#region Public Methods
 
+	//List<SequenceInput>     inputs;
 	public static Sequence GetNewSequence
 		(int length = 4,
 		Action onFail = null,
@@ -143,6 +141,14 @@ public class SequenceManager : MonoBehaviour
 		return result;
 	}
 
+	public static void StopSequences()
+	{
+		foreach (var s in instance.sequences)
+		{
+			s.TimeLimit.Pause();
+		}
+	}
+
 	#endregion
 
 	#region Private Methods
@@ -152,7 +158,7 @@ public class SequenceManager : MonoBehaviour
 		var flags = new List<InputTypes>(types.GetFlags());
 
 		IEnumerable<SequenceInput> combinedPool = InputPools[flags[0]];
-		for(int i = 1; i < flags.Count; i++)
+		for (int i = 1; i < flags.Count; i++)
 			combinedPool = combinedPool.Concat(InputPools[flags[i]]);
 
 		var l = new List<SequenceInput>(combinedPool);
@@ -184,7 +190,7 @@ public class SequenceManager : MonoBehaviour
 			InputPools[s.type].Add(new SequenceInput(() => Input.GetAxisRaw(t) > 0.3f, s, "+"));
 			InputPools[s.type].Add(new SequenceInput(() => Input.GetAxisRaw(t) < -0.3f, rev, "-"));
 		}
-		
+
 		//foreach (var button in uiButtonInputs)
 		//{
 		//	var bb = button.GetComponent<ButtonBool>();
@@ -194,16 +200,18 @@ public class SequenceManager : MonoBehaviour
 		//	inputs.Add(new SequenceInput(f, button.GetComponentInChildren<Text>().text, 0));
 		//}
 	}
+
 	void Start()
 	{
 		var mm = GetComponent<MusicManager>();
-		if(mm != null)
+		if (mm != null)
 			audioSource = GetComponent<MusicManager>().SpareAudioSource;
 		else
 		{
 			audioSource = GetComponent<AudioSource>();
 		}
 	}
+
 	void Update()
 	{
 		if (GameState.Paused || GameState.EndOfLevel)
@@ -220,9 +228,9 @@ public class SequenceManager : MonoBehaviour
 			// Check inputs against running sequences
 			foreach (var p in InputPools.Values)
 			{
-				foreach(var i in p)
+				foreach (var i in p)
 				{
-					if(dupTrap.Contains(i.Identifier))
+					if (dupTrap.Contains(i.Identifier))
 					{
 						continue;
 					}
@@ -235,7 +243,6 @@ public class SequenceManager : MonoBehaviour
 							s.EnterInput(i.Identifier);
 					}
 				}
-				
 			}
 	}
 
@@ -247,12 +254,17 @@ public class SequenceManager : MonoBehaviour
 	public class InputType
 	{
 		#region Public Fields
-		public string label;
-		public InputTypes type = InputTypes.NormalArrows;
+
 		public string identifier;
+		public string label;
 		public Sprite sprite;
 		public Sprite sprite2;
 		public float spriteRotation;
+		public InputTypes type = InputTypes.NormalArrows;
+
+		#endregion
+
+		#region Public Methods
 
 		public InputType Reverse()
 		{
@@ -292,14 +304,14 @@ public class SequenceManager : MonoBehaviour
 		public bool Failed { get; set; }
 		public int Index { get; set; }
 		public int Length { get { return Items.Count; } }
-		public InputTypes Types { get; set; }
 		public Action OnBadInput { get; set; }
 		public Action OnFail { get; set; }
 		public Action OnGoodInput { get; set; }
 		public Action OnSuccess { get; set; }
 		public Action OnTimeout { get; set; }
 		public float TimeBoost { get; set; }
-		public ReadOnlyTimer TimeLimit { get; private set; }
+		public Timer TimeLimit { get; private set; }
+		public InputTypes Types { get; set; }
 
 		#endregion
 
@@ -489,9 +501,9 @@ public class SequenceManager : MonoBehaviour
 
 			public bool Failed { get; set; }
 			public string Identifier { get { return input.Identifier; } }
+			public bool Passed { get; set; }
 			public Sprite Sprite { get { return input.Sprite; } }
 			public float SpriteRotation { get { return input.SpriteRotation; } }
-			public bool Passed { get; set; }
 
 			#endregion
 		}
@@ -504,10 +516,10 @@ public class SequenceManager : MonoBehaviour
 		#region Public Properties
 
 		public string Identifier { get; private set; }
-		public InputTypes Type { get; private set; }
+		public bool PreviousState { get; private set; }
 		public Sprite Sprite { get; private set; }
 		public float SpriteRotation { get; private set; }
-		public bool PreviousState { get; private set; }
+		public InputTypes Type { get; private set; }
 
 		#endregion
 
